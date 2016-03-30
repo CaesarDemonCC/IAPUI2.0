@@ -1,0 +1,19 @@
+.container {
+    width: 80%;
+}
+
+.logo-container {
+    margin-top:2rem;
+    text-align:center;
+}
+
+.container input.form-control {
+    margin-bottom: 0.5rem;
+}
+
+.container .welcome {
+    text-align: center;
+    margin: 1rem;
+    font-size: 2rem;
+    color: #aaa;
+}

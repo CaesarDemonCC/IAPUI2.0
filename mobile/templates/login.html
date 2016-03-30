@@ -1,0 +1,11 @@
+<div class="container">
+        <div class="logo-container">
+            <img src="mobile/images/login-logo.png" style="width:200px;">
+        </div>
+        <div class="welcome">Instant</div>
+        <!-- <label for="inputEmail" class="">Username</label> -->
+        <input type="text" id="username" ng-model="username" class="form-control" placeholder="Username" required autofocus>
+        <!-- <label for="inputPassword" class="">Password</label> -->
+        <input type="password" id="passwd" ng-model="passwd" ng-keypress="passwdKeyPress($event)" class="form-control" placeholder="Password" required>
+        <button class="btn btn-lg btn-primary btn-block" id="login-btn" ng-click="doLogin()">Log in</button>
+</div>

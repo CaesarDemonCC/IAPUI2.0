@@ -1,0 +1,196 @@
+var app = angular.module('IAPMobileUI', ['ngRoute', 'ngCookies'])
+.run(function($rootScope, $location, Auth) {
+    $rootScope.$on('$routeChangeStart', function(evt, next, curr) {
+        if (!Auth.isLoggedIn()) {
+            $location.path('/login');
+        }
+    });
+})
+.constant('App', {
+    'API_URL': 'swarm.cgi'
+})
+
+app.config(function($routeProvider){
+    $routeProvider
+        .when('/', {
+            templateUrl: 'mobile/templates/home.html',
+            controller: 'homePageController'            
+        })
+        .when('/login', {
+            templateUrl: 'mobile/templates/login.html',
+            controller: 'loginController'            
+        })
+        .otherwise({ 
+            redirectTo: '/'
+        });
+});
+
+app.factory('Ajax', function ($http, $location, Auth, App) {
+    var _apiURL = App.API_URL;
+    var x2js = new X2JS();
+
+    return {
+        doRequest: function (data, callback, opt_post) {
+            if (Auth.isLoggedIn()) {
+                data += "&sid=" + Auth.getSID()
+            }
+
+            var config = {
+                url: _apiURL
+            };
+
+            if (opt_post) {
+                config['method'] = 'post';
+                config['data'] = data;
+            } else {
+                config['method'] = 'get';
+                config['url'] += '?' + data;
+            }
+
+            $http(config)
+                .success(function (resp) {
+                    var jsonData = x2js.xml_str2json(resp);
+                    if (jsonData && jsonData.re) {
+                        if (jsonData.re.error == 'Invalid Session ID') {
+                            Auth.logout();
+                            $location.path('/login');
+                            return;
+                        }
+                        callback(jsonData.re);
+                    }
+                })
+                .error(function (err) {
+                    console.log('Request failed...');
+                    console.log(err);
+                })
+        }
+    }
+})
+
+app.factory('Auth', function ($cookies) {
+    //user: {sid:xxxxx, role:admin}
+    var _user = $cookies.getObject('user');
+    var setUser = function(user) {
+        _user = user;
+        $cookies.putObject('user', _user);
+    };
+    return {
+        isAdmin: function() {
+            return _user.role === 'admin';
+        },
+        setUser: setUser,
+        isLoggedIn: function() {
+            return _user ? true : false;
+        },
+        getUser: function() {
+            return _user;
+        },
+        getSID: function() {
+            return _user ? _user._sid : null;
+        },
+        logout: function() {
+            $cookies.remove('user');
+            _user = null; 
+        }
+    };
+})
+
+app.controller('loginController', function($scope, $location, Ajax, Auth){   
+
+    $scope.passwdKeyPress = function (e) {
+        if (e.keyCode === 13) {
+            $scope.doLogin();
+        }
+    }
+
+    $scope.doLogin = function () {
+        var cmd = 'opcode=login&user=' + $scope.username + '&passwd=' + $scope.passwd;
+        Ajax.doRequest(cmd, function (data) {
+            if (data) {
+                if (data && data.data && data.data[0] && data.data[0].Text) {
+                    if (data.data[0].Text.indexOf(';') != -1) {
+                        data.data[0].Text = data.data[0].Text.replace(/\;.*$/g, '');
+                    }
+                    Auth.setUser({
+                        _sid: data.data[0].Text,
+                        _role: data.data[1].Text.toLowerCase()
+                    })
+                    $location.path('/home');
+                }
+            } else {
+                alert('Login failed!');
+            }
+        }, true)
+    }
+    
+});
+
+app.controller('homePageController', function ($scope, Ajax, $http) {
+    
+
+    function parseSummaryData (data) {
+        var summaryData = {
+            'networks' : [],
+            'aps': [],
+            'clients': []
+        };
+        if (data) {
+            if (data.t) {
+                for (var i = 0; i < data.t.length; i++) {
+                    var section = data.t[i];
+                    if (section._tn.toLowerCase().indexOf('network') !== -1) {
+                        if (section.r) {
+                            if (Object.prototype.toString.call(section.r) === '[object Object]') {
+                                summaryData['networks'].push(angular.extend({}, section.r));
+                            } else {
+                                for (var j = 0; j < section.r.length; j++) {
+                                    summaryData['networks'].push(angular.extend({}, section.r[j]));
+                                }
+                            }
+                        }
+                    }
+
+                    if (section._tn.toLowerCase().indexOf('ap') !== -1) {
+                        if (section.r) {
+                            if (Object.prototype.toString.call(section.r) === '[object Object]') {
+                                summaryData['aps'].push(angular.extend({}, section.r));
+                            } else {
+                                for (var j = 0; j < section.r.length; j++) {
+                                    summaryData['aps'].push(angular.extend({}, section.r[j]));
+                                }
+                            }
+                        }
+                    }
+
+                    if (section._tn.toLowerCase().indexOf('client') !== -1) {
+                        if (section.r) {
+                            if (Object.prototype.toString.call(section.r) === '[object Object]') {
+                                summaryData['clients'].push(angular.extend({}, section.r));
+                            } else {
+                                for (var j = 0; j < section.r.length; j++) {
+                                    summaryData['clients'].push(angular.extend({}, section.r[j]));
+                                }
+                            }
+                        }
+                    }
+                } 
+            }
+        }
+        return summaryData;
+    }
+
+    $scope.showSummary = function () {
+        var cmd = 'opcode=show&cmd=show summary';
+        Ajax.doRequest(cmd, function (data) {
+            var summaryData = parseSummaryData(data);
+            // If the cluster is factory default status, popup WiFi Config wizard
+            if (summaryData['networks'].length === 1 && summaryData['networks'][0]['c'][0] === 'instant') {
+                
+            } else {
+                $scope.summaryData = summaryData;
+            }
+        })
+    }
+
+    $scope.showSummary();
+})
