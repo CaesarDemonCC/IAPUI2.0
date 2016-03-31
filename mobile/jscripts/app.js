@@ -180,6 +180,8 @@ app.controller('homePageController', function ($scope, Ajax, $http) {
                 } 
             }
         }
+
+        summaryData['clients'].push({'c':['0a:1b:23:5f:11:87', 'lshu-iphone', '192.168.0.101', 'lshu-test', 'AP-1']})
         return summaryData;
     }
 
