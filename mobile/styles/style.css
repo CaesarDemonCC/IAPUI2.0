@@ -1,18 +1,20 @@
-.container {
+.login-container {
   width: 20rem;
-  height: 18rem;
+  height: 24rem;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-top: -9rem;
+  margin-top: -12rem;
   margin-left: -10rem; }
-  .container input {
+  .login-container input {
     margin-bottom: 0.5rem; }
-  .container .welcome {
+  .login-container .welcome {
     text-align: center;
     margin: 1rem;
     font-size: 2rem;
     color: #aaa; }
+  .login-container button.button {
+    display: block; }
 
 .logo-container {
   margin-top: 2rem;
