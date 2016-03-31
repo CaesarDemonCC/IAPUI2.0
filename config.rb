@@ -5,7 +5,7 @@
 # Set this to the root of your project when deployed:
 http_path = "/"
 css_dir = "mobile/styles"
-sass_dir = "src/sass"
+sass_dir = "src/styles"
 images_dir = "mobile/images"
 javascripts_dir = "mobile/jscripts"
 fonts_dir = "mobile/fonts"
