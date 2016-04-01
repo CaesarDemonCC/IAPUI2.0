@@ -24,8 +24,8 @@ app.config(function($routeProvider){
             templateUrl: 'mobile/templates/uplink.html',
             controller: 'uplinkPageController'
         })
-        .when('/newNetwork', {
-            templateUrl: 'mobile/templates/newNetwork.html',
+        .when('/network/:action/:profileName', {
+            templateUrl: 'mobile/templates/network.html',
             controller: 'networkController'            
         })
         .when('/logout', {
@@ -202,7 +202,7 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
                 clientCount = summaryData['clients'].length;
             // If the cluster is factory default status, popup WiFi Config wizard
             if (networkCount === 1 && summaryData['networks'][0]['c'][0] === 'instant') {
-                $location.path('/newNetwork');
+                $location.path('/network');
             } else {
                 $scope.summaryData = summaryData;
             }
@@ -265,24 +265,43 @@ app.controller('uplinkPageController', function ($scope, Ajax) {
 })
 
 
-app.controller('networkController', function ($scope, $location, Ajax) {
+app.controller('networkController', function ($scope, $location, $routeParams, Ajax) {
+    if($routeParams) {
+        switch ($routeParams.action) {
+            case 'new' : 
+                $scope.profileName='';
+                $scope.opmode='opensystem';
+                $scope.passphrase='';
+            break;
+            case 'setting' : 
+                $scope.profileName=$routeParams.profileName;
+                $scope.opmode='opensystem';
+                $scope.passphrase='';
+            break;
+            case 'delete' : 
+                var url = "opcode=config&ip=127.0.0.1&cmd=' no wlan ssid-profile " + $routeParams.profileName + "'";
+                Ajax.doRequest(url, function (data) {
+                }, true);
+                $location.path('/home');
+            break;
+        }
+    }
+
     $scope.saveNetwork = function () {
         if ($scope.profileName) {
             var cmd = ' wlan ssid-profile ' + $scope.profileName + '\n';
-            if($scope.opmode == 'none') {
+            cmd += ' essid ' + $scope.profileName + '\n';
+            if($scope.opmode == 'opensystem') {
                 cmd += ' no wpa-passphrase ' + '\n';
             } else {
                 cmd += ' wpa-passphrase ' + $scope.passphrase + '\n';
             }
+            cmd += ' opmode  ' + $scope.opmode + '\n';
             cmd += 'exit\n' + "'";
             var url = "opcode=config&ip=127.0.0.1&cmd='" + cmd;
             Ajax.doRequest(url, function (data) {
-                if (data) {
-                    $location.path('/home');
-                } else {
-                    console.log('saveSSID failed!');
-                };
             }, true);
+            $location.path('/home');
         }   
     }
 });
@@ -291,3 +310,4 @@ app.controller('logoutController', function ($scope, $location, Auth) {
     Auth.logout();
     $location.path('/home');
 });
+ 
