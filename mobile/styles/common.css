@@ -1132,7 +1132,7 @@ select, .select2-container .select2-choice {
   font-family: 'opensans', helvetica, arial, sans-serif;
   font-size: 0.875rem;
   font-weight: bold;
-  color: #FF8300;
+  /*color: #FF8300;*/
   outline: none;
   background: url("../images/select_arrow@2x.png") no-repeat right center;
   background-size: 38px 38px;

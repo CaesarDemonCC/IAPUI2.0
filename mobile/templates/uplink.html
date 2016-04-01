@@ -1,7 +1,7 @@
-<div class='forms'>
-    <h3>Uplink Config</h3>
+<div class='forms panel'>
+    <h2 class='title_heading'>Uplink Config</h2>
     <div>
-        <label class='small-12 medium-4 columns'>Uplink:</label>
+        <p class='small-12 medium-4 columns'>Uplink:</p>
         <select id='uplinkType' ng-model='data.uplinkType' class='small-12 medium-8 columns input'>
             <option value='pppoe'>PPPoE</option>
             <option value='dhcp'>DHCP</option>
@@ -12,11 +12,11 @@
 
     <div ng-switch on='data.uplinkType'>
         <div ng-switch-when='pppoe'>
-            <label class='small-12 medium-4 columns'>Username:</label>
+            <p class='small-12 medium-4 columns'>Username:</p>
             <input type='text' id='pppoeUsername' ng-model='data.pppoeUsername' class='small-12 medium-8 columns input'/>
-            <label class='small-12 medium-4 columns'>Password:</label>
+            <p class='small-12 medium-4 columns'>Password:</p>
             <input type='text' id='pppoePasswd' ng-model='data.pppoePasswd' class='small-12 medium-8 columns input'/>
-            <label class='small-12 medium-4 columns'>Service name:</label>
+            <p class='small-12 medium-4 columns'>Service name:</p>
             <input type='text' id='pppoeService' ng-model='data.pppoeService' class='small-12 medium-8 columns input'/>
         </div>
 
@@ -24,24 +24,24 @@
         </div>
 
         <div ng-switch-when='static'>
-            <label class='small-12 medium-4 columns'>IP address:</label>
+            <p class='small-12 medium-4 columns'>IP address:</p>
             <input type='text' id='staticIP' ng-model='data.staticIP' class='small-12 medium-8 columns input'/>
-            <label class='small-12 medium-4 columns'>Netmask:</label>
+            <p class='small-12 medium-4 columns'>Netmask:</p>
             <input type='text' id='staticNetmask' ng-model='data.staticNetmask' class='small-12 medium-8 columns input'/>
-            <label class='small-12 medium-4 columns'>Gateway:</label>
+            <p class='small-12 medium-4 columns'>Gateway:</p>
             <input type='text' id='staticGateway' ng-model='data.staticGateway' class='small-12 medium-8 columns input'/>
         </div>
 
         <div ng-switch-when='wifiuplink'>
-            <label class='small-12 medium-4 columns'>SSID:</label>
+            <p class='small-12 medium-4 columns'>SSID:</p>
             <select id='uplinkSSID' ng-model='data.uplinkSSID' class='small-12 medium-8 columns input'>
                 <option ng-repeat='ssid in data.uplinkSSIDs' value='{{ssid}}'>{{ssid}}</option>
             </select>
-            <label class='small-12 medium-4 columns'>Passphrase:</label>
+            <p class='small-12 medium-4 columns'>Passphrase:</p>
             <input type='text' id='uplinkSSIDPassphrase' ng-model='data.uplinkSSIDPassphrase' class='small-12 medium-8 columns input'/>
         </div>
         
         <div ng-switch-default></div>
     </div>
-    <button ng-click='saveSettings()'>OK</button>
+    <button class='medium button small-12 medium-12 columns' ng-click='saveSettings()'>OK</button>
 </div>

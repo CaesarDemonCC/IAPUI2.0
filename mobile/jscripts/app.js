@@ -202,7 +202,7 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
                 clientCount = summaryData['clients'].length;
             // If the cluster is factory default status, popup WiFi Config wizard
             if (networkCount === 1 && summaryData['networks'][0]['c'][0] === 'instant') {
-                $location.path('/network');
+                $location.path('/network/new/');
             } else {
                 $scope.summaryData = summaryData;
             }
@@ -212,6 +212,13 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
     }
 
     $scope.showSummary();
+
+    $scope.deleteNetwork = function (profileName) {
+        var url = "opcode=config&ip=127.0.0.1&cmd=' no wlan ssid-profile " + profileName + "'";
+        Ajax.doRequest(url, function (data) {
+        }, true);
+        $scope.showSummary();
+    }
 })
 
 app.controller('uplinkPageController', function ($scope, Ajax) {
@@ -272,20 +279,35 @@ app.controller('networkController', function ($scope, $location, $routeParams, A
                 $scope.profileName='';
                 $scope.opmode='opensystem';
                 $scope.passphrase='';
+                $scope.title = 'NEW WLAN';
             break;
-            case 'setting' : 
-                $scope.profileName=$routeParams.profileName;
-                $scope.opmode='opensystem';
-                $scope.passphrase='';
-            break;
-            case 'delete' : 
-                var url = "opcode=config&ip=127.0.0.1&cmd=' no wlan ssid-profile " + $routeParams.profileName + "'";
-                Ajax.doRequest(url, function (data) {
-                }, true);
-                $location.path('/home');
+            case 'edit' : 
+                showNetworkSSID($routeParams.profileName, function (editNetwork) {
+                    $scope.profileName=editNetwork.name;
+                    $scope.opmode=editNetwork.mode;
+                    $scope.passphrase=editNetwork.passphrase;
+                    $scope.title = 'Edit ' + editNetwork.name;
+                });
             break;
         }
-    }
+    };
+
+    function showNetworkSSID (profileName, callback) {
+        var cmd = 'opcode=show&cmd=show network ' + profileName;
+        Ajax.doRequest(cmd, function (data) {
+            callback(parseNetworkSSID(data));
+        });
+    };
+
+    function parseNetworkSSID (data) {
+        var result = {};
+        for (var i = data.data.length - 1; i >= 0; i--) {
+            var label = data.data[i]['_name'];
+            label = label.replace(/[\s"]/g, '').toLowerCase();
+            result[label] = data.data[i]['Text'];
+        }
+        return result;
+    };
 
     $scope.saveNetwork = function () {
         if ($scope.profileName) {
@@ -303,11 +325,11 @@ app.controller('networkController', function ($scope, $location, $routeParams, A
             }, true);
             $location.path('/home');
         }   
-    }
+    };
 });
 
 app.controller('logoutController', function ($scope, $location, Auth) {
     Auth.logout();
-    $location.path('/home');
+    $location.path('/login');
 });
  

@@ -1,6 +1,11 @@
-<div class="panel_wrapper">
+<div class="panel_wrapper" >
     <div class="panel table rounded white no_pad">
-        <div class="title_heading">Networks</div>
+        <div class="title_heading">
+            {{network_table_head}}
+            <div class='dropdown alt'>
+                <div><a class='icosolo icon_add' href="#/network/new/"></a></div>
+            </div>
+        </div>
         <div class="table_wrapper">
             <table class="data responsive">
                 <thead class="sortable">
@@ -16,8 +21,8 @@
                         <td class="clients">{{network.c[2]}}</td>
                         <td class="actions">
                             <!-- <a class="icosolo icon_settings" href="#"></a> -->
-                            <a class="icosolo icon_edit" href="#/network/setting/{{network.c[0]}}"></a>
-                            <a class="icosolo icon_delete delete" href="#/network/delete/{{network.c[0]}}"></a>
+                            <a class="icosolo icon_edit" href="#/network/edit/{{network.c[0]}}"></a>
+                            <a class="icosolo icon_delete delete" ng-click='deleteNetwork(network.c[0])'></a>
                         </td>
                     </tr>
                 </tbody>
@@ -26,7 +31,7 @@
     </div>
 
     <div class="panel table rounded white no_pad">
-        <div class="title_heading">Clients</div>
+        <div class="title_heading">{{client_table_head}}</div>
         <div class="table_wrapper">
             <table class="data responsive">
                 <thead class="sortable">

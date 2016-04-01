@@ -1,23 +1,23 @@
-<div>
-	<h2>New WLAN</h2>
+<div class='panel'>
+	<h2 class='title_heading'>{{title}}</h2>
 	<div>
 		<div>
-			<h3 class='small-12 medium-4 columns'>Name:</h3>
+			<p class='small-12 medium-4 columns'>Name:</p>
 			<input class='small-12 medium-8 columns input' type='text' name='profileName' ng-model='profileName' required/>
 			<!-- <div class='error' ng-messages='SSID_form.profileName.$error'>
 				<div ng-message='required'>Make sure you enter your name</div>
 			</div> -->
 		
-			<h3 class='small-12 medium-4 columns'>Key management:</h3>
+			<p class='small-12 medium-4 columns'>Key management:</p>
 			<select class='small-12 medium-8 columns input' name='opmode' ng-model='opmode' ng-change='opmodeChange()' ng-init='opmode="opensystem"'>
 				<option value='opensystem'>Open</option>
 				<option value='wpa2-psk-aes'>WPA-2 Personal</option>
 			</select>
 		
-			<h3 class='small-12 medium-4 columns' ng-show='opmode=="wpa2-psk-aes"'>Passphrase:</h3>
+			<p class='small-12 medium-4 columns' ng-show='opmode=="wpa2-psk-aes"'>Passphrase:</p>
 			<input class='small-12 medium-8 columns input' type='password' ng-model='passphrase'  ng-show='opmode=="wpa2-psk-aes"'>
 		
-			<button class='small-12 medium-4 columns button' type='submit' ng-click='saveNetwork()'>OK</button>
+			<button class='medium button small-12 medium-12 columns' type='submit' ng-click='saveNetwork()'>OK</button>
 		</div>
 	</div>
 </div>
