@@ -24,6 +24,14 @@ app.config(function($routeProvider){
             templateUrl: 'mobile/templates/uplink.html',
             controller: 'uplinkPageController'
         })
+        .when('/newNetwork', {
+            templateUrl: 'mobile/templates/newNetwork.html',
+            controller: 'networkController'            
+        })
+        .when('/logout', {
+            templateUrl: 'mobile/templates/login.html',
+            controller: 'logoutController'            
+        })
         .otherwise({ 
             redirectTo: '/'
         });
@@ -129,7 +137,7 @@ app.controller('loginController', function($scope, $location, Ajax, Auth){
     
 });
 
-app.controller('homePageController', function ($scope, Ajax, $http) {
+app.controller('homePageController', function ($scope, $location, Ajax, $http) {
     
 
     function parseSummaryData (data) {
@@ -189,7 +197,7 @@ app.controller('homePageController', function ($scope, Ajax, $http) {
             var summaryData = parseSummaryData(data);
             // If the cluster is factory default status, popup WiFi Config wizard
             if (summaryData['networks'].length === 1 && summaryData['networks'][0]['c'][0] === 'instant') {
-                
+                $location.path('/newNetwork');
             } else {
                 $scope.summaryData = summaryData;
             }
@@ -248,3 +256,33 @@ app.controller('uplinkPageController', function ($scope, Ajax) {
         })
     }
 })
+
+
+app.controller('networkController', function ($scope, Ajax) {
+
+    $scope.saveNetwork = function () {
+        var url = "opcode=config&ip=127.0.0.1&cmd='";
+        var cmd = '';
+        if ($scope.profileName) {
+            cmd += ' wlan ssid-profile ' + $scope.profileName + '\n';
+            if($scope.opmode == 'none') {
+                cmd += ' no wpa-passphrase ' + '\n';
+            } else {
+                cmd += ' wpa-passphrase ' + $scope.passphrase + '\n';
+            }
+            cmd += 'exit\n' + "'";
+            Ajax.doRequest(url + cmd, function (data) {
+                if (data) {
+                    alert(data);
+                } else {
+                    alert('saveSSID failed!');
+                };
+            });
+        }
+    }
+});
+
+app.controller('logoutController', function ($scope, $location, Auth) {
+    Auth.logout();
+    $location.path('/home');
+});
