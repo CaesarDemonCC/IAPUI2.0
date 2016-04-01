@@ -260,27 +260,25 @@ app.controller('uplinkPageController', function ($scope, Ajax) {
 })
 
 
-app.controller('networkController', function ($scope, Ajax) {
-
+app.controller('networkController', function ($scope, $location, Ajax) {
     $scope.saveNetwork = function () {
-        var url = "opcode=config&ip=127.0.0.1&cmd='";
-        var cmd = '';
         if ($scope.profileName) {
-            cmd += ' wlan ssid-profile ' + $scope.profileName + '\n';
+            var cmd = ' wlan ssid-profile ' + $scope.profileName + '\n';
             if($scope.opmode == 'none') {
                 cmd += ' no wpa-passphrase ' + '\n';
             } else {
                 cmd += ' wpa-passphrase ' + $scope.passphrase + '\n';
             }
             cmd += 'exit\n' + "'";
-            Ajax.doRequest(url + cmd, function (data) {
+            var url = "opcode=config&ip=127.0.0.1&cmd='" + cmd;
+            Ajax.doRequest(url, function (data) {
                 if (data) {
-                    alert(data);
+                    $location.path('/home');
                 } else {
-                    alert('saveSSID failed!');
+                    console.log('saveSSID failed!');
                 };
-            });
-        }
+            }, true);
+        }   
     }
 });
 
