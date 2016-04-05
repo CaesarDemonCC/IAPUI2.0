@@ -1,0 +1,9 @@
+div.login-container
+    div.logo-container
+        img(src='images/login-logo.png')
+    div.welcome Instant
+    input.small-12.medium-12.columns.input(type='text', id='username', ng-model='username', placeholder='Username', required, autofocus)
+    input.small-12.medium-12.columns.input(type='password', id='passwd', ng-model='passwd', placeholder='Password', ng-keypress='passwdKeyPress($event)', required)
+    
+    button.medium.button.small-12.medium-12.columns(id='login-btn', ng-click='doLogin()') Log in
+

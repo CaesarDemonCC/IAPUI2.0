@@ -3,6 +3,7 @@ var gulp  = require('gulp'),
     uglify = require('gulp-uglify'),
     del = require('del'),
     imagemin = require('gulp-imagemin'),
+    jade = require('gulp-jade'),
     concat = require('gulp-concat');
 
 gulp.task('clean', function () {
@@ -59,6 +60,7 @@ gulp.task('html', function () {
 
 gulp.task('templates', function () {
     return gulp.src('./src/templates/*')
+            .pipe(jade())
             .pipe(gulp.dest('dist/templates'))
 })
 
