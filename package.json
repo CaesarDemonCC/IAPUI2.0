@@ -1,6 +1,6 @@
 {
   "name": "IAPMobile",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "IAP Mobile UI",
   "main": "gulpfile.js",
   "scripts": {
@@ -16,7 +16,12 @@
     "url": "https://github.com/langshu/IAPMobile/issues"
   },
   "devDependencies": {
+    "gulp": "~3.9.1",
     "gulp-ruby-sass": "~2.0.6",
-    "gulp-compass": "~2.1.0"
+    "gulp-compass": "~2.1.0",
+    "gulp-uglify": "~1.5.3",
+    "gulp-concat": "~2.6.0",
+    "del": "~2.2.0",
+    "gulp-imagemin": "~2.4.0"
   }
 }

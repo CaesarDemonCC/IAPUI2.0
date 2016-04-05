@@ -4,11 +4,8 @@
 
 # Set this to the root of your project when deployed:
 http_path = "/"
-css_dir = "mobile/styles"
-sass_dir = "src/styles"
-images_dir = "mobile/images"
-javascripts_dir = "mobile/jscripts"
-fonts_dir = "mobile/fonts"
+css_dir = "dist/styles"
+sass_dir = "src/sass"
 
 output_style = :nested
 environment = :development

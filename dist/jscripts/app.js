@@ -7,29 +7,29 @@ var app = angular.module('IAPMobileUI', ['ngRoute', 'ngCookies'])
     });
 })
 .constant('App', {
-    'API_URL': 'swarm.cgi'
+    'API_URL': '../swarm.cgi'
 })
 
 app.config(function($routeProvider){
     $routeProvider
         .when('/', {
-            templateUrl: 'mobile/templates/home.html',
+            templateUrl: 'templates/home.html',
             controller: 'homePageController'            
         })
         .when('/login', {
-            templateUrl: 'mobile/templates/login.html',
+            templateUrl: 'templates/login.html',
             controller: 'loginController'            
         })
         .when('/uplink', {
-            templateUrl: 'mobile/templates/uplink.html',
+            templateUrl: 'templates/uplink.html',
             controller: 'uplinkPageController'
         })
         .when('/network/:action/:profileName', {
-            templateUrl: 'mobile/templates/network.html',
+            templateUrl: 'templates/network.html',
             controller: 'networkController'            
         })
         .when('/logout', {
-            templateUrl: 'mobile/templates/login.html',
+            templateUrl: 'templates/login.html',
             controller: 'logoutController'            
         })
         .otherwise({ 
