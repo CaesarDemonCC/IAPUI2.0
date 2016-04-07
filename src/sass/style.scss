@@ -23,7 +23,45 @@
     margin-top: 2rem;
     text-align: center;
 
-    & > img {
+    & > .logo {
+        height: 6rem;
         width: 12rem;
+        margin: 0 auto;
+    }
+}
+
+.logo {
+    background-image: url('../images/login-logo.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.header {
+    padding: 0.625rem;
+    overflow: hidden;
+
+    & > .logo {
+        height: 4rem;
+        width: 7rem;
+        float: left;
+    }
+
+    & > .bannermenu {
+        float: right;
+        width: 8rem;
+        color: #02a7ec;
+        margin-top: 1rem;
+
+        & > div {
+            float: left;
+            height: 2rem;
+            width: 2rem;
+            margin-right: 0.25rem;
+        }
+
+        .logout {
+            padding-top: 0.75rem;
+            padding-left: 0.25rem;
+        }
     }
 }

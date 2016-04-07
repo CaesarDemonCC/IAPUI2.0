@@ -54,7 +54,8 @@ gulp.task('styles', function() {
 })
 
 gulp.task('html', function () {
-    return gulp.src('src/index.html')
+    return gulp.src('src/index.jade')
+            .pipe(jade({pretty: true}))
             .pipe(gulp.dest('dist'))
 })
 
@@ -68,6 +69,7 @@ gulp.task('watch', function () {
     gulp.watch('src/sass/style.scss', ['styles']);
     gulp.watch(['./src/jscripts/**/*.js', '!./src/jscripts/third_party/*.js'], ['jscripts']);
     gulp.watch('src/templates/*', ['templates']);
+    gulp.watch('src/index.jade', ['html']);
 })
 
 gulp.task('default', ['clean'], function () {

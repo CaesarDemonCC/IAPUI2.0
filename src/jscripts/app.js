@@ -1,5 +1,6 @@
 var app = angular.module('IAPMobileUI', ['ngRoute', 'ngCookies'])
 .run(function($rootScope, $location, Auth) {
+    $rootScope.isLoggedIn = Auth.isLoggedIn();
     $rootScope.$on('$routeChangeStart', function(evt, next, curr) {
         if (!Auth.isLoggedIn()) {
             $location.path('/login');

@@ -1,0 +1,23 @@
+doctype html
+html(lang="en")
+  head
+    title Instant Mobile UI
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1, user-scalable=no")
+    link(href="styles/common.css", rel="stylesheet")
+    link(href="styles/style.css", rel="stylesheet")
+
+  body(ng-app="IAPMobileUI", class="fontface")
+    div.header(ng-show="isLoggedIn==true")
+      div.logo
+      div.bannermenu
+        div.icon_search
+        div.icon_help
+        div.logout
+          a(href="#/logout") Logout
+    div(ng-view)
+    script(src="jscripts/third_party/angular.min.js")
+    script(src="jscripts/third_party/angular-route.js")
+    script(src="jscripts/third_party/angular-cookies.js")
+    script(src="jscripts/third_party/xml2json.min.js")
+    script(src="jscripts/app.js")

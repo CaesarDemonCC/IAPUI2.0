@@ -1,9 +1,10 @@
-app.factory('Auth', function ($cookies) {
+app.factory('Auth', function ($cookies, $rootScope) {
     //user: {sid:xxxxx, role:admin}
     var _user = $cookies.getObject('user');
     var setUser = function(user) {
         _user = user;
         $cookies.putObject('user', _user);
+        $rootScope.isLoggedIn = true;
     };
     return {
         isAdmin: function() {
@@ -21,6 +22,7 @@ app.factory('Auth', function ($cookies) {
         },
         logout: function() {
             $cookies.remove('user');
+            $rootScope.isLoggedIn = false;
             _user = null; 
         }
     };
