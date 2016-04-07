@@ -23,6 +23,7 @@
     "gulp-concat": "~2.6.0",
     "del": "~2.2.0",
     "gulp-imagemin": "~2.4.0",
-    "gulp-jade": "~1.1.0"
+    "gulp-jade": "~1.1.0",
+    "phantomjs": "~2.1.3"
   }
 }
