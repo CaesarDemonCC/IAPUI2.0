@@ -6,6 +6,14 @@ var app = angular.module('IAPMobileUI', ['ngRoute', 'ngCookies'])
             $location.path('/login');
         }
     });
+
+    $rootScope.mobieMenu = {
+        'expand' : false
+    }
+
+    $rootScope.toggleMobileMenu = function () {
+        $rootScope.mobieMenu.expand = !$rootScope.mobieMenu.expand;
+    }
 })
 .constant('App', {
     'API_URL': '../swarm.cgi'
