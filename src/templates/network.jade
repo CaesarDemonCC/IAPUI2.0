@@ -1,16 +1,16 @@
 div.panel
 	h2.title_heading {{title}}
 	div
-		div
-			p.small-12.medium-4.columns Name:
-			input.small-12.medium-8.columns.input(
+		div.networkPanel
+			p.medium-4.columns Name:
+			input.medium-8.columns.input(
 				type='text'
 				ng-model='essid'
 				required
 			)
 
-			p.small-12.medium-4.columns Key management:
-			select.small-12.medium-8.columns.input(
+			p.medium-4.columns Key management:
+			select.medium-8.columns.input(
 				type='text'
 				ng-model='opmode'
 				ng-change='opmodeChange()'
@@ -19,15 +19,19 @@ div.panel
 				option(value='opensystem') Open
 				option(value='wpa2-psk-aes') WPA-2 Personal
 
-			p.small-12.medium-4.columns(ng-show="opmode=='wpa2-psk-aes'") Passphrase:
-			input.small-12.medium-8.columns.input(
+			p.medium-4.columns(ng-show="opmode=='wpa2-psk-aes'") Passphrase:
+			input.medium-8.columns.input(
 				type='password'
 				ng-model='passphrase'
 				ng-show="opmode=='wpa2-psk-aes'"
 			)
 
-			button.small-12.medium-12.medium.columns.button(
+			button.medium-12.medium.columns.button(
 				type='submit'
 				ng-click='saveNetwork()'
 			) OK
+
+			button.medium-12.medium.columns.button(
+				ng-click='cancelHandler()'
+			) Cancel
 		

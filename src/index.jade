@@ -9,15 +9,31 @@ html(lang="en")
 
   body(ng-app="IAPMobileUI", class="fontface")
     div.header(ng-show="isLoggedIn==true")
-      div.logo
-      div.bannermenu
-        div.icon_search
-        div.icon_help
-        div.logout
-          a(href="#/logout") Logout
+      div
+        div.logo.small-5.columns
+        div.bannermenu.small-7.columns
+          div.logout
+            a(href="#/logout") Logout
+          div.icon_help
+          div.icon_search
+
+      //- div.mobile_menu_toggle
+      //-   //- a.icon_arrow_down Menu
+      //- ul.sidenav
+      //-   li.folder
+      //-     a Navigation
+      //-     ul
+      //-       li
+      //-         a Side Nav
+      //-       li
+      //-         a Off Canvas
+      //-   li
+      //-     a Buttons             
+
     div(ng-view)
     script(src="jscripts/third_party/angular.min.js")
     script(src="jscripts/third_party/angular-route.js")
     script(src="jscripts/third_party/angular-cookies.js")
     script(src="jscripts/third_party/xml2json.min.js")
+    script(src="jscripts/third_party/fastclick.js")
     script(src="jscripts/app.js")

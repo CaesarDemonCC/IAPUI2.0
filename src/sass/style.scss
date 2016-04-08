@@ -4,8 +4,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-top: -12rem;
     margin-left: -10rem;
+    margin-top: -12rem;
 
     input {
         margin-bottom: 0.5rem;
@@ -16,6 +16,15 @@
         margin: 1rem;
         font-size: 2rem;
         color: #aaa;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    .login-container {
+        width: 16rem;
+        height: 20rem;
+        margin-left: -8rem;
+        margin-top: -10rem;
     }
 }
 
@@ -40,20 +49,17 @@
     padding: 0.625rem;
     overflow: hidden;
 
-    & > .logo {
+    .logo {
         height: 4rem;
-        width: 7rem;
-        float: left;
     }
 
-    & > .bannermenu {
+    .bannermenu {
         float: right;
-        width: 8rem;
         color: #02a7ec;
         margin-top: 1rem;
 
         & > div {
-            float: left;
+            float: right;
             height: 2rem;
             width: 2rem;
             margin-right: 0.25rem;
@@ -63,5 +69,11 @@
             padding-top: 0.75rem;
             padding-left: 0.25rem;
         }
+    }
+}
+
+.networkPanel {
+    & > .columns {
+        margin-bottom: 0.25rem;
     }
 }

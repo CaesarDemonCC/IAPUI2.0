@@ -1,8 +1,8 @@
 div.panel
     h2.title_heading Uplink Config
     div
-        p.small-12.medium-4.columns Uplink:
-        select.small-12.medium-8.columns.input(id='uplinkType', ng-model='data.uplinkType')
+        p.medium-4.columns Uplink:
+        select.medium-8.columns.input(id='uplinkType', ng-model='data.uplinkType')
             option(value='pppoe') PPPoE
             option(value='dhcp') DHCP
             option(value='static') Static IP
@@ -10,30 +10,30 @@ div.panel
 
         div(ng-switch, on='data.uplinkType')
             div(ng-switch-when='pppoe')
-                p.small-12.medium-4.columns Username:
-                input.small-12.medium-8.columns.input(type='text', id='pppoeUsername', ng-model='data.pppoeUsername')
-                p.small-12.medium-4.columns Password:
-                input.small-12.medium-8.columns.input(type='password', id='pppoePasswd', ng-model='data.pppoePasswd')
-                p.small-12.medium-4.columns Service name:
-                input.small-12.medium-8.columns.input(type='text', id='pppoeService', ng-model='data.pppoeService')
+                p.medium-4.columns Username:
+                input.medium-8.columns.input(type='text', id='pppoeUsername', ng-model='data.pppoeUsername')
+                p.medium-4.columns Password:
+                input.medium-8.columns.input(type='password', id='pppoePasswd', ng-model='data.pppoePasswd')
+                p.medium-4.columns Service name:
+                input.medium-8.columns.input(type='text', id='pppoeService', ng-model='data.pppoeService')
 
             div(ng-switch-when='dhcp')
 
             div(ng-switch-when='static')
-                p.small-12.medium-4.columns IP address:
-                input.small-12.medium-8.columns.input(type='text', id='staticIP', ng-model='data.staticIP')
-                p.small-12.medium-4.columns Netmask:
-                input.small-12.medium-8.columns.input(type='text', id='staticNetmask', ng-model='data.staticNetmask')
-                p.small-12.medium-4.columns Gateway:
-                input.small-12.medium-8.columns.input(type='text', id='staticGateway', ng-model='data.staticGateway')
+                p.medium-4.columns IP address:
+                input.medium-8.columns.input(type='text', id='staticIP', ng-model='data.staticIP')
+                p.medium-4.columns Netmask:
+                input.medium-8.columns.input(type='text', id='staticNetmask', ng-model='data.staticNetmask')
+                p.medium-4.columns Gateway:
+                input.medium-8.columns.input(type='text', id='staticGateway', ng-model='data.staticGateway')
 
             div(ng-switch-when='wifiuplink')
-                p.small-12.medium-4.columns SSID:
-                select.small-12.medium-8.columns.input(id='uplinkSSID', ng-model='data.uplinkSSID')
+                p.medium-4.columns SSID:
+                select.medium-8.columns.input(id='uplinkSSID', ng-model='data.uplinkSSID')
                     option(ng-repeat='ssid in data.uplinkSSIDs' value='{{ssid}}') {{ssid}}
-                p.small-12.medium-4.columns Passphrase:
-                input.small-12.medium-8.columns.input(type='password', id='uplinkSSIDPassphrase', ng-model='data.uplinkSSIDPassphrase')
+                p.medium-4.columns Passphrase:
+                input.medium-8.columns.input(type='password', id='uplinkSSIDPassphrase', ng-model='data.uplinkSSIDPassphrase')
 
             div(ng-switch-default)
 
-    button.medium.button.small-12.medium-12.columns(ng-click='saveSettings()') OK
+    button.medium.button.medium-12.columns(ng-click='saveSettings()') OK

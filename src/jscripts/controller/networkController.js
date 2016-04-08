@@ -1,4 +1,4 @@
-app.controller('networkController', function ($scope, $location, $routeParams, Ajax) {
+app.controller('networkController', function ($scope, $location, $routeParams, Ajax, $window) {
     if($routeParams) {
         switch ($routeParams.action) {
             case 'new' : 
@@ -60,5 +60,8 @@ app.controller('networkController', function ($scope, $location, $routeParams, A
         }   
     };
 
+    $scope.cancelHandler = function () {
+        $window.history.back();
+    }
     
 });
