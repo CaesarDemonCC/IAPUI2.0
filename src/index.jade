@@ -15,22 +15,34 @@ html(lang="en")
           div.logout
             a(href="#/logout") Logout
           div.icon_help
-          div.icon_search
-
-      //- div.mobile_menu_toggle
-      //-   //- a.icon_arrow_down Menu
-      //- ul.sidenav
-      //-   li.folder
-      //-     a Navigation
-      //-     ul
-      //-       li
-      //-         a Side Nav
-      //-       li
-      //-         a Off Canvas
-      //-   li
-      //-     a Buttons             
-
-    div(ng-view)
+          div.icon_search           
+    div
+      div(ng-show="isLoggedIn==true").medium-3.columns
+        div.mobile_menu_toggle
+          a(ng-class="{'icon_arrow_up':mobieMenu.expand==true, 'icon_arrow_down':mobieMenu.expand!=true}", ng-click="toggleMobileMenu()") Menu
+        ul(ng-class="{'expand':mobieMenu.expand==true}").sidenav
+          li.folder
+            a Monitoring
+            ul.expand
+              li
+                a Overview
+              li
+                a Networks
+              li
+                a APs
+              li
+                a Clients
+          li
+            a Configuration
+            ul.expand
+              li
+                a Wireless
+          li
+            a Maintenance
+            ul.expand
+              li
+                a Reboot  
+      div(ng-view, ng-class="{'medium-9 columns': isLoggedIn==true}")
     script(src="jscripts/third_party/angular.min.js")
     script(src="jscripts/third_party/angular-route.js")
     script(src="jscripts/third_party/angular-cookies.js")
