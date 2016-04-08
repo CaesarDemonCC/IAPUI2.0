@@ -1,0 +1,39 @@
+{
+      "ignoreSslErrors": true,
+      "sslProtocol": "any"
+      /*
+      'debug',
+      'disk-cache',
+      'disk-cache-path',
+      'ignore-ssl-errors',
+      'load-images',
+      'load-plugins',
+      'local-storage-path',
+      'local-storage-quota',
+      'local-to-remote-url-access',
+      'max-disk-cache-size',
+      'output-encoding',
+      'proxy',
+      'proxy-auth',
+      'proxy-type',
+      'remote-debugger-port',
+      'remote-debugger-autorun',
+      'script-encoding',
+      'ssl-protocol',
+      'ssl-certificates-path',
+      'web-security',
+      'webdriver',
+      'webdriver-logfile',
+      'webdriver-loglevel'
+      'webdriver-selenium-grid-hub',
+      'wd',
+      'w',
+
+      --disk-cache => diskCacheEnabled
+      --load-images => autoLoadImages
+      --local-storage-path => offlineStoragePath
+      --local-storage-quota => offlineStorageDefaultQuota
+      --local-to-remote-url-access => localToRemoteUrlAccessEnabled
+      --web-security => webSecurityEnabled
+      */
+}
