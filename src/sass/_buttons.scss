@@ -19,6 +19,7 @@
     @include background-image(linear-gradient(lighten($colorLink, 1%), darken($colorLink, 1%)));
     @include border-radius(4px);
     // @include box-shadow(0 -2px 0 rgba(0,0,0,0.20) inset);
+    border: none;
 }
 
 .no-touch .button:hover {

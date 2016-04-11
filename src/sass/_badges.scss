@@ -48,3 +48,28 @@
 .badge:empty {
 	display: none;
 }
+
+.badge-medium {
+	min-width: 4rem;
+	height: 4rem;
+	margin-left: 0.625rem;
+	padding: 1.5rem;
+	border: 2px solid #fff;
+	color: #fff;
+	font-size: 0.795rem;
+	font-weight: bold;
+	white-space: nowrap;
+	text-align: center;
+	background: $colorAlert;
+	-moz-border-radius: 2rem;
+	-webkit-border-radius: 2rem;
+	border-radius: 2rem;
+}
+
+.badge-blue {
+	background: $colorLink;
+}
+
+.badge-orange {
+	background: #F5831E;
+}

@@ -1,5 +1,19 @@
 div.panel_wrapper
-    div.panel.table.rounded.white.no_pad
+    div.small-12
+        h3.small-12.columns Bandwidth Usage:
+        div.small-6.columns 
+            div.badge.badge-medium.badge-orange {{statsData.througput.in}}
+            div.chartLabel
+                div.chartLabelHeader
+                    label.chartUnits bps
+                    label.chartInlineLabel In
+        div.small-6.columns
+            div.badge.badge-medium.badge-blue {{statsData.througput.out}}
+            div.chartLabel
+                div.chartLabelHeader
+                    label.chartUnits bps
+                    label.chartInlineLabel Out
+    div.panel.table.rounded.white.no_pad.small-12
         div.title_heading {{network_table_head}}
             div.dropdown.alt
                 div

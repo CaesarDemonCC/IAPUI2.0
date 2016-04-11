@@ -54,6 +54,27 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
         return summaryData;
     }
 
+    function parseStatsData (data) {
+        var statsData = {
+            'througput': {
+                'out': 0,
+                'in': 0
+            }
+        };
+        if (data && data.t) {
+            console.log(data)
+            for (var i = 0; i < data.t.length; i++) {
+                if (data.t[i]._tn == 'Swarm Global Stats') {
+                    var rows = data.t[i].r;
+                    statsData.througput.out = rows.c[4];
+                    statsData.througput.in = rows.c[5];
+                }
+            }
+        }
+
+        return statsData;
+    }
+
     $scope.showSummary = function () {
         var cmd = 'opcode=show&cmd=show summary';
         Ajax.doRequest(cmd, function (data) {
@@ -72,12 +93,27 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
         })
     }
 
-    $scope.showSummary();
+    $scope.showStatsGlobal = function () {
+        var cmd = 'opcode=show&cmd=show stats global 1';
+        Ajax.doRequest(cmd, function (data) {
+            var statsData = parseStatsData(data);
+            console.log(statsData);
+            $scope.statsData = statsData;
+        })
+    }
+
+    $scope.refresh = function () {
+        $scope.showSummary();
+        $scope.showStatsGlobal();
+    }
+    setTimeout($scope.refresh, 30000);
+    $scope.refresh();
 
     $scope.deleteNetwork = function (profileName) {
         var url = "opcode=config&ip=127.0.0.1&cmd=' no wlan ssid-profile " + profileName + "'";
         Ajax.doRequest(url, function (data) {
         }, true);
-        $scope.showSummary();
+        $scope.refresh();
     }
+
 })

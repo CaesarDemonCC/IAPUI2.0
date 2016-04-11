@@ -79,6 +79,7 @@
 
     background-color: #FFF;
     margin-top: 0.25rem;
+    position: relative;
 
     .columns {
         margin-bottom: 0.25rem;
@@ -86,11 +87,40 @@
 
     .form_heading {
         background: transparent;
-        padding: 0 0 0.625rem 0;
+        padding: 0 0 1rem 0;
     }
 
     p {
         padding-left: 0;
+    }
+}
+
+.chartLabel {
+    display: inline-block;
+    .chartLabelHeader {
+        padding: 0 0 0 0.25rem;
+        font-size: 1rem;
+        color: gray;
+        display: inline-table;
+        vertical-align: middle;
+    }
+    .chartUnits {
+        min-width: 0.625rem;
+        font-size: 0.625rem;
+    }
+    label {
+        display: table-row;
+    }
+}
+
+.panel_wrapper {
+    > div {
+        margin-bottom: 0.625rem;
+        overflow: hidden;
+    }
+
+    h3 {
+        margin: 0.625rem 0;
     }
 }
 
