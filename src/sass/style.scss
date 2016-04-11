@@ -76,8 +76,17 @@
 }
 
 .panel {
+
+    background-color: #FFF;
+    margin-top: 0.25rem;
+
     .columns {
         margin-bottom: 0.25rem;
+    }
+
+    .form_heading {
+        background: transparent;
+        padding: 0 0 0.625rem 0;
     }
 
     p {

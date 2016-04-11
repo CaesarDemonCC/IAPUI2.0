@@ -17,7 +17,7 @@ html(lang="en")
           div.icon_help
           div.icon_search           
     div
-      div(ng-show="isLoggedIn==true").medium-3.columns
+      div(ng-show="isLoggedIn==true").medium-2.columns
         div.mobile_menu_toggle
           a(ng-class="{'icon_arrow_up':mobieMenu.expand==true, 'icon_arrow_down':mobieMenu.expand!=true}", ng-click="toggleMobileMenu()") Menu
         ul(ng-class="{'expand':mobieMenu.expand==true}").sidenav
@@ -26,7 +26,7 @@ html(lang="en")
             ul(ng-if="!menu.path", ng-class="{'expand':menu.expand==true}")
               li(ng-repeat="(menuName, menu) in subMenu.data", ng-click="menuOnClick(this)", ng-class="{'current': menu.path && mobieMenu.currentPath == menu.path}")
                 a(ng-href="{{menu.path}}") {{menuName}}
-      div(ng-view, ng-class="{'medium-9 columns': isLoggedIn==true}")
+      div(ng-view, ng-class="{'medium-10 columns': isLoggedIn==true}")
     script(src="jscripts/third_party/angular.min.js")
     script(src="jscripts/third_party/angular-route.js")
     script(src="jscripts/third_party/angular-cookies.js")

@@ -18,20 +18,20 @@
     background-color: $colorLink; /* IE9 & below */
     @include background-image(linear-gradient(lighten($colorLink, 1%), darken($colorLink, 1%)));
     @include border-radius(4px);
-    @include box-shadow(0 -2px 0 rgba(0,0,0,0.20) inset);
+    // @include box-shadow(0 -2px 0 rgba(0,0,0,0.20) inset);
 }
 
 .no-touch .button:hover {
     background-color: lighten($colorLink, 5%); /* IE9 & below */
     @include background-image(linear-gradient(lighten($colorLink, 6%), lighten($colorLink, 4%)));
-    @include box-shadow(0 -3px 0 rgba(0,0,0,0.20) inset);
+    // @include box-shadow(0 -3px 0 rgba(0,0,0,0.20) inset);
     @include opacity(1);
 }
 
 .button:active, .no-touch .button:active {
     background-color: darken($colorLink, 7%); /* IE9 & below */
     @include background-image(linear-gradient(darken($colorLink, 6%), darken($colorLink, 8%)));
-    @include box-shadow(0 2px 0 rgba(0,0,0,0.10) inset);
+    // @include box-shadow(0 2px 0 rgba(0,0,0,0.10) inset);
     @include opacity(1);
 }
 
