@@ -13,10 +13,12 @@
 
     .title_heading {
         display: block;
-        padding: 0.875rem 0.625rem;
-        color: $colorNeutralDk;
+        //padding: 0.875rem 0.625rem;
+        //color: $colorNeutralDk;
+        padding-bottom: 1rem;
+        color: #646569;
         font-weight: bold;
-        background: $colorTitle;
+        //background: $colorTitle;
         text-align: left;
         @include border-radius(2px 2px 0 0);
 
