@@ -19,6 +19,8 @@ app.controller('loginController', function($scope, $location, Ajax, Auth){
                         _role: data.data[1].Text.toLowerCase()
                     })
                     $location.path('/home');
+                } else {
+                    alert('Invalid username or passowrd!')
                 }
             } else {
                 alert('Login failed!');

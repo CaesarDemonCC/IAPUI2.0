@@ -72,8 +72,12 @@
     }
 }
 
-.networkPanel {
-    & > .columns {
+.panel {
+    .columns {
         margin-bottom: 0.25rem;
+    }
+
+    p {
+        padding-left: 0;
     }
 }
