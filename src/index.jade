@@ -7,7 +7,7 @@ html(lang="en")
     link(href="styles/common.css", rel="stylesheet")
     link(href="styles/style.css", rel="stylesheet")
 
-  body(ng-app="IAPMobileUI", class="fontface")
+  body(ng-app="IAPMobileUI", class="fontface", ng-controller="mainController")
     div.header(ng-show="isLoggedIn==true")
       div
         div.logo.small-5.columns
@@ -21,11 +21,11 @@ html(lang="en")
         div.mobile_menu_toggle
           a(ng-class="{'icon_arrow_up':mobieMenu.expand==true, 'icon_arrow_down':mobieMenu.expand!=true}", ng-click="toggleMobileMenu()") Menu
         ul(ng-class="{'expand':mobieMenu.expand==true}").sidenav
-          li(ng-repeat="(menuName, menu) in mobieMenu.data", ng-click="menuOnClick(this)", ng-class="{'current': menu.path && mobieMenu.currentPath == menu.path, 'folder': !menu.path}")
+          li(ng-repeat="(menuName, menu) in mobieMenu.data", ng-click="menuOnClick(this)", ng-class="{'current': isCurrentFolder(this) || (menu.path && mobieMenu.currentPath == menu.path), 'folder': !menu.path}", ng-init="subMenu = menu")
             a(ng-href="{{menu.path||''}}") {{menuName}}
             ul(ng-if="!menu.path", ng-class="{'expand':menu.expand==true}")
-              li(ng-repeat="(subMenuName, subMenu) in menu.data", ng-click="subMenuOnClick(this)", ng-class="{'current': subMenu.path && mobieMenu.currentPath == subMenu.path}")
-                a(ng-href="{{subMenu.path}}") {{subMenuName}}
+              li(ng-repeat="(menuName, menu) in subMenu.data", ng-click="menuOnClick(this)", ng-class="{'current': menu.path && mobieMenu.currentPath == menu.path}")
+                a(ng-href="{{menu.path}}") {{menuName}}
       div(ng-view, ng-class="{'medium-9 columns': isLoggedIn==true}")
     script(src="jscripts/third_party/angular.min.js")
     script(src="jscripts/third_party/angular-route.js")

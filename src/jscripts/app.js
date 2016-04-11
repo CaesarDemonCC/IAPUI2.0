@@ -4,16 +4,18 @@ var app = angular.module('IAPMobileUI', ['ngRoute', 'ngCookies'])
     $rootScope.$on('$routeChangeStart', function(evt, next, curr) {
         if (!Auth.isLoggedIn()) {
             $location.path('/login');
+            return;
         }
+        $rootScope.mobieMenu.expand = false;
+        $rootScope.mobieMenu.currentPath = '#' + $location.path();
     });
 
     $rootScope.mobieMenu = {
         'expand': false,
-        'currentPath' : null,
+        'currentPath' : $location.path(),
         'data': {
             'Monitoring': {
                 'path': '#/',
-                'selected': true
                 // 'data': {
                 //     'Overview': {
                 //         'path': '#/home'
@@ -42,36 +44,46 @@ var app = angular.module('IAPMobileUI', ['ngRoute', 'ngCookies'])
             }
         }
     }
-
-    $rootScope.toggleMobileMenu = function () {
-        $rootScope.mobieMenu.expand = !$rootScope.mobieMenu.expand;
-    }
-
-    function menuOnClick (menu) {
-        // If this node is leaf, set the selected class
-        if (menu.path) {
-            $rootScope.mobieMenu.currentPath = menu.path;
-        } else {
-            menu.expand = !menu.expand || true;
-        }
-    }
-
-    $rootScope.menuOnClick = function (scope) {
-        console.log('menuOnClick');
-        console.log($rootScope.mobieMenu.currentPath);
-        
-        menuOnClick(scope.menu);
-    }
-
-    $rootScope.subMenuOnClick = function (scope) {
-        console.log('subMenuOnClick');
-        console.log($rootScope.mobieMenu.currentPath);
-
-        menuOnClick(scope.subMenu);
-    }
 })
 .constant('App', {
     'API_URL': '../swarm.cgi'
+});
+
+app.controller('mainController', function ($rootScope, $location, $scope) {
+    $scope.toggleMobileMenu = function () {
+        $rootScope.mobieMenu.expand = !$rootScope.mobieMenu.expand;
+    }
+
+    $scope.menuOnClick = function (scope) {
+        var menu = scope.menu;
+        // If this node is not leaf, expand it
+        if (!menu.path) {
+            menu.expand = !menu.expand;
+        }
+    }
+
+    $scope.isCurrentFolder = function (scope) {
+        var data = scope.menu.data,
+            currentPath = '#' + $location.path();
+        var result = false;
+        if (data) {
+            // scope.menu.expand = false;
+            for (var i in data) {
+                if (data[i].path == currentPath) {
+                    result = true;
+                    scope.menu.expand = true;
+                    break;
+                }
+            }
+        }
+
+        return result;
+
+    }
+
+    // $rootScope.subMenuOnClick = function (scope) {
+    //     menuOnClick(scope.subMenu);
+    // }
 })
 
 app.config(function($routeProvider){
