@@ -2,13 +2,13 @@ div.panel_wrapper
     div.small-12
         h3.small-12.columns Bandwidth Usage:
         div.small-6.columns 
-            div.badge.badge-medium.badge-orange {{statsData.througput.in}}
+            div.badge.badge-medium.badge-orange {{statsData.througput.in | number: 1}}
             div.chartLabel
                 div.chartLabelHeader
                     label.chartUnits bps
                     label.chartInlineLabel In
         div.small-6.columns
-            div.badge.badge-medium.badge-blue {{statsData.througput.out}}
+            div.badge.badge-medium.badge-blue {{statsData.througput.out | number: 1}}
             div.chartLabel
                 div.chartLabelHeader
                     label.chartUnits bps

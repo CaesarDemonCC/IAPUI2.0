@@ -62,12 +62,14 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
             }
         };
         if (data && data.t) {
-            console.log(data)
             for (var i = 0; i < data.t.length; i++) {
                 if (data.t[i]._tn == 'Swarm Global Stats') {
                     var rows = data.t[i].r;
                     statsData.througput.out = rows.c[4];
                     statsData.througput.in = rows.c[5];
+
+                    statsData.througput.out = Math.random() * 1000;
+                    statsData.througput.in = Math.random() * 1000;
                 }
             }
         }
@@ -97,7 +99,6 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
         var cmd = 'opcode=show&cmd=show stats global 1';
         Ajax.doRequest(cmd, function (data) {
             var statsData = parseStatsData(data);
-            console.log(statsData);
             $scope.statsData = statsData;
         })
     }
@@ -106,7 +107,7 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
         $scope.showSummary();
         $scope.showStatsGlobal();
     }
-    setTimeout($scope.refresh, 30000);
+    setInterval($scope.refresh, 3000);
     $scope.refresh();
 
     $scope.deleteNetwork = function (profileName) {
