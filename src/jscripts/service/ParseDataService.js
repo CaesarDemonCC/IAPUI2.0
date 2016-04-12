@@ -1,24 +1,20 @@
 app.factory('ParseData', function() {
     var _options = {
-        'replaceKeySpace' : true, ///Remove all space
-        'trim' : true,            ///Remove start or end space
-        'lowerKeyCase' : true     ///Is parse to lower case
+        'debug' : true,          ///When table data is null, output columns to _debug field 
+        'removeKeySpace' : true, ///Remove all space
+        'trim' : true,           ///Remove start or end space
+        'lowerCase' : true       ///Is parse to lower case
     };
 	
     return {
         parse : function (jsonData, callback, options) {
             if (options) {
-                if (options['replaceKeySpace']){
-                    _options['replaceKeySpace'] = options['replaceKeySpace'];
-                }
-                if (options['trim']) {
-                    _options['trim'] = options['trim'];
-                }
-                if (options['lowerKeyCase']) {
-                    _options['lowerKeyCase'] = options['lowerKeyCase'];
-                }
+                angular.extend(_options, options);
             }
             var result = {};
+            if (_options['debug']) {
+                result['_debug'] = {};
+            }
             //parse jsonData.re.data
             if (jsonData.re.data) {
                 var dataLength = 1;
@@ -77,6 +73,23 @@ app.factory('ParseData', function() {
                             itemArr.push(tTempData);
                         }
                         result[item['_tn']]=itemArr;
+                    }
+                    else if (_options['debug']) {
+                        var debugItemKeys = {};
+                        for (var i = 0; i < item.th['h'].length; i++) {
+                            var debugItem = item.th['h'][i];
+                            if (_options['replaceKeySpace']) {
+                                debugItem = debugItem.replace(/[\s"]/g, '');
+                            }
+                            if (_options['trim']) {
+                                debugItem = debugItem.replace(/^ +| +$/g, '');
+                            }
+                            if (_options['lowerKeyCase']) {
+                                debugItem = debugItem.toLowerCase();
+                            }
+                            debugItemKeys[debugItem] = undefined;
+                        }
+                        result['_debug'][item['_tn']] = debugItemKeys;
                     }
                 }
             }
