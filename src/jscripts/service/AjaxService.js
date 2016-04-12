@@ -1,4 +1,4 @@
-app.factory('Ajax', function ($http, $location, Auth, App) {
+app.factory('Ajax', function ($http, $location, Auth, App, ParseData) {
     var _apiURL = App.API_URL;
     var x2js = new X2JS();
 
@@ -29,6 +29,10 @@ app.factory('Ajax', function ($http, $location, Auth, App) {
                             $location.path('/login');
                             return;
                         }
+                        ParseData.parse(jsonData, null, function(data){
+                            console.log(data);
+                        });
+
                         callback(jsonData.re);
                     }
                 })

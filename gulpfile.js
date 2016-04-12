@@ -4,6 +4,7 @@ var gulp  = require('gulp'),
     del = require('del'),
     imagemin = require('gulp-imagemin'),
     jade = require('gulp-jade'),
+    jsmin = require('gulp-jsmin'),
     concat = require('gulp-concat');
 
 gulp.task('clean', function () {
@@ -24,6 +25,7 @@ gulp.task('fonts', function () {
 gulp.task('jscripts', function () {
     return gulp.src(['./src/jscripts/**/*.js', '!./src/jscripts/third_party/*.js'])
             .pipe(concat('app.js'))
+            .pipe(jsmin())
             //.pipe(uglify())
             .pipe(gulp.dest('./dist/jscripts'));
 })

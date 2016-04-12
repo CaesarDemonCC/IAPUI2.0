@@ -107,7 +107,8 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
         $scope.showSummary();
         $scope.showStatsGlobal();
     }
-    setInterval($scope.refresh, 3000);
+
+    var refreshInterval = setInterval($scope.refresh, 3000);
     $scope.refresh();
 
     $scope.deleteNetwork = function (profileName) {
@@ -116,5 +117,11 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
         }, true);
         $scope.refresh();
     }
+
+    $scope.$on('$destroy', function () {
+        if (refreshInterval) {
+            clearInterval(refreshInterval);
+        }
+    })
 
 })
