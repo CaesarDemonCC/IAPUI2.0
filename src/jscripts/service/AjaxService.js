@@ -3,7 +3,7 @@ app.factory('Ajax', function ($http, $location, Auth, App, ParseData) {
     var x2js = new X2JS();
 
     return {
-        doRequest: function (data, callback, opt_post) {
+        doRequest: function (data, callback, opt_post, opt_parseOptions) {
             if (Auth.isLoggedIn()) {
                 data += "&sid=" + Auth.getSID()
             }
@@ -29,10 +29,10 @@ app.factory('Ajax', function ($http, $location, Auth, App, ParseData) {
                             $location.path('/login');
                             return;
                         }
-                        ParseData.parse(jsonData, null, function(data){
+                        ParseData.parse(jsonData, function(data){
                             console.log(data);
                             callback(data);
-                        });
+                        }, opt_parseOptions);
                     }
                 })
                 .error(function (err) {

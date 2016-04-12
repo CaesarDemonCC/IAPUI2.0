@@ -1,14 +1,22 @@
 app.factory('ParseData', function() {
     var _options = {
-        'replaceKeySpace' : true,
-        'lowerKeyCase' : true
+        'replaceKeySpace' : true, ///Remove all space
+        'trim' : true,            ///Remove start or end space
+        'lowerKeyCase' : true     ///Is parse to lower case
     };
 	
     return {
-        parse : function (jsonData, options, callback) {
+        parse : function (jsonData, callback, options) {
             if (options) {
-                _options['replaceKeySpace'] = options['replaceKeySpace'];
-                _options['lowerKeyCase'] = options['lowerKeyCase'];
+                if (options['replaceKeySpace']){
+                    _options['replaceKeySpace'] = options['replaceKeySpace'];
+                }
+                if (options['trim']) {
+                    _options['trim'] = options['trim'];
+                }
+                if (options['lowerKeyCase']) {
+                    _options['lowerKeyCase'] = options['lowerKeyCase'];
+                }
             }
             var result = {};
             //parse jsonData.re.data
@@ -22,6 +30,9 @@ app.factory('ParseData', function() {
                     var item = jsonData.re.data[i];
                     if (_options['replaceKeySpace']) {
                         item["_name"] = item["_name"].replace(/[\s"]/g, '');
+                    }
+                    if (_options['trim']) {
+                        item["_name"] = item["_name"].replace(/^ +| +$/g, '');
                     }
                     if (_options['lowerKeyCase']) {
                         item["_name"] = item["_name"].toLowerCase();
@@ -54,6 +65,9 @@ app.factory('ParseData', function() {
                             for (var x = 0; x <= tableKeyItem.length - 1; x++) {
                                 if (_options['replaceKeySpace']) {
                                     tableKeyItem[x] = tableKeyItem[x].replace(/[\s"]/g, '');
+                                }
+                                if (_options['trim']) {
+                                    tableKeyItem[x] = tableKeyItem[x].replace(/^ +| +$/g, '');
                                 }
                                 if (_options['lowerKeyCase']) {
                                     tableKeyItem[x] = tableKeyItem[x].toLowerCase();
