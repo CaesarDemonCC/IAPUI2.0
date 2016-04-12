@@ -38,7 +38,7 @@ var app = angular.module('IAPMobileUI', ['ngRoute', 'ngCookies'])
             'Maintenance': {
                 'data': {
                     'About': {
-                        'path': '#/about'
+                        'path': '/about'
                     },
                     'Reboot': {
                         'path': '/reboot'
