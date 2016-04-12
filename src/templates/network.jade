@@ -11,7 +11,6 @@ div.panel
 
 			p.medium-4.columns Key management:
 			select.medium-8.columns.input(
-				type='text'
 				ng-model='opmode'
 				ng-change='opmodeChange()'
 				ng-init="opmode='wpa2-psk-aes'"
@@ -25,6 +24,14 @@ div.panel
 				ng-model='passphrase'
 				ng-show="opmode=='wpa2-psk-aes'"
 			)
+
+			p.medium-4.columns Band:
+			select.medium-8.columns.input(
+				ng-model= 'band'
+			)
+				option(value='all') All
+				option(value='2.4') 2.4 GHz
+				option(value='5.0') 5 GHz
 
 			button.medium-12.medium.columns.button(
 				type='submit'

@@ -2,19 +2,21 @@ app.controller('networkController', function ($scope, $location, $routeParams, A
     if($routeParams) {
         switch ($routeParams.action) {
             case 'new' : 
+                $scope.title = 'NEW WLAN';
                 $scope.profileName='';
                 $scope.essid='';
                 $scope.opmode='wpa2-psk-aes';
                 $scope.passphrase='';
-                $scope.title = 'NEW WLAN';
+                $scope.band='all';
             break;
             case 'edit' : 
                 showNetworkSSID($routeParams.profileName, function (editNetwork) {
+                    $scope.title = 'Edit ' + editNetwork.essid;
                     $scope.profileName=$routeParams.profileName;
                     $scope.essid=editNetwork.essid;
                     $scope.opmode=editNetwork.mode;
                     $scope.passphrase=editNetwork.passphrase;
-                    $scope.title = 'Edit ' + editNetwork.essid;
+                    $scope.band=editNetwork.band;
                 });
             break;
         }
@@ -52,6 +54,7 @@ app.controller('networkController', function ($scope, $location, $routeParams, A
                 cmd += ' wpa-passphrase ' + $scope.passphrase + '\n';
             }
             cmd += ' opmode  ' + $scope.opmode + '\n';
+            cmd += ' rf-band  ' + $scope.band + '\n';
             cmd += 'exit\n' + "'";
             var url = "opcode=config&ip=127.0.0.1&cmd='" + cmd;
             Ajax.doRequest(url, function (data) {
