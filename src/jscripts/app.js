@@ -7,7 +7,7 @@ var app = angular.module('IAPMobileUI', ['ngRoute', 'ngCookies'])
             return;
         }
         $rootScope.mobieMenu.expand = false;
-        $rootScope.mobieMenu.currentPath = '#' + $location.path();
+        $rootScope.mobieMenu.currentPath = $location.path();
     });
 
     $rootScope.mobieMenu = {
@@ -15,30 +15,30 @@ var app = angular.module('IAPMobileUI', ['ngRoute', 'ngCookies'])
         'currentPath' : $location.path(),
         'data': {
             'Monitoring': {
-                'path': '#/',
+                'path': '/',
                 // 'data': {
                 //     'Overview': {
-                //         'path': '#/home'
+                //         'path': '/home'
                 //     },
                 //     'Networks': {
-                //         'path': '#/network'
+                //         'path': '/network'
                 //     }
                 // }
             },
             'Configuration': {
                 'data': {
                     'Wireless': {
-                        'path': '#/network'
+                        'path': '/network'
                     },
                     'Uplink': {
-                        'path': '#/uplink'
+                        'path': '/uplink'
                     }
                 }
             },
             'Maintenance': {
                 'data': {
                     'Reboot': {
-                        'path': '#/reboot'
+                        'path': '/reboot'
                     }
                 }
             }
@@ -64,7 +64,7 @@ app.controller('mainController', function ($rootScope, $location, $scope) {
 
     $scope.isCurrentFolder = function (scope) {
         var data = scope.menu.data,
-            currentPath = '#' + $location.path();
+            currentPath = $location.path();
         var result = false;
         if (data) {
             // scope.menu.expand = false;
