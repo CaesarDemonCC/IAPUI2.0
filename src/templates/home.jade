@@ -28,11 +28,11 @@ div.panel_wrapper
                 tbody
                     tr(ng-repeat="network in summaryData.networks")
                         td.name
-                            a(href="#/network/edit/{{network.c[0]}}") {{network.c[1]}}
-                        td.clients {{network.c[2]}}
+                            a(href="#/network/edit/{{network.profilename}}") {{network.essid}}
+                        td.clients {{network.clients}}
                         td.actions
-                            a.icosolo.icon_edit(href="#/network/edit/{{network.c[0]}}")
-                            a.icosolo.icon_delete.delete(ng-click='deleteNetwork(network.c[0])')
+                            a.icosolo.icon_edit(href="#/network/edit/{{network.profilename}}")
+                            a.icosolo.icon_delete.delete(ng-click='deleteNetwork(network.profilename)')
 
     div.panel.table.rounded.white.no_pad
         div.title_heading {{client_table_head}}
@@ -44,6 +44,6 @@ div.panel_wrapper
                         th.actions
                 tbody
                     tr(ng-repeat="client in summaryData.clients")
-                        td.name {{client.c[0]}}
+                        td.name {{client.name}}
                         td.actions
                             a.icosolo.icon_delete.delete

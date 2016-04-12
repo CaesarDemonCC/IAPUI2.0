@@ -8,49 +8,26 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
             'clients': []
         };
         if (data) {
-            if (data.t) {
-                for (var i = 0; i < data.t.length; i++) {
-                    var section = data.t[i];
-                    if (section._tn.toLowerCase().indexOf('network') !== -1) {
-                        if (section.r) {
-                            if (Object.prototype.toString.call(section.r) === '[object Object]') {
-                                summaryData['networks'].push(angular.extend({}, section.r));
-                            } else {
-                                for (var j = 0; j < section.r.length; j++) {
-                                    summaryData['networks'].push(angular.extend({}, section.r[j]));
-                                }
-                            }
-                        }
-                    }
-
-                    if (section._tn.toLowerCase().indexOf('ap') !== -1) {
-                        if (section.r) {
-                            if (Object.prototype.toString.call(section.r) === '[object Object]') {
-                                summaryData['aps'].push(angular.extend({}, section.r));
-                            } else {
-                                for (var j = 0; j < section.r.length; j++) {
-                                    summaryData['aps'].push(angular.extend({}, section.r[j]));
-                                }
-                            }
-                        }
-                    }
-
-                    if (section._tn.toLowerCase().indexOf('client') !== -1) {
-                        if (section.r) {
-                            if (Object.prototype.toString.call(section.r) === '[object Object]') {
-                                summaryData['clients'].push(angular.extend({}, section.r));
-                            } else {
-                                for (var j = 0; j < section.r.length; j++) {
-                                    summaryData['clients'].push(angular.extend({}, section.r[j]));
-                                }
-                            }
-                        }
-                    }
-                } 
+            for (var i in data) {
+                if (i.toLowerCase().match(/^\d network/)) {
+                    summaryData.networks = data[i];
+                }
+                if (i.toLowerCase().match(/^\d access point/)) {
+                    summaryData.aps = data[i];
+                }
+                if (i.toLowerCase().match(/^\d client/)) {
+                    summaryData.clients = data[i];
+                }
             }
         }
 
-        summaryData['clients'].push({'c':['0a:1b:23:5f:11:87', 'lshu-iphone', '192.168.0.101', 'lshu-test', 'AP-1']})
+        summaryData['clients'].push({
+            'name': 'lshu-iphone',
+            'mac': '0a:1b:23:5f:11:87',
+            'ipaddress': '192.168.0.101',
+            'accesspoint': 'AP-1',
+            'essid': 'lshu-test'
+        })
         return summaryData;
     }
 
@@ -61,16 +38,14 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
                 'in': 0
             }
         };
-        if (data && data.t) {
-            for (var i = 0; i < data.t.length; i++) {
-                if (data.t[i]._tn == 'Swarm Global Stats') {
-                    var rows = data.t[i].r;
-                    statsData.througput.out = rows.c[4];
-                    statsData.througput.in = rows.c[5];
+        if (data) {
+            if (data['Swarm Global Stats']) {
+                statsData.througput.out = data['Swarm Global Stats'][0]['throughput[out](bps)'];
+                statsData.througput.in = data['Swarm Global Stats'][0]['throughput[in](bps)'];
 
-                    statsData.througput.out = Math.random() * 1000;
-                    statsData.througput.in = Math.random() * 1000;
-                }
+                //Test data
+                statsData.througput.out = Math.random() * 1000;
+                statsData.througput.in = Math.random() * 1000;
             }
         }
 
@@ -85,7 +60,7 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
             var networkCount = summaryData['networks'].length,
                 clientCount = summaryData['clients'].length;
             // If the cluster is factory default status, popup WiFi Config wizard
-            if (networkCount === 1 && summaryData['networks'][0]['c'][0] === 'instant') {
+            if (networkCount === 1 && summaryData['networks'][0].profilename === 'instant') {
                 $location.path('/network/new/');
             } else {
                 $scope.summaryData = summaryData;
@@ -108,7 +83,7 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
         $scope.showStatsGlobal();
     }
 
-    var refreshInterval = setInterval($scope.refresh, 3000);
+    var refreshInterval = setInterval($scope.refresh, 10000);
     $scope.refresh();
 
     $scope.deleteNetwork = function (profileName) {
