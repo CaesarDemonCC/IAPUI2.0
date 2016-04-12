@@ -1,0 +1,8 @@
+div.panel
+	h2.title_heading.form_heading About
+	div.about
+		div(ng-repeat='item in aboutData') 
+			label.medium-4.columns {{item.label}}
+			span(ng-if='item.label | ').medium-8.columns <a href="' + item.text + '" > {{item.text}} </a>  
+			span(ng-if='!item.label.toLowerCase().match(/^website.*$/)').medium-8.columns {{item.text}} 
+

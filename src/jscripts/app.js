@@ -37,6 +37,9 @@ var app = angular.module('IAPMobileUI', ['ngRoute', 'ngCookies'])
             },
             'Maintenance': {
                 'data': {
+                    'About': {
+                        'path': '#/about'
+                    },
                     'Reboot': {
                         'path': '#/reboot'
                     }
@@ -107,6 +110,14 @@ app.config(function($routeProvider){
         .when('/logout', {
             templateUrl: 'templates/login.html',
             controller: 'logoutController'            
+        })
+        .when('/reboot', {
+            templateUrl: 'templates/reboot.html',
+            controller: 'rebootController'            
+        })
+        .when('/about', {
+            templateUrl: 'templates/about.html',
+            controller: 'aboutController'            
         })
         .otherwise({ 
             redirectTo: '/'
