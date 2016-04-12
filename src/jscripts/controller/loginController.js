@@ -10,13 +10,13 @@ app.controller('loginController', function($scope, $location, Ajax, Auth){
         var cmd = 'opcode=login&user=' + $scope.username + '&passwd=' + $scope.passwd;
         Ajax.doRequest(cmd, function (data) {
             if (data) {
-                if (data && data.data && data.data[0] && data.data[0].Text) {
-                    if (data.data[0].Text.indexOf(';') != -1) {
-                        data.data[0].Text = data.data[0].Text.replace(/\;.*$/g, '');
+                if (data.sid) {
+                    if (data.sid.indexOf(';') != -1) {
+                        data.sid = data.sid.replace(/\;.*$/g, '');
                     }
                     Auth.setUser({
-                        _sid: data.data[0].Text,
-                        _role: data.data[1].Text.toLowerCase()
+                        _sid: data.sid,
+                        _role: data.type.toLowerCase()
                     })
                     $location.path('/home');
                 } else {

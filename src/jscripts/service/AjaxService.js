@@ -31,9 +31,8 @@ app.factory('Ajax', function ($http, $location, Auth, App, ParseData) {
                         }
                         ParseData.parse(jsonData, null, function(data){
                             console.log(data);
+                            callback(data);
                         });
-
-                        callback(jsonData.re);
                     }
                 })
                 .error(function (err) {
