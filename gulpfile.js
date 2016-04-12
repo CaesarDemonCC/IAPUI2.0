@@ -55,13 +55,16 @@ gulp.task('styles', function() {
 
 gulp.task('html', function () {
     return gulp.src('src/index.jade')
-            .pipe(jade({pretty: true}))
+            .pipe(jade({
+                doctype: 'html',
+                pretty: true
+            }))
             .pipe(gulp.dest('dist'))
 })
 
 gulp.task('templates', function () {
     return gulp.src('./src/templates/*.jade')
-            .pipe(jade({pretty: true}))
+            .pipe(jade({doctype:'html',pretty: true}))
             .pipe(gulp.dest('dist/templates'))
 })
 
