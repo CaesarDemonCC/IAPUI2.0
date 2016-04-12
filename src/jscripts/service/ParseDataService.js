@@ -24,13 +24,13 @@ app.factory('ParseData', function() {
                 }
                 for (var i = 0; i < dataLength; i++) {
                     var item = jsonData.re.data[i];
-                    if (_options['replaceKeySpace']) {
+                    if (_options['removeKeySpace']) {
                         item["_name"] = item["_name"].replace(/[\s"]/g, '');
                     }
                     if (_options['trim']) {
                         item["_name"] = item["_name"].replace(/^ +| +$/g, '');
                     }
-                    if (_options['lowerKeyCase']) {
+                    if (_options['lowerCase']) {
                         item["_name"] = item["_name"].toLowerCase();
                     }
 
@@ -59,13 +59,13 @@ app.factory('ParseData', function() {
                             var tableKeyItem = item.th['h'];
                             var tableValueItem = item.r[j] || item.r;
                             for (var x = 0; x <= tableKeyItem.length - 1; x++) {
-                                if (_options['replaceKeySpace']) {
+                                if (_options['removeKeySpace']) {
                                     tableKeyItem[x] = tableKeyItem[x].replace(/[\s"]/g, '');
                                 }
                                 if (_options['trim']) {
                                     tableKeyItem[x] = tableKeyItem[x].replace(/^ +| +$/g, '');
                                 }
-                                if (_options['lowerKeyCase']) {
+                                if (_options['lowerCase']) {
                                     tableKeyItem[x] = tableKeyItem[x].toLowerCase();
                                 }
                                 tTempData[tableKeyItem[x]]=tableValueItem['c'][x];
@@ -78,13 +78,13 @@ app.factory('ParseData', function() {
                         var debugItemKeys = {};
                         for (var x = 0; x < item.th['h'].length; x++) {
                             var debugItem = item.th['h'][x];
-                            if (_options['replaceKeySpace']) {
+                            if (_options['removeKeySpace']) {
                                 debugItem = debugItem.replace(/[\s"]/g, '');
                             }
                             if (_options['trim']) {
                                 debugItem = debugItem.replace(/^ +| +$/g, '');
                             }
-                            if (_options['lowerKeyCase']) {
+                            if (_options['lowerCase']) {
                                 debugItem = debugItem.toLowerCase();
                             }
                             debugItemKeys[debugItem] = undefined;
