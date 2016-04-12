@@ -76,8 +76,8 @@ app.factory('ParseData', function() {
                     }
                     else if (_options['debug']) {
                         var debugItemKeys = {};
-                        for (var i = 0; i < item.th['h'].length; i++) {
-                            var debugItem = item.th['h'][i];
+                        for (var x = 0; x < item.th['h'].length; x++) {
+                            var debugItem = item.th['h'][x];
                             if (_options['replaceKeySpace']) {
                                 debugItem = debugItem.replace(/[\s"]/g, '');
                             }
