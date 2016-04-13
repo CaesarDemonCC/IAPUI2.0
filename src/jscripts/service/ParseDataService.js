@@ -1,13 +1,12 @@
 app.factory('ParseData', function() {
-    var _options = {
-        'debug' : true,          ///When table data is null, output columns to _debug field 
-        'removeKeySpace' : true, ///Remove all space
-        'trim' : true,           ///Remove start or end space
-        'lowerCase' : true       ///Is parse to lower case
-    };
-	
     return {
         parse : function (jsonData, callback, options) {
+            var _options = {
+                'debug' : true,          ///When table data is empty, output columns to _debug field 
+                'removeKeySpace' : true, ///Remove all space
+                'trim' : true,           ///Remove start or end space
+                'lowerCase' : true       ///Is parse to lower case
+            };
             if (options) {
                 angular.extend(_options, options);
             }
@@ -23,7 +22,7 @@ app.factory('ParseData', function() {
                     dataLength = jsonData.re.data.length;
                 }
                 for (var i = 0; i < dataLength; i++) {
-                    var item = jsonData.re.data[i];
+                    var item = jsonData.re.data[i] || jsonData.re.data;
                     if (_options['removeKeySpace']) {
                         item["_name"] = item["_name"].replace(/[\s"]/g, '');
                     }
@@ -46,7 +45,7 @@ app.factory('ParseData', function() {
                     dataLength = jsonData.re.t.length;
                 }
                 for (var i = 0; i < dataLength; i++) {
-                    var item = jsonData.re.t[i];
+                    var item = jsonData.re.t[i] || jsonData.re.t;
                     if (item.r) {
                         var itemArr = [];
                         var itemDataLength = 1;
