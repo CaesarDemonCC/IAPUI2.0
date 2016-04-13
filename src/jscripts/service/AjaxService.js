@@ -34,6 +34,9 @@ app.factory('Ajax', function ($http, $location, Auth, App, ParseData) {
                             callback(data);
                         }, opt_parseOptions);
                     }
+                    else if (jsonData.re == "") {
+                        callback();
+                    }
                 })
                 .error(function (err) {
                     console.log('Request failed...');

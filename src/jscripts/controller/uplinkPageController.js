@@ -1,5 +1,4 @@
-app.controller('uplinkPageController', function ($scope, Ajax) {
-    var cmd = 'opcode=show&cmd=show pppoe config';
+app.controller('uplinkPageController', function ($scope, $window, Ajax, Utils) {
 
     var uplinkSSIDs = ['ethersphere-wap2', 'ethersphere-wap2-instant', 'bj-office-test', 'hpn-byod'].sort();
 
@@ -8,42 +7,66 @@ app.controller('uplinkPageController', function ($scope, Ajax) {
         'uplinkSSIDs' : uplinkSSIDs
     }
     $scope.data = uplinkData;
-    Ajax.doRequest(cmd, function (data) {
-    })
+    
 
     $scope.saveSettings = function () {
         var cmd = '';
 
         switch ($scope.data.uplinkType) {
             case 'pppoe': {
-                cmd += 'pppoe-uplink-profile\n' 
-                       + 'pppoe-username ' + $scope.data.pppoeUsername + '\n'
-                       + 'pppoe-passwd ' + $scope.data.pppoePasswd + '\n'
-                       + 'pppoe-svcname ' + $scope.data.pppoeService + '\n'
-
-                       + 'exit\n';
+                cmd += 'pppoe-uplink-profile \n' 
+                cmd += 'pppoe-username ' + $scope.data.pppoe.user + '\n'
+                if ($scope.data.pppoe.password != $scope.data.pppoe.bakpassword){
+                    cmd += 'pppoe-passwd ' + $scope.data.pppoe.password + '\n'
+                }
+                cmd += 'pppoe-svcname ' + $scope.data.pppoe.servicename + '\n'
+                cmd += 'exit\n';
+                break;
             }
-
             case 'dhcp': {
-
+                break;
             }
-
             case 'static': {
 
+                break;
             }
-
             case 'wifiuplink': {
 
+                break;
             }
-
             default: {
                 break;
             }
         }
 
-        var url = 'opcode=config&cmd=' + cmd;
-        Ajax.doRequest(url, function () {
+        var url = "opcode=config&ip=127.0.0.1&cmd='" + cmd + "'";
+        Ajax.doRequest(url, function (data) {
+            if (data == undefined) {
+                $scope.data.status = true;
+                $scope.refresh();
+            }
+        }, true)
+    }
 
-        })
+    $scope.refresh = function () {
+        var cmd = 'opcode=show&cmd=show pppoe config';
+        
+        Ajax.doRequest(cmd, function (data) {
+            for (var item in data) {
+                if (item == 'PPPoE Configuration') {
+                    $scope.data.pppoe = Utils.parseTabelToObj(data[item],'type','value');
+                    $scope.data.pppoe.bakpassword = $scope.data.pppoe.password;
+                }
+            }
+        });
+        setTimeout(function(){
+            $scope.data.status = false;
+            $scope.$apply();
+        },2000);
+    }
+    $scope.refresh();
+
+    $scope.cancelHandler = function () {
+        $window.history.back();
     }
 })
