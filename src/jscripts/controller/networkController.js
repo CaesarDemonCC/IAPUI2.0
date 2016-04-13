@@ -25,19 +25,19 @@ app.controller('networkController', function ($scope, $location, $routeParams, A
     function showNetworkSSID (profileName, callback) {
         var cmd = 'opcode=show&cmd=show network ' + profileName;
         Ajax.doRequest(cmd, function (data) {
-            callback(parseNetworkSSID(data));
+            callback(data);
         });
     };
 
-    function parseNetworkSSID (data) {
-        var result = {};
-        for (var i = data.data.length - 1; i >= 0; i--) {
-            var label = data.data[i]['_name'];
-            label = label.replace(/[\s"]/g, '').toLowerCase();
-            result[label] = data.data[i]['Text'];
-        }
-        return result;
-    };
+    // function parseNetworkSSID (data) {
+    //     var result = {};
+    //     for (var i = data.data.length - 1; i >= 0; i--) {
+    //         var label = data.data[i]['_name'];
+    //         label = label.replace(/[\s"]/g, '').toLowerCase();
+    //         result[label] = data.data[i]['Text'];
+    //     }
+    //     return result;
+    // };
 
     $scope.saveNetwork = function () {
         if ($scope.essid) {
