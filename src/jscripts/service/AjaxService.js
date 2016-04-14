@@ -31,6 +31,7 @@ app.factory('Ajax', function ($http, $location, Auth, App, ParseData) {
                         }
                         ParseData.parse(jsonData, function(data){
                             console.log(data);
+                            delete data._debug;
                             callback(data);
                         }, opt_parseOptions);
                     }
