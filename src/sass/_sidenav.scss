@@ -126,7 +126,7 @@
         display: block;
         padding: 0.8125rem 0;
         font-size: 0.875rem;
-        @include box-shadow(-2px 0 0 $colorDividerLt inset, -1px 0 0 $colorDivider inset);
+        //@include box-shadow(-2px 0 0 $colorDividerLt inset, -1px 0 0 $colorDivider inset);
         @include breakpoint(mama-bear) {
             padding: 1.125rem 0;
             font-size: 1rem;
@@ -175,4 +175,13 @@
 .mobile_menu_toggle .icon-fallback img {
     top: 50%;
     margin-top: -1rem;
+}
+
+@media only screen and (min-width: 650px) {
+    .sidenav {
+        max-height: 999px;
+    }
+    .mobile_menu_toggle {
+        display: none;
+    }
 }
