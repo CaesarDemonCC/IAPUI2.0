@@ -126,9 +126,13 @@
 
 .about {
     div {
-        height: 1.25rem;
-        label {
+        height: 2.5rem;
+
+        span:nth-child(1) {
             font-weight: bold;
+        }
+        span {
+            padding-left:0;
         }
     }
 }

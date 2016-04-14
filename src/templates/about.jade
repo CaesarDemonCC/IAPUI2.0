@@ -2,7 +2,7 @@ div.panel
 	h2.title_heading.form_heading About
 	div.about
 		div(ng-repeat='(label, text) in aboutData') 
-			label.medium-4.columns {{label}} :
+			span.medium-4.columns {{label}} :
 			span(ng-if='"Website"==label').medium-8.columns <a target="_blank" href="{{text}}"> {{text}} </a>  
 			span(ng-if='"Website"!=label').medium-8.columns {{text}} 
 
