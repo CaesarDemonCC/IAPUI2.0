@@ -58,6 +58,7 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
             var summaryData = parseSummaryData(data);
 
             var networkCount = summaryData['networks'].length,
+                apCount = summaryData['aps'].length,
                 clientCount = summaryData['clients'].length;
             // If the cluster is factory default status, popup WiFi Config wizard
             if (networkCount === 1 && summaryData['networks'][0].profilename === 'instant') {
@@ -66,6 +67,7 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
                 $scope.summaryData = summaryData;
             }
             $scope['network_table_head'] = networkCount + ' Network' + (networkCount > 1 ? 's' : '');
+            $scope['ap_table_head'] = apCount + ' Access Point' + (apCount > 1 ? 's' : '');
             $scope['client_table_head'] = clientCount + ' Client' + (clientCount > 1 ? 's' : '');
         })
     }
