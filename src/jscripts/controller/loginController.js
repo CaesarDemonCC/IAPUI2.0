@@ -1,5 +1,4 @@
-app.controller('loginController', function($scope, $location, Ajax, Auth){   
-
+app.controller('loginController', function($scope, $location, Ajax, Auth,){   
     $scope.passwdKeyPress = function (e) {
         if (e.keyCode === 13) {
             $scope.doLogin();
@@ -10,19 +9,13 @@ app.controller('loginController', function($scope, $location, Ajax, Auth){
         var cmd = 'opcode=login&user=' + $scope.username + '&passwd=' + $scope.passwd;
         Ajax.doRequest(cmd, function (data) {
             if (data) {
-                var sid = data.sid;
-                if (sid) {
-                    if (sid.indexOf(';') != -1) {
-                        sid = sid.replace(/\;.*$/g, '');
-                    }
-                    var userType = data.type.toLowerCase();
-                    if (userType != 'admin') {
-                        alert('Only avaliable for administrator!');
-                        return;
+                if (data.sid) {
+                    if (data.sid.indexOf(';') != -1) {
+                        data.sid = data.sid.replace(/\;.*$/g, '');
                     }
                     Auth.setUser({
-                        _sid: sid,
-                        _role: userType
+                        _sid: data.sid,
+                        _role: data.type.toLowerCase()
                     })
                     $location.path('/home');
                 } else {

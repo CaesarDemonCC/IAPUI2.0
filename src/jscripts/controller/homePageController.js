@@ -1,5 +1,4 @@
 app.controller('homePageController', function ($scope, Ajax, $http, $location) {
-    
 
     function parseSummaryData (data) {
         var summaryData = {
@@ -9,9 +8,9 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
         };
         if (data) {
             for (var i in data) {
-                if (i.toLowerCase().match(/^\d network/)) {
-                    summaryData.networks = data[i];
-                }
+                //if (i.toLowerCase().match(/^\d network/)) {
+                //    summaryData.networks = data[i];
+                //}
                 if (i.toLowerCase().match(/^\d access point/)) {
                     summaryData.aps = data[i];
                 }
@@ -57,16 +56,16 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
         Ajax.doRequest(cmd, function (data) {
             var summaryData = parseSummaryData(data);
 
-            var networkCount = summaryData['networks'].length,
-                apCount = summaryData['aps'].length,
+            //var networkCount = summaryData['networks'].length,
+            var    apCount = summaryData['aps'].length,
                 clientCount = summaryData['clients'].length;
             // If the cluster is factory default status, popup WiFi Config wizard
-            if (networkCount === 1 && summaryData['networks'][0].profilename === 'instant') {
-                $location.path('/network/new/');
-            } else {
+            //if (networkCount === 1 && summaryData['networks'][0].profilename === 'instant') {
+            //    $location.path('/network/new/');
+            //} else {
                 $scope.summaryData = summaryData;
-            }
-            $scope['network_table_head'] = networkCount + ' Network' + (networkCount > 1 ? 's' : '');
+            //}
+            //$scope['network_table_head'] = networkCount + ' Network' + (networkCount > 1 ? 's' : '');
             $scope['ap_table_head'] = apCount + ' Access Point' + (apCount > 1 ? 's' : '');
             $scope['client_table_head'] = clientCount + ' Client' + (clientCount > 1 ? 's' : '');
         })

@@ -28,7 +28,7 @@ var app = angular.module('IAPMobileUI', ['ngRoute', 'ngCookies'])
             'Configuration': {
                 'data': {
                     'Wireless': {
-                        'path': '/network'
+                        'path': '/wireless'
                     },
                     'Uplink': {
                         'path': '/uplink'
@@ -111,6 +111,10 @@ app.config(function($routeProvider){
         .when('/uplink', {
             templateUrl: 'templates/uplink.html',
             controller: 'uplinkPageController'
+        })
+        .when('/wireless', {
+            templateUrl: 'templates/wireless.html'
+            //controller: 'uplinkPageController'
         })
         .when('/network/:action/:profileName', {
             templateUrl: 'templates/network.html',
