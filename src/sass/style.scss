@@ -126,7 +126,8 @@
 
 .about {
     div {
-        height: 2.5rem;
+        margin-bottom: 0.8rem;
+        overflow: hidden;
 
         span:nth-child(1) {
             font-weight: bold;
