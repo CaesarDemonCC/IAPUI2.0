@@ -1,4 +1,4 @@
-app.controller('loginController', function($scope, $location, Ajax, Auth,){   
+app.controller('loginController', function($scope, $location, Ajax, Auth){   
     $scope.passwdKeyPress = function (e) {
         if (e.keyCode === 13) {
             $scope.doLogin();

@@ -3,7 +3,7 @@ app.directive('wirelessNetworksDirective', function() {
 		scope: {
 			refresh : '@'
 		},
-		templateUrl : 'wirelessNetworksDirective.html',
+		templateUrl : 'templates/wirelessNetworksDirective.html',
 		controller : function ($scope, Ajax, $http, $location) {
 
 			function parseSummaryData (data) {
