@@ -25,6 +25,7 @@
     "gulp-imagemin": "~2.4.0",
     "gulp-jade": "~1.1.0",
     "casperjs": "~1.1.0-beta5",
-    "gulp-jsmin": "~0.1.5"
+    "gulp-jsmin": "~0.1.5",
+    "gulp-modify": "~0.1.1"
   }
 }

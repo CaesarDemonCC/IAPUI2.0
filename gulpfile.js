@@ -5,7 +5,10 @@ var gulp  = require('gulp'),
     imagemin = require('gulp-imagemin'),
     jade = require('gulp-jade'),
     jsmin = require('gulp-jsmin'),
+    modify = require('gulp-modify'),
     concat = require('gulp-concat');
+
+var rf=require("fs");  
 
 gulp.task('clean', function () {
     del(['dist/*.html', 'dist/images/*', 'dist/styles/*', 'dist/jscripts/*.js', 'dist/jscripts/third_party/*.js', 'dist/fonts/*', 'dist/templates/*']);
@@ -77,6 +80,36 @@ gulp.task('watch', function () {
     gulp.watch('src/templates/*', ['templates']);
     gulp.watch('src/index.jade', ['html']);
 })
+
+gulp.task('templatesCache', ['concatJade'], function () {
+    gulp.src('src/index.jade')
+        .pipe(jade({doctype: 'html', pretty: true}))
+        .pipe(modify({
+            fileModifier: function (file, contents) {
+                var cache = rf.readFileSync("dist/templates/templates.cache",'utf-8');
+                contents = contents.replace('</body>', cache + '</body>'); 
+                return contents;
+            }
+        }))
+        .pipe(gulp.dest('dist'))
+})
+
+gulp.task('concatJade', function () {
+    gulp.src('src/templates/**/*.jade')
+        .pipe(jade({pretty: true}))
+        .pipe(modify({
+            fileModifier: function (file, contents) {
+                var path = file.path;
+                var filename = path.slice(path.indexOf('templates/'));
+                contents = '<script type="text/ng-template" id="' + filename + '">\n' 
+                        + contents + '\n'
+                        + '</script>\n';
+                return contents;
+            }
+        }))
+        .pipe(concat('templates.cache'))
+        .pipe(gulp.dest('dist/templates'));
+});
 
 gulp.task('default', ['clean'], function () {
     gulp.start(['html', 'templates', 'commonStyles', 'styles', 'fonts', 'images', 'jscripts', 'jsLibs', 'watch']);
