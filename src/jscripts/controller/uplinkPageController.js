@@ -59,10 +59,6 @@ app.controller('uplinkPageController', function ($scope, $window, Ajax, Utils) {
                 }
             }
         });
-        // setTimeout(function(){
-        //     $scope.data.status = false;
-        //     $scope.$apply();
-        // },2000);
     }
     $scope.refresh();
 

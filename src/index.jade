@@ -17,8 +17,8 @@ html(lang="en")
           div.icon_help
           div.icon_search           
     div
-      div.global_alert.confirmation(ng-class="{'visible':saveDataSuccess}")
-        p Save success!
+      div.global_alert.confirmation(ng-class="{'visible':globalAlertShow}")
+        p {{globalMessage}}
       div(ng-show="isLoggedIn==true").medium-3.columns
         div.mobile_menu_toggle
           a(ng-class="{'icon_arrow_up':mobieMenu.expand==true, 'icon_arrow_down':mobieMenu.expand!=true}", ng-click="toggleMobileMenu()") Menu
