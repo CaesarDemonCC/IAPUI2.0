@@ -14,26 +14,7 @@ div.panel_wrapper
                     label.chartUnits bps
                     label.chartInlineLabel Out
 
-    div.panel.table.rounded.white.no_pad.small-12
-        div.title_heading {{network_table_head}}
-            div.dropdown.alt
-                div
-                    a.icosolo.icon_add(href='#/network/new/')
-        div.table_wrapper
-            table.data.responsive
-                thead.sortable
-                    tr
-                        th.sort.down Name
-                        th Clients
-                        th.actions
-                tbody
-                    tr(ng-repeat='network in summaryData.networks')
-                        td.name
-                            a(href='#/network/edit/{{network.profilename}}') {{network.essid}}
-                        td.clients {{network.clients}}
-                        td.actions
-                            a.icosolo.icon_edit(href='#/network/edit/{{network.profilename}}')
-                            a.icosolo.icon_delete.delete(ng-click='deleteNetwork(network.profilename)')
+    div(wireless-networks-directive refresh='true')
 
     div.panel.table.rounded.white.no_pad
         div.title_heading {{ap_table_head}}
