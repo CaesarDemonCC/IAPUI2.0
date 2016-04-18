@@ -42,8 +42,8 @@ app.controller('uplinkPageController', function ($scope, $window, Ajax, Utils) {
         var url = "opcode=config&ip=127.0.0.1&cmd='" + cmd + "'";
         Ajax.doRequest(url, function (data) {
             if (data == undefined) {
-                $scope.data.status = true;
                 $scope.refresh();
+                $scope.$emit('saveDataSuccessful');
             }
         }, true)
     }
@@ -59,10 +59,10 @@ app.controller('uplinkPageController', function ($scope, $window, Ajax, Utils) {
                 }
             }
         });
-        setTimeout(function(){
-            $scope.data.status = false;
-            $scope.$apply();
-        },2000);
+        // setTimeout(function(){
+        //     $scope.data.status = false;
+        //     $scope.$apply();
+        // },2000);
     }
     $scope.refresh();
 

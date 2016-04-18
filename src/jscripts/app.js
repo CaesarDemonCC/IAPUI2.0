@@ -84,6 +84,15 @@ app.controller('mainController', function ($rootScope, $location, $scope) {
 
     }
 
+    $rootScope.$on('saveDataSuccessful', function () {
+        console.log('saveDataSuccessful');
+        $rootScope.saveDataSuccess = true;
+        setTimeout(function () {
+            $rootScope.saveDataSuccess = false;
+            $rootScope.$apply();
+        }, 3000)
+    })    
+
     // $rootScope.subMenuOnClick = function (scope) {
     //     menuOnClick(scope.subMenu);
     // }
