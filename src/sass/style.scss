@@ -93,6 +93,16 @@
     p {
         padding-left: 0;
     }
+
+    > div {
+        overflow: hidden;
+    }
+
+    pre.config {
+        overflow: scroll;
+        max-height: 20rem;
+        margin: 0.5rem 0.25rem;
+    }
 }
 
 .chartLabel {
