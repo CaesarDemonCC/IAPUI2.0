@@ -23,20 +23,25 @@ app.factory('Ajax', function ($http, $location, Auth, App, ParseData) {
             $http(config)
                 .success(function (resp) {
                     var jsonData = x2js.xml_str2json(resp);
-                    if (jsonData && jsonData.re) {
-                        if (jsonData.re.error == 'Invalid Session ID') {
-                            Auth.logout();
-                            $location.path('/login');
-                            return;
-                        }
-                        ParseData.parse(jsonData, function(data){
-                            console.log(data);
-                            delete data._debug;
-                            callback(data);
-                        }, opt_parseOptions);
-                    }
-                    else if (jsonData.re == "") {
-                        callback();
+                    if (jsonData) {
+                        if (jsonData.re) {
+                            if (jsonData.re.error == 'Invalid Session ID') {
+                                Auth.logout();
+                                $location.path('/login');
+                                return;
+                            }
+                            ParseData.parse(jsonData, function(data){
+                                console.log(data);
+                                delete data._debug;
+                                callback(data);
+                            }, opt_parseOptions);
+                        } else if (jsonData.re == "") {
+                            callback();
+                        } 
+                    } else {
+                    // If response cannot be parsed to json, consider it is plain text
+                    // TODO: We should have a more graceful way to do text request!
+                        callback(resp);
                     }
                 })
                 .error(function (err) {

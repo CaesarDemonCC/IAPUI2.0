@@ -40,6 +40,9 @@ var app = angular.module('IAPMobileUI', ['ngRoute', 'ngCookies'])
                     'About': {
                         'path': '/about'
                     },
+                    'Configuration': {
+                        'path': '/configuration'
+                    },
                     'Reboot': {
                         'path': '/reboot'
                     }
@@ -131,6 +134,10 @@ app.config(function($routeProvider){
         .when('/about', {
             templateUrl: 'templates/about.html',
             controller: 'aboutController'            
+        })
+        .when('/configuration', {
+            templateUrl: 'templates/configuration.html',
+            controller: 'configurationController'            
         })
         .otherwise({ 
             redirectTo: '/'
