@@ -1,0 +1,8 @@
+div.overlay.light(ng-show="display==true" ng-class="{'open': display==true}") 
+    a.icosolo.icon_close(ng-click='cancelHandler()') 
+    div.message.confirmation
+        span {{message}}
+        p
+        div.controls 
+            a.small.button(ng-click='cancelHandler()') Cancel
+            a.small.button(ng-click='okHandler()') OK
