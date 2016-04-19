@@ -77,12 +77,15 @@ gulp.task('watch', function () {
     gulp.watch('src/sass/style.scss', ['styles']);
     //gulp.watch(['src/sass/*.scss', '!src/sass/style.scss'], ['commonStyles']);
     gulp.watch(['./src/jscripts/**/*.js', '!./src/jscripts/third_party/*.js'], ['jscripts']);
-    gulp.watch('src/templates/*', ['templates']);
+    gulp.watch('src/templates/*', ['templatesCache']);
     gulp.watch('src/index.jade', ['html']);
 })
 
 gulp.task('templatesCache', ['concatJade'], function () {
-    gulp.src('src/index.jade')
+    //TODO: Remove the setTimeout delay
+    // Wait 1 second before compile templates cache
+    setTimeout(function () {
+        gulp.src('src/index.jade')
         .pipe(jade({doctype: 'html', pretty: true}))
         .pipe(modify({
             fileModifier: function (file, contents) {
@@ -92,9 +95,11 @@ gulp.task('templatesCache', ['concatJade'], function () {
             }
         }))
         .pipe(gulp.dest('dist'))
+    }, 1000)
 })
 
 gulp.task('concatJade', function () {
+
     gulp.src('src/templates/**/*.jade')
         .pipe(jade({doctype:'html', pretty: true}))
         .pipe(modify({
@@ -112,5 +117,5 @@ gulp.task('concatJade', function () {
 });
 
 gulp.task('default', ['clean'], function () {
-    gulp.start(['html', 'templates', 'commonStyles', 'styles', 'fonts', 'images', 'jscripts', 'jsLibs', 'watch']);
+    gulp.start(['html', 'templatesCache', 'commonStyles', 'styles', 'fonts', 'images', 'jscripts', 'jsLibs', 'watch']);
 })
