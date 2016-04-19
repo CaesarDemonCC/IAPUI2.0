@@ -28,7 +28,7 @@ gulp.task('fonts', function () {
 gulp.task('jscripts', function () {
     return gulp.src(['./src/jscripts/**/*.js', '!./src/jscripts/third_party/*.js'])
             .pipe(concat('app.js'))
-            .pipe(jsmin())
+            //.pipe(jsmin())
             //.pipe(uglify())
             .pipe(gulp.dest('./dist/jscripts'));
 })
@@ -96,7 +96,7 @@ gulp.task('templatesCache', ['concatJade'], function () {
 
 gulp.task('concatJade', function () {
     gulp.src('src/templates/**/*.jade')
-        .pipe(jade({pretty: true}))
+        .pipe(jade({doctype:'html', pretty: true}))
         .pipe(modify({
             fileModifier: function (file, contents) {
                 var path = file.path;

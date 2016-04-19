@@ -2,7 +2,7 @@ app.factory('ParseData', function() {
     return {
         parse : function (jsonData, callback, options) {
             var _options = {
-                'debug' : true,          ///When table data is empty, output columns to _debug field 
+                'debug' : false,          ///When table data is empty, output columns to _debug field 
                 'removeKeySpace' : true, ///Remove all space
                 'trim' : true,           ///Remove start or end space
                 'lowerCase' : true       ///Is parse to lower case
