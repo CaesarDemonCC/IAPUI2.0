@@ -1,4 +1,4 @@
-app.controller('networkController', function ($scope, $location, $routeParams, Ajax, $window) {
+app.controller('networkController', function ($scope, $location, $routeParams, Ajax, $window, $rootScope) {
     if($routeParams) {
         switch ($routeParams.action) {
             case 'new' : 
@@ -64,6 +64,7 @@ app.controller('networkController', function ($scope, $location, $routeParams, A
     };
 
     $scope.cancelHandler = function () {
+        $rootScope.stopNewNetwork = true;
         $window.history.back();
     }
     

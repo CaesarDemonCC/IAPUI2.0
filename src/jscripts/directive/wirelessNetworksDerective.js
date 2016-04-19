@@ -4,8 +4,7 @@ app.directive('wirelessNetworksDirective', function() {
 			refresh : '@'
 		},
 		templateUrl : 'templates/wirelessNetworksDirective.html',
-		controller : function ($scope, Ajax, $http, $location) {
-
+		controller : function ($scope, Ajax, $http, $location, $rootScope) {
 			function parseSummaryData (data) {
 		        var networks = [];
 		        if (data) {
@@ -25,7 +24,8 @@ app.directive('wirelessNetworksDirective', function() {
 
 		            var networkCount = networks.length;
 		            if (networkCount === 1 && networks[0].profilename === 'instant') {
-		                $location.path('/network/new/');
+		                if (!$rootScope.stopNewNetwork)
+		                	$location.path('/network/new/');
 		            } else {
 		                $scope.networks = networks;
 		            }
