@@ -8,7 +8,24 @@ app.controller('uplinkPageController', function ($scope, $window, Ajax, Utils) {
     }
     $scope.data = uplinkData;
     
-
+    $scope.example9model = []; 
+    $scope.example9data = [ 
+    {id: 1, label: "ethersphere-wap2"}, 
+    {id: 2, label: "ethersphere-wap2-instant"}, 
+    {id: 3, label: "hpn-byod"}]; 
+    $scope.example9settings = {
+        enableSearch: true,
+        closeOnSelect:true,
+        selectionLimit:1,
+        dynamicTitle:true,
+        // displayProp: 'label', 
+        // idProp: 'label',
+        smartButtonMaxItems:1,
+        smartButtonTextConverter: function(itemText, originalItem) {
+            return itemText;
+        }
+    };
+    
     $scope.saveSettings = function () {
         var cmd = '';
 

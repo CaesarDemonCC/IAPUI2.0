@@ -182,3 +182,101 @@
     }
 }
 
+.dropdown-menu {
+    position: absolute;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    font-size: 14px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    background-clip: padding-box
+}
+
+.dropdown-menu>li>a {
+    display: block;
+    padding: 3px 10px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap
+}
+
+.dropdown-menu>li>a:hover,.dropdown-menu>li>a:focus {
+    text-decoration: none;
+    color: #262626;
+    background-color: #f5f5f5
+}
+
+.dropdown-menu>.active>a,.dropdown-menu>.active>a:hover,.dropdown-menu>.active>a:focus {
+    color: #fff;
+    text-decoration: none;
+    outline: 0;
+    background-color: #428bca
+}
+
+.dropdown-menu>.disabled>a,.dropdown-menu>.disabled>a:hover,.dropdown-menu>.disabled>a:focus {
+    color: #999
+}
+
+.dropdown-menu>.disabled>a:hover,.dropdown-menu>.disabled>a:focus {
+    text-decoration: none;
+    background-color: transparent;
+    background-image: none;
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    cursor: not-allowed
+}
+
+.button2 {
+    background: url("../images/select_arrow@2x.png") #fff no-repeat right center;
+    background-size: 38px 38px;
+    display: inline-block;
+    position: relative;
+    color: $colorHighlight;
+    font-size: 0.875rem;
+    font-weight: bold;
+    line-height: 1rem;
+    padding: 0.75rem 1.25rem;
+    white-space: nowrap;
+    @include border-radius(4px);
+    // @include box-shadow(0 -2px 0 rgba(0,0,0,0.20) inset);
+    border: 1px solid $colorDivider;
+}
+
+.multiselect-parent {
+    overflow:hidden;
+    width:100%;
+}
+
+.wifiSignal1 {
+    background: url("../images/wifi1.gif") #fff no-repeat right center;
+    width:25px;
+    height:25px;
+    float:left;
+    margin-top:2px;
+}
+
+.wifiSignal2 {
+    background: url("../images/wifi2.gif") #fff no-repeat right center;
+    width:25px;
+    height:25px;
+    float:left;
+    margin-top:2px;
+}
+
+.wifiSignal3 {
+    background: url("../images/wifi3.gif") #fff no-repeat right center;
+    width:25px;
+    height:25px;
+    float:left;
+    margin-top:2px;
+}

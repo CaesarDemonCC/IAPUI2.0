@@ -29,8 +29,9 @@ div.panel
 
             div(ng-switch-when='wifiuplink')
                 p.medium-4.columns SSID:
-                select.medium-8.columns.input(ng-model='data.uplinkSSID')
-                    option(ng-repeat='ssid in data.uplinkSSIDs' value='{{ssid}}') {{ssid}}
+                //- select.medium-8.columns.input.select2(ng-model='data.uplinkSSID')
+                //-     optgroup(ng-repeat='ssid in data.uplinkSSIDs' value='{{ssid}}') {{ssid}}
+                div(ng-dropdown-multiselect-directive options="example9data" selected-model="example9model" extra-settings="example9settings")
                 p.medium-4.columns Passphrase:
                 input.medium-8.columns.input(type='password', ng-model='data.uplinkSSIDPassphrase')
 
