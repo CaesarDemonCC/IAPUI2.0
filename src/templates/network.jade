@@ -8,13 +8,10 @@ div.panel
 				name='essid'
 				ng-model='essid'
 				required
-				//- used-list-directive='{{essidUsedList}}'
 			)
 			div.error(ng-messages="networkForm.essid.$error" role='alert')
 				div.valid_alert.warning.visible(ng-message="required")
 					p required
-				div.valid_alert.warning.visible(ng-message="usedList")
-					p {{essid}} is used
 
 			p.medium-4.columns Key management:
 			select.medium-8.columns.input(
