@@ -14,7 +14,7 @@ html(lang="en")
         div(ng-class="{'searching':searching}").bannermenu.small-7.columns
           div.logout
             a(href="#/logout") Logout
-          div.icon_help
+          div(ng-click="switchHelp()").icon_help
           span(ng-click="showSearch()").search
             label.icon_search
             input(id="searchInput", type="search", ng-press="doSearch()", ng-blur="hideSearch()")
