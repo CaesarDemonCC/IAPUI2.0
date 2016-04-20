@@ -1,4 +1,4 @@
-var app = angular.module('IAPMobileUI', ['ngRoute', 'ngCookies'])
+var app = angular.module('IAPMobileUI', ['ngRoute', 'ngCookies', 'ngMessages'])
 .run(function($rootScope, $location, Auth) {
     $rootScope.isLoggedIn = Auth.isLoggedIn();
     $rootScope.$on('$routeChangeStart', function(evt, next, curr) {

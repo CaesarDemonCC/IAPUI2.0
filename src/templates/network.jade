@@ -1,17 +1,25 @@
 div.panel
 	h2.title_heading.form_heading {{title}}
-	div
+	form(novalidate name='networkForm')
 		div.networkPanel
 			p.medium-4.columns Name:
 			input.medium-8.columns.input(
 				type='text'
+				name='essid'
 				ng-model='essid'
 				required
+				//- used-list-directive='{{essidUsedList}}'
 			)
+			div.error(ng-messages="networkForm.essid.$error" role='alert')
+				div.global_alert.warning.visible(ng-message="required")
+					p required
+				div.global_alert.warning.visible(ng-message="usedList")
+					p {{essid}} is used
 
 			p.medium-4.columns Key management:
 			select.medium-8.columns.input(
 				ng-model='opmode'
+				name='opmode'
 				ng-change='opmodeChange()'
 				ng-init="opmode='wpa2-psk-aes'"
 			)
@@ -21,9 +29,18 @@ div.panel
 			p.medium-4.columns(ng-show="opmode=='wpa2-psk-aes'") Passphrase:
 			input.medium-8.columns.input(
 				type='password'
+				name='passphrase'
 				ng-model='passphrase'
 				ng-show="opmode=='wpa2-psk-aes'"
+				ng-required="opmode == 'wpa2-psk-aes'"
+				ng-minlength='8'
+				ng-maxlength='63'
 			)
+			div.error(ng-show="opmode=='wpa2-psk-aes'" ng-messages="networkForm.passphrase.$error" role='alert')
+				div.global_alert.warning.visible(ng-message="required")
+					p required
+				div.global_alert.warning.visible(ng-message-exp="['minlength', 'maxlength']")
+					p Your passphrase must be between 8 and 63 characters long
 
 			p.medium-4.columns Band:
 			select.medium-8.columns.input(
@@ -36,9 +53,10 @@ div.panel
 			button.medium-12.medium.columns.button(
 				type='submit'
 				ng-click='saveNetwork()'
+				ng-disabled='networkForm.passphrase.$invalid'
+				ng-class="{'disabled':networkForm.$invalid==true}"
 			) OK
 
 			button.medium-12.medium.columns.button(
 				ng-click='cancelHandler()'
-			) Cancel
-		
+			) Cancel		
