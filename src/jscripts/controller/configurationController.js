@@ -7,6 +7,7 @@ app.controller('configurationController', function($scope, Ajax){
 
     $scope.clearConfig = function () {
         var cmd = 'opcode=action&ip=127.0.0.1&cmd=write erase all reboot';
-        Ajax.doRequest(cmd);
+        alert('Clear Congiguration!');
+        //Ajax.doRequest(cmd);
     }      
 });
