@@ -73,7 +73,11 @@ app.controller('mainController', function ($rootScope, $location, $scope) {
         $scope.searching = true;
     }
     $scope.hideSearch = function () {
-        $scope.searching = false;
+        document.getElementById('searchInput').value = '';
+        setTimeout(function () {
+            $scope.searching = false;
+            $scope.$apply();
+        }, 500)
     }
 
     $scope.isCurrentFolder = function (scope) {
