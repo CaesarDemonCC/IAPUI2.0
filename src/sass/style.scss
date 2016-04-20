@@ -1,5 +1,6 @@
 @import
     "colors",
+    "mixins",
     "compass";
 
 .login-container {
@@ -307,4 +308,44 @@
     height:25px;
     float:left;
     margin-top:2px;
+}
+
+.valid_alert {
+    display: block;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    @include transition(all 500ms ease);
+
+    p {
+        margin-left: 1.25rem;
+        margin-right: 1.25rem;
+        @include breakpoint(mama-bear) {
+            font-size: 1rem;
+        }
+    }
+
+    p[class*='icon_']:before {
+        @include breakpoint(mama-bear) {
+            font-size: 2rem;
+        }
+    }
+    
+}
+
+.valid_alert.visible {
+    max-height: 5rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+.valid_alert.warning {
+    color: $colorAlert;
+    background: lighten(desaturate($colorAlert, 40%), 48%);
+    @include box-shadow(4px 0 0 $colorAlert inset);
+
+    a {
+        color: $colorAlert;
+    }
+
 }

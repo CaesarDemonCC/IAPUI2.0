@@ -11,9 +11,9 @@ div.panel
 				//- used-list-directive='{{essidUsedList}}'
 			)
 			div.error(ng-messages="networkForm.essid.$error" role='alert')
-				div.global_alert.warning.visible(ng-message="required")
+				div.valid_alert.warning.visible(ng-message="required")
 					p required
-				div.global_alert.warning.visible(ng-message="usedList")
+				div.valid_alert.warning.visible(ng-message="usedList")
 					p {{essid}} is used
 
 			p.medium-4.columns Key management:
@@ -37,9 +37,9 @@ div.panel
 				ng-maxlength='63'
 			)
 			div.error(ng-show="opmode=='wpa2-psk-aes'" ng-messages="networkForm.passphrase.$error" role='alert')
-				div.global_alert.warning.visible(ng-message="required")
+				div.valid_alert.warning.visible(ng-message="required")
 					p required
-				div.global_alert.warning.visible(ng-message-exp="['minlength', 'maxlength']")
+				div.valid_alert.warning.visible(ng-message-exp="['minlength', 'maxlength']")
 					p Your passphrase must be between 8 and 63 characters long
 
 			p.medium-4.columns Band:
