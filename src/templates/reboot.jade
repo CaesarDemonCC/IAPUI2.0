@@ -1,4 +1,5 @@
 div.panel
     h2.title_heading.form_heading Reboot   
-    button.medium.button.medium-12.columns(id='reboot-all', ng-click='rebootAll()') Reboot
+    button.medium.button.medium-12.columns(ng-click='showWarning()') Reboot
 
+dialog-directive(ok-callback='rebootAll()', display='reboot.warningDisplay', message='reboot.warningMessage')

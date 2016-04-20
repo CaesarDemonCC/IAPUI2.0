@@ -11,11 +11,13 @@ html(lang="en")
     div.header(ng-show="isLoggedIn==true")
       div
         div.logo.small-5.columns
-        div.bannermenu.small-7.columns
+        div(ng-class="{'searching':searching}").bannermenu.small-7.columns
           div.logout
             a(href="#/logout") Logout
           div.icon_help
-          div.icon_search           
+          span(ng-click="showSearch()").search
+            label.icon_search
+            input(id="searchInput", type="search", ng-press="doSearch()", ng-blur="hideSearch()")
     div
       div.global_alert.confirmation(ng-class="{'visible':globalAlertShow}")
         p {{globalMessage}}

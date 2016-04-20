@@ -68,6 +68,14 @@ app.controller('mainController', function ($rootScope, $location, $scope) {
         }
     }
 
+    $scope.showSearch = function () {
+        document.getElementById('searchInput').focus();
+        $scope.searching = true;
+    }
+    $scope.hideSearch = function () {
+        $scope.searching = false;
+    }
+
     $scope.isCurrentFolder = function (scope) {
         var data = scope.menu.data,
             currentPath = $location.path();
