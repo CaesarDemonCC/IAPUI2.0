@@ -349,3 +349,31 @@
     }
 
 }
+
+.help-mode {
+    color: #018e1b !important;
+    font-style: italic;
+}
+
+.help-advice-dialog {
+    position: absolute;
+    background-color: #FFF;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    z-index: 1005;
+    padding: 0.5rem;
+    top: 3rem;
+    right:0.8rem;
+
+    .help-advice-info-green {
+        margin-left: 0.5rem;
+    }
+}
+
+.help-content {
+    background-color : #9ce5d5;
+    position: absolute;
+    border-radius: 0.3rem;
+    padding: 0.5rem;
+    z-index: 1005;
+}

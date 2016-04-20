@@ -55,7 +55,7 @@ var app = angular.module('IAPMobileUI', ['ngRoute', 'ngCookies', 'ngMessages'])
     'API_URL': '../swarm.cgi'
 });
 
-app.controller('mainController', function ($rootScope, $location, $scope) {
+app.controller('mainController', function ($rootScope, $location, $scope, Help) {
     $scope.toggleMobileMenu = function () {
         $rootScope.mobieMenu.expand = !$rootScope.mobieMenu.expand;
     }
@@ -97,6 +97,10 @@ app.controller('mainController', function ($rootScope, $location, $scope) {
 
         return result;
 
+    }
+
+    $scope.switchHelp = function () {
+        Help.switchOnOff(!Help.on);
     }
 
     $rootScope.$on('saveDataSuccessful', function (evt, msg) {
