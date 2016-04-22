@@ -15,15 +15,15 @@ var app = angular.module('IAPMobileUI', ['ngRoute', 'ngCookies', 'ngMessages'])
         'currentPath' : $location.path(),
         'data': {
             'Monitoring': {
-                'path': '/',
-                // 'data': {
-                //     'Overview': {
-                //         'path': '/home'
-                //     },
-                //     'Networks': {
-                //         'path': '/network'
-                //     }
-                // }
+                //'path': '/',
+                'data': {
+                    'Overview': {
+                        'path': '/'
+                    },
+                    'Networks': {
+                        'path': '/network'
+                    }
+                }
             },
             'Configuration': {
                 'data': {
