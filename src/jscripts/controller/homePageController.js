@@ -57,7 +57,7 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
             var summaryData = parseSummaryData(data);
 
             //var networkCount = summaryData['networks'].length,
-            var    apCount = summaryData['aps'].length,
+            var apCount = summaryData['aps'].length,
                 clientCount = summaryData['clients'].length;
             // If the cluster is factory default status, popup WiFi Config wizard
             //if (networkCount === 1 && summaryData['networks'][0].profilename === 'instant') {
@@ -84,7 +84,7 @@ app.controller('homePageController', function ($scope, Ajax, $http, $location) {
         $scope.showStatsGlobal();
     }
 
-    var refreshInterval = setInterval($scope.refresh, 10000);
+    var refreshInterval = setInterval($scope.refresh, 3000);
     $scope.refresh();
 
     $scope.deleteNetwork = function (profileName) {
