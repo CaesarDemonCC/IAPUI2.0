@@ -6,6 +6,7 @@ var gulp = require('gulp'),
     jade = require('gulp-jade'),
     jsmin = require('gulp-jsmin'),
     modify = require('gulp-modify'),
+    gulpFunction = require("gulp-function"),
     concat = require('gulp-concat');
 
 var rf = require("fs");  
@@ -21,7 +22,7 @@ gulp.task('images', function () {
 })
 
 gulp.task('fonts', function () {
-    return gulp.src('./src/fonts/*', {read: false})
+    return gulp.src('./src/fonts/*')
             .pipe(gulp.dest('./dist/fonts'))
 })
 
@@ -110,10 +111,11 @@ gulp.task('concatJade', function (cb) {
             }
         }))
         .pipe(concat('templates.cache'))
-        .pipe(gulp.dest('dist/templates/'), function () {
+        .pipe(gulp.dest('dist/templates/'))
+        .pipe(gulpFunction(function () {
             //Add a hint to tell the engine that the task is completed.
             cb();
-        });
+        }));
 });
 
 gulp.task('default', ['clean'], function () {
