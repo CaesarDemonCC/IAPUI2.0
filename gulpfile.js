@@ -1,4 +1,4 @@
-var gulp  = require('gulp'),
+var gulp = require('gulp'),
     compass = require('gulp-compass'),
     uglify = require('gulp-uglify'),
     del = require('del'),
@@ -8,7 +8,7 @@ var gulp  = require('gulp'),
     modify = require('gulp-modify'),
     concat = require('gulp-concat');
 
-var rf=require("fs");  
+var rf = require("fs");  
 
 gulp.task('clean', function () {
     del(['dist/*.html', 'dist/images/*', 'dist/styles/*', 'dist/jscripts/*.js', 'dist/jscripts/third_party/*.js', 'dist/fonts/*', 'dist/templates/*']);
@@ -21,7 +21,7 @@ gulp.task('images', function () {
 })
 
 gulp.task('fonts', function () {
-    return gulp.src('./src/fonts/*')
+    return gulp.src('./src/fonts/*', {read: false})
             .pipe(gulp.dest('./dist/fonts'))
 })
 
@@ -82,24 +82,21 @@ gulp.task('watch', function () {
 })
 
 gulp.task('templatesCache', ['concatJade'], function () {
-    //TODO: Remove the setTimeout delay
-    // Wait 1 second before compile templates cache
-    setTimeout(function () {
-        gulp.src('src/index.jade')
-        .pipe(jade({doctype: 'html', pretty: true}))
-        .pipe(modify({
-            fileModifier: function (file, contents) {
-                var cache = rf.readFileSync("dist/templates/templates.cache",'utf-8');
-                contents = contents.replace('</body>', cache + '</body>'); 
-                return contents;
-            }
-        }))
-        .pipe(gulp.dest('dist'))
-    }, 1000)
+    gulp.src('src/index.jade')
+    .pipe(jade({doctype: 'html', pretty: true}))
+    .pipe(modify({
+        fileModifier: function (file, contents) {
+
+            var cache = rf.readFileSync(__dirname + "/dist/templates/templates.cache",'utf-8');
+            contents = contents.replace('</body>', cache + '</body>'); 
+                   
+            return contents;
+        }
+    }))
+    .pipe(gulp.dest('dist'))
 })
 
-gulp.task('concatJade', function () {
-
+gulp.task('concatJade', function (cb) {
     gulp.src('src/templates/**/*.jade')
         .pipe(jade({doctype:'html', pretty: true}))
         .pipe(modify({
@@ -113,7 +110,10 @@ gulp.task('concatJade', function () {
             }
         }))
         .pipe(concat('templates.cache'))
-        .pipe(gulp.dest('dist/templates'));
+        .pipe(gulp.dest('dist/templates/'), function () {
+            //Add a hint to tell the engine that the task is completed.
+            cb();
+        });
 });
 
 gulp.task('default', ['clean'], function () {
