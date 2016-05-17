@@ -1,22 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Instant UI</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <link href="styles/common.css" rel="stylesheet">
-    <link href="styles/style.css" rel="stylesheet">
-  </head>
-  <body class="fontface">
-    <div id="container" class="container"></div>
-    <div id="container2" class="container"></div>
-    <script src="jscripts/third_party/jquery-1.11.3.min.js"></script>
-    <script src="jscripts/third_party/react.js"></script>
-    <script src="jscripts/third_party/react-dom.js"></script>
-    <script src="jscripts/third_party/xml2json.min.js"></script>
-    <script src="jscripts/third_party/fastclick.js"></script>
-    <script src="jscripts/app.js"></script>
-  <script type="text/ng-template" id="templates/about.html">
+<script type="text/ng-template" id="templates/about.html">
 
 <div class="panel">
   <h2 class="title_heading form_heading">About</h2>
@@ -258,5 +240,3 @@
   </div>
 </div>
 </script>
-</body>
-</html>

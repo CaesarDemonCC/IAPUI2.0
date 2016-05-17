@@ -1,41 +1,18 @@
 doctype html
 html(lang="en")
   head
-    title Instant Mobile UI
+    title Instant UI
     meta(charset="utf-8")
     meta(name="viewport", content="width=device-width, initial-scale=1, user-scalable=no")
     link(href="styles/common.css", rel="stylesheet")
     link(href="styles/style.css", rel="stylesheet")
 
-  body(ng-app="IAPMobileUI", class="fontface", ng-controller="mainController")
-    div.header(ng-show="isLoggedIn==true")
-      div
-        div.logo.small-5.columns
-        div(ng-class="{'searching':searching}").bannermenu.small-7.columns
-          div.logout
-            a(href="#/logout") Logout
-          div(ng-click="switchHelp()").icon_help
-          span(ng-click="showSearch()").search
-            label.icon_search
-            input(id="searchInput", type="search", ng-press="doSearch()", ng-blur="hideSearch()")
-    div
-      div.global_alert.confirmation(ng-class="{'visible':globalAlertShow}")
-        p {{globalMessage}}
-      div(ng-show="isLoggedIn==true").medium-3.large-2.columns
-        div.mobile_menu_toggle
-          a(ng-class="{'icon_arrow_up':mobieMenu.expand==true, 'icon_arrow_down':mobieMenu.expand!=true}", ng-click="toggleMobileMenu()") Menu
-        ul(ng-class="{'expand':mobieMenu.expand==true}").sidenav
-          li(ng-repeat="(menuName, menu) in mobieMenu.data", ng-click="menuOnClick(this)", ng-class="{'current': isCurrentFolder(this) || (menu.path && mobieMenu.currentPath == menu.path), 'folder': !menu.path}", ng-init="subMenu = menu")
-            a(ng-href="{{menu.path?'#'+menu.path:''}}") {{menuName}}
-            ul(ng-if="!menu.path", ng-class="{'expand':menu.expand==true}")
-              li(ng-repeat="(menuName, menu) in subMenu.data", ng-click="menuOnClick(this)", ng-class="{'current': menu.path && mobieMenu.currentPath == menu.path}")
-                a(ng-href="{{menu.path?'#'+menu.path:''}}") {{menuName}}
-      div(ng-view, ng-class="{'medium-9 large-10 columns': isLoggedIn==true}")
-    script(src="jscripts/third_party/angular.min.js")
-    script(src="jscripts/third_party/angular-route.js")
-    script(src="jscripts/third_party/angular-cookies.js")
-    script(src="jscripts/third_party/angular-messages.js")
+  body(class="fontface")
+    div(id="container" class="container")
+    div(id="container2" class="container")
+    script(src="jscripts/third_party/jquery-1.11.3.min.js")
+    script(src="jscripts/third_party/react.js")
+    script(src="jscripts/third_party/react-dom.js")
     script(src="jscripts/third_party/xml2json.min.js")
     script(src="jscripts/third_party/fastclick.js")
-    script(src="jscripts/third_party/lodash.min.js")
     script(src="jscripts/app.js")

@@ -138,6 +138,11 @@
         margin-bottom: 0.25rem;
     }
 
+    .row {
+        width: 100%;
+        margin-bottom: 0.25rem;
+    }
+
     .form_heading {
         background: transparent;
         padding: 0 0 1rem 0;
@@ -376,4 +381,41 @@
     border-radius: 0.3rem;
     padding: 0.5rem;
     z-index: 1005;
+}
+
+
+// New styles
+
+.container {
+    width: 20rem;
+    height: 30rem;
+    margin: 0 auto;
+
+    .panel {
+        background-color: #FFF;
+        margin-top: 0.25rem;
+        position: relative;
+
+        .row {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        .form_heading {
+            background: transparent;
+            padding: 0 0 1rem 0;
+        }
+
+        p {
+            padding-left: 0;
+        }
+
+        > div {
+            overflow: hidden;
+        }
+
+        .button {
+            margin-right: 0.625rem;
+        }
+    }
 }
