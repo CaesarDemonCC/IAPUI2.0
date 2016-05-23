@@ -108,6 +108,7 @@ var PanelTitle = React.createClass({
 
 var PanelContent = React.createClass({
     componentDidMount: function () {
+        console.log('componentDidMount')
         var handler = this.props.handler;
         if (handler && typeof handler === 'function') {
             handler.call(this);
@@ -178,7 +179,7 @@ var adminPanel = {
         label: 'Test'
     }],
     handler: function () {
-
+        alert('adminPanel');
     }
 }
 
@@ -227,7 +228,7 @@ var Tab = React.createClass({
             handlers.push(tab.handler || function () {})
         })
 
-        panel = <PanelContent items={tabsConfig[this.state.currentTab].items} handler={tabsConfig[this.state.currentTab].handler}/>;
+        panel = <PanelContent key={this.state.currentTab} items={tabsConfig[this.state.currentTab].items} handler={tabsConfig[this.state.currentTab].handler}/>;
 
         return (
             <div className='tabs fullwidth responsive dark'>
