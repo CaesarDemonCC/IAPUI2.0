@@ -90,8 +90,8 @@ var Panel = React.createClass({
     render: function() {
         return (
             <div className='panel'>
-                <PanelTitle title={this.props.config.title} />
-                <PanelContent items={this.props.config.items} />
+                <PanelTitle title={this.props.title} />
+                <PanelContent items={this.props.items} />
                 <ButtonBar />
             </div>
         );
@@ -107,6 +107,12 @@ var PanelTitle = React.createClass({
 })
 
 var PanelContent = React.createClass({
+    componentDidMount: function () {
+        var handler = this.props.handler;
+        if (handler && typeof handler === 'function') {
+            handler.call(this);
+        }
+    },
     render: function () {
         var items = this.props.items.map(generateItem);
         return (
@@ -114,6 +120,8 @@ var PanelContent = React.createClass({
         )
     }
 })
+
+var PanelFactory = React.createFactory(Panel);
 
 var ButtonBar = React.createClass({
     render: function () {
@@ -126,8 +134,8 @@ var ButtonBar = React.createClass({
     }
 })
 
-var systemPanelData = {
-    title: 'System',
+var generalPanel = {
+    title: 'General',
     items: [{
         id: 'input-1',
         label: 'Name'
@@ -140,7 +148,7 @@ var systemPanelData = {
             border: '1px solid red' // Not recommend to set styles into component directly, please use sass instead
         }
     }, {
-        id: 'input-1',
+        id: 'dynamic-proxy',
         type: 'checkbox',
         label: 'Dynamic Proxy'
     }, {
@@ -156,45 +164,85 @@ var systemPanelData = {
             text: 'Disabled',
             value: 'disable'
         }]
-    }]
+    }],
+    handler: function () {
+        document.getElementById('dynamic-proxy').onchange = function () {
+            alert(this.checked);
+        }
+    }
 }
 
-ReactDOM.render(
-    <Panel config={systemPanelData} />,
-    document.getElementById('container')
-);
-
-var tab2Data = {
-    title: 'Tab 2',
+var adminPanel = {
+    title: 'Admin',
     items: [{
         label: 'Test'
-    }]
+    }],
+    handler: function () {
+
+    }
 }
 
-ReactDOM.render(
-    <Panel config={tab2Data} />,
-    document.getElementById('container2')
-);
+var TabControls = React.createClass({
+    goToTab : function (index) {
+        this.props.clickHandler.call(this, index);
+    },
+    render: function () {
+        var self = this;
+        var tabCtrls = this.props.tabCtrls.map(function (tabCtrl, index) {
+            return <li className={index == self.props.currentTab ? 'current' : ''} onClick={self.goToTab.bind(self, index)}><a href='#'>{tabCtrl}</a></li>;
+        })
+        return (
+            <ul className='tabcontrols'>
+                {tabCtrls}
+            </ul>
+        )
+    }
+})
+
+var systemTabs = {
+    title: 'System',
+    tabsConfig: [generalPanel, adminPanel]
+}
 
 var Tab = React.createClass({
+
+    getInitialState: function () {
+        return {
+            currentTab: 0
+        }
+    },
+
+    goToTab: function (index) {
+        this.setState({currentTab: index});
+    },
+
     render: function () {
-        //var items = this.props.items.map(generateItem);
+        var tabCtrls = [],
+            panel = null,
+            handlers = [];
+
+        var tabsConfig = this.props.tabsConfig;
+        tabsConfig.forEach(function (tab) {
+            tabCtrls.push(tab.title);
+            handlers.push(tab.handler || function () {})
+        })
+
+        panel = <PanelContent items={tabsConfig[this.state.currentTab].items} handler={tabsConfig[this.state.currentTab].handler}/>;
+
         return (
             <div className='tabs fullwidth responsive dark'>
-                <ul className='tabcontrols'>
-                    <li className='current'><a href='#'>Tab 1</a></li>
-                    <li><a href='#'>Tab 2</a></li>
-                </ul>
-
-                <div className='tab'></div>
-                <div className='tab'></div>
-
+                <TabControls tabCtrls={tabCtrls} clickHandler={this.goToTab} currentTab={this.state.currentTab}/>
+                <div>
+                    {panel}
+                </div>
             </div>
         )
     }
 })
 
-// ReactDOM.render(
-//     <Tab/>,
-//     document.getElementById('container')
-// );
+var TabFactory = React.createFactory(Tab);
+
+ReactDOM.render(
+    TabFactory(systemTabs),
+    document.getElementById('container')
+);
