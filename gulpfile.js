@@ -6,7 +6,8 @@ var gulp = require('gulp'),
     jade = require('gulp-jade'),
     jsmin = require('gulp-jsmin'),
     modify = require('gulp-modify'),
-    gulpFunction = require("gulp-function"),
+    gulpFunction = require('gulp-function'),
+    react = require('gulp-react'),
     concat = require('gulp-concat');
 
 var rf = require("fs");  
@@ -28,6 +29,7 @@ gulp.task('fonts', function () {
 
 gulp.task('jscripts', function () {
     return gulp.src(['./src/jscripts/**/*.js', '!./src/jscripts/third_party/*.js'])
+            .pipe(react())
             .pipe(concat('app.js'))
             //.pipe(jsmin())
             //.pipe(uglify())
