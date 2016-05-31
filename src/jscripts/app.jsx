@@ -56,7 +56,40 @@ ReactDOM.render(
     document.getElementById('container')
 );
 
+var navConfig = [{
+    'name': 'Monitoring',
+    //'path': '/',
+    'subNavs': [{
+        'name': 'Overview',
+        'path': '#/'
+    }, {
+        'name': 'Networks',
+        'path': '#/'
+    }]
+}, {
+    'name': 'Configuration',
+    'subNavs': [{
+        'name': 'Wireless',
+        'path': '#/'
+    }, {
+        'name': 'Uplink',
+        'path': '#/'
+    }]
+}, {
+    'name': 'Maintenance',
+    'subNavs': [{
+        'name': 'About',
+        'path': '#/'
+    }, {
+        'name': 'Configuration',
+        'path': '#/'
+    }, {
+        'name': 'Reboot',
+        'path': '#/'
+    }]
+}];
+
 ReactDOM.render(
-    <SideNav />,
+    <SideNav data={navConfig}/>,
     document.getElementById('sideNav')
 )

@@ -1,18 +1,22 @@
 var formField = require('./formField')
 
-var generateItem = function (item) {
-    var field = '';
+var generateItem = function (item, index) {
+    var result,
+        Field;
     switch (item.type) {
         case 'checkbox':
-            field = <formField.CheckBoxInputRow {...item} />;
+            Field = formField.CheckBoxInputRow;
             break;
         case 'select':
-            field = <formField.SelectRow {...item} />
+            Field = formField.SelectRow;
             break;
         default: 
-            field = <formField.TextInputRow {...item} />;
+            Field = formField.TextInputRow;
     }
-    return field;
+
+    result = <Field key={index} {...item} />
+
+    return result;
 }
 
 var Panel = React.createClass({

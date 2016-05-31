@@ -8,7 +8,7 @@ var TabControls = React.createClass({
     render: function () {
         var self = this;
         var tabCtrls = this.props.tabCtrls.map(function (tabCtrl, index) {
-            return <li className={index == self.props.currentTab ? 'current' : ''} onClick={self.goToTab.bind(self, index)}><a href='#'>{tabCtrl}</a></li>;
+            return <li key={index} className={index == self.props.currentTab ? 'current' : ''} onClick={self.goToTab.bind(self, index)}><a href='#'>{tabCtrl}</a></li>;
         })
         return (
             <ul className='tabcontrols'>
