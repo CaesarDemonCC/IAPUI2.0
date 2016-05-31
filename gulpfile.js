@@ -8,6 +8,7 @@ var gulp = require('gulp'),
     modify = require('gulp-modify'),
     gulpFunction = require('gulp-function'),
     react = require('gulp-react'),
+    webpack = require('gulp-webpack'),
     concat = require('gulp-concat');
 
 var rf = require("fs");  
@@ -27,14 +28,14 @@ gulp.task('fonts', function () {
             .pipe(gulp.dest('./dist/fonts'))
 })
 
-gulp.task('jscripts', function () {
-    return gulp.src(['./src/jscripts/**/*.js', '!./src/jscripts/third_party/*.js'])
-            .pipe(react())
-            .pipe(concat('app.js'))
-            //.pipe(jsmin())
-            //.pipe(uglify())
-            .pipe(gulp.dest('./dist/jscripts'));
-})
+// gulp.task('jscripts', function () {
+//     return gulp.src(['./src/jscripts/**/*.js', '!./src/jscripts/third_party/*.js'])
+//             .pipe(react())
+//             .pipe(concat('app.js'))
+//             //.pipe(jsmin())
+//             //.pipe(uglify())
+//             .pipe(gulp.dest('./dist/jscripts'));
+// })
 
 gulp.task('jsLibs', function () {
     return gulp.src(['./src/jscripts/third_party/*'])
@@ -70,56 +71,21 @@ gulp.task('html', function () {
             .pipe(gulp.dest('dist'))
 })
 
-gulp.task('templates', function () {
-    return gulp.src('./src/templates/*.jade')
-            .pipe(jade({doctype:'html',pretty: true}))
-            .pipe(gulp.dest('dist/templates'))
+gulp.task('jscripts', function () {
+    return gulp.src('./src/jscripts/app.jsx')
+            .pipe(webpack(require('./webpack.config.js')))
+            .pipe(gulp.dest('./dist/jscripts'))
 })
 
 gulp.task('watch', function () {
     gulp.watch('src/sass/style.scss', ['styles']);
     //gulp.watch(['src/sass/*.scss', '!src/sass/style.scss'], ['commonStyles']);
     gulp.watch(['./src/jscripts/**/*.js', '!./src/jscripts/third_party/*.js'], ['jscripts']);
-    gulp.watch('src/templates/*', ['templatesCache']);
-    gulp.watch('src/index.jade', ['templatesCache']);
+    // gulp.watch('src/templates/*', ['templatesCache']);
+    gulp.watch('src/index.jade', ['html']);
 })
 
-gulp.task('templatesCache', ['concatJade'], function () {
-    gulp.src('src/index.jade')
-    .pipe(jade({doctype: 'html', pretty: true}))
-    .pipe(modify({
-        fileModifier: function (file, contents) {
-
-            var cache = rf.readFileSync(__dirname + "/dist/templates/templates.cache",'utf-8');
-            contents = contents.replace('</body>', cache + '</body>'); 
-                   
-            return contents;
-        }
-    }))
-    .pipe(gulp.dest('dist'))
-})
-
-gulp.task('concatJade', function (cb) {
-    gulp.src('src/templates/**/*.jade')
-        .pipe(jade({doctype:'html', pretty: true}))
-        .pipe(modify({
-            fileModifier: function (file, contents) {
-                var path = file.path;
-                var filename = path.slice(path.indexOf('templates/'));
-                contents = '<script type="text/ng-template" id="' + filename + '">\n' 
-                        + contents + '\n'
-                        + '</script>\n';
-                return contents;
-            }
-        }))
-        .pipe(concat('templates.cache'))
-        .pipe(gulp.dest('dist/templates/'))
-        .pipe(gulpFunction(function () {
-            //Add a hint to tell the engine that the task is completed.
-            cb();
-        }));
-});
 
 gulp.task('default', ['clean'], function () {
-    gulp.start(['templatesCache', 'commonStyles', 'styles', 'fonts', 'images', 'jscripts', 'jsLibs', 'watch']);
+    gulp.start(['html', 'commonStyles', 'styles', 'fonts', 'images', 'jsLibs', 'jscripts', 'watch']);
 })

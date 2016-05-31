@@ -8,10 +8,21 @@ html(lang="en")
     link(href="styles/style.css", rel="stylesheet")
 
   body(class="fontface")
-    div(id="container" class="container")
-    div(id="container2" class="container")
+    div.header
+      div
+        div.logo.small-5.columns
+        div.bannermenu.small-7.columns
+          div.logout
+            a(href="#/logout") Logout
+          div.icon_help
+          span.search
+            label.icon_search
+            input(id="searchInput", type="search", ng-press="doSearch()", ng-blur="hideSearch()")
+    div
+      div#sideNav.medium-3.large-2.columns
+      div#container.medium-9.large-10.columns
     script(src="jscripts/third_party/jquery-1.11.3.min.js")
-    script(src="jscripts/third_party/react-with-addons.min.js")
+    script(src="jscripts/third_party/react.js")
     script(src="jscripts/third_party/react-dom.js")
     script(src="jscripts/third_party/xml2json.min.js")
     script(src="jscripts/third_party/fastclick.js")
