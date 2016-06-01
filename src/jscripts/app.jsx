@@ -59,7 +59,7 @@ ReactDOM.render(
 var navConfig = [{
     'name': 'Monitoring',
     //'path': '/',
-    'subNavs': [{
+    'children': [{
         'name': 'Overview',
         'path': '#/'
     }, {
@@ -68,16 +68,23 @@ var navConfig = [{
     }]
 }, {
     'name': 'Configuration',
-    'subNavs': [{
-        'name': 'Wireless',
-        'path': '#/'
+    'children': [{
+        'name': 'Networks',
+        //'path': '#/',
+        'children': [{
+            'name': 'Wireless',
+            'path': '#/'
+        }, {
+            'name': 'Wired',
+            'path': '#/'
+        }]
     }, {
         'name': 'Uplink',
         'path': '#/'
     }]
 }, {
     'name': 'Maintenance',
-    'subNavs': [{
+    'children': [{
         'name': 'About',
         'path': '#/'
     }, {

@@ -79,7 +79,7 @@ gulp.task('jscripts', function () {
 
 gulp.task('watch', function () {
     gulp.watch('src/sass/style.scss', ['styles']);
-    //gulp.watch(['src/sass/*.scss', '!src/sass/style.scss'], ['commonStyles']);
+    gulp.watch(['src/sass/*.scss', '!src/sass/style.scss'], ['commonStyles']);
     gulp.watch(['./src/jscripts/**/*.js', '!./src/jscripts/third_party/*.js'], ['jscripts']);
     // gulp.watch('src/templates/*', ['templatesCache']);
     gulp.watch('src/index.jade', ['html']);

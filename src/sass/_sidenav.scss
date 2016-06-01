@@ -82,14 +82,15 @@
             // @include box-shadow(-2px 0 0 $colorDividerLt inset, -1px 0 0 $colorDivider inset);
         }
 
-        ul.expand {
-            > li.current > a {
-                border-left: 0.625rem solid #02a7ec;
-                padding-left: 0.375rem;
-                margin-left: 1rem;
-            }
-        }
+    }
 
+
+    ul.expand {
+        > li.current > a {
+            border-left: 0.625rem solid #02a7ec;
+            padding-left: 0.375rem;
+            margin-left: 1rem;
+        }
     }
 
     > li > a {
