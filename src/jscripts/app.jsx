@@ -64,7 +64,8 @@ var navConfig = [{
         'path': '#/'
     }, {
         'name': 'Networks',
-        'path': '#/'
+        'path': '#/',
+        'selected': true
     }]
 }, {
     'name': 'Configuration',
