@@ -1,5 +1,6 @@
 import {Tab} from './ui/widget/tab'
 import {SideNav} from './ui/widget/sideNav'
+import {AjaxGet, AjaxPost} from './utils/Ajax'
 
 var generalPanel = {
     title: 'General',
@@ -101,3 +102,18 @@ ReactDOM.render(
     <SideNav data={navConfig}/>,
     document.getElementById('sideNav')
 )
+
+AjaxGet({
+    'opcode':'network-summary',
+    'cmd':'show network-summary'
+}, function(data){
+    console.log(data);
+});
+
+AjaxPost({
+    'opcode':'login',
+    'user':'admin',
+    'passwd':'admin'
+}, function(data){
+    console.log(data);
+});
