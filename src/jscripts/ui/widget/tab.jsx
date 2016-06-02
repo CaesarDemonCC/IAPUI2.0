@@ -44,7 +44,7 @@ var Tab = React.createClass({
         content = <PanelContent key={this.state.currentTab} items={tabsConfig[this.state.currentTab].items} handler={tabsConfig[this.state.currentTab].handler}/>;
 
         return (
-            <div className='tabs fullwidth responsive'>
+            <div className='tabs responsive'>
                 <TabControls tabCtrls={tabCtrls} clickHandler={this.goToTab} currentTab={this.state.currentTab}/>
                 <div>
                     {content}

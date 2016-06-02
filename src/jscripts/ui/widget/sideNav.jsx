@@ -71,7 +71,8 @@ var SideNav = React.createClass({
             setSelected(newData);
 
             this.setState({
-                treeData: newData
+                treeData: newData,
+                expanded: false
             })
         }
     },
