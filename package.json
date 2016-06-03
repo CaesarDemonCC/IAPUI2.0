@@ -35,6 +35,9 @@
     "webpack-dev-server": "~1.14.1",
     "babel-preset-react": "~6.5.0",
     "babel-preset-es2015": "~6.9.0",
-    "gulp-webpack": "~1.5.0"
+    "gulp-webpack": "~1.5.0",
+    "gulp-mocha": "~2.2.0",
+    "chai": "~3.5.0",
+    "mochawesome": "~1.3.5"
   }
 }

@@ -9,6 +9,7 @@ var gulp = require('gulp'),
     gulpFunction = require('gulp-function'),
     react = require('gulp-react'),
     webpack = require('gulp-webpack'),
+    mocha = require('gulp-mocha'),
     concat = require('gulp-concat');
 
 var rf = require("fs");  
@@ -84,6 +85,12 @@ gulp.task('watch', function () {
     // gulp.watch('src/templates/*', ['templatesCache']);
     gulp.watch('src/index.jade', ['html']);
 })
+
+gulp.task('testing', function () {
+    return gulp.src('testing/UT/**/*.js', {read: false})
+        // gulp-mocha needs filepaths so you can't have any plugins before it 
+        .pipe(mocha({reporter: 'mochawesome'}));// spec/dot/nyan/TAP
+});
 
 
 gulp.task('default', ['clean'], function () {
