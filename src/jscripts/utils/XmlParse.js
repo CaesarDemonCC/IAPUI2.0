@@ -1,103 +1,155 @@
 var XmlParse = {
-	_x2js: new X2JS()
-};
-
-XmlParse.parseJson = function (jsonData, options) {
-	jsonData = XmlParse._x2js.xml2json(jsonData);
-	var _options = {
-	    'debug' : true,         ///When table data is empty, output columns to _debug field 
+	_x2js: new X2JS(),
+	_formatOptions : {
 	    'removeKeySpace' : true, ///Remove all space
 	    'trim' : true,           ///Remove start or end space
 	    'lowerCase' : true       ///Is parse to lower case
-	};
-	if (options) {
-	    $.extend(_options, options);
 	}
-	var result = {};
-	if (_options['debug']) {
-	    result['_debug'] = {};
-	}
-	//parse jsonData.re.data
-	if (jsonData.re.data) {
-	    var dataLength = 1;
-	    //jsonData.re.data maybe object or array
-	    if (jsonData.re.data.length && jsonData.re.data.length >= 0) {
-	        dataLength = jsonData.re.data.length;
-	    }
-	    for (var i = 0; i < dataLength; i++) {
-	        var item = jsonData.re.data[i] || jsonData.re.data;
-	        if (_options['removeKeySpace']) {
-	            item["_name"] = item["_name"].replace(/[\s"]/g, '');
-	        }
-	        if (_options['trim']) {
-	            item["_name"] = item["_name"].replace(/^ +| +$/g, '');
-	        }
-	        if (_options['lowerCase']) {
-	            item["_name"] = item["_name"].toLowerCase();
-	        }
+};
 
-	        result[item["_name"]] = item["Text"];
-	    }
-	}
+XmlParse.formatJson = function (item) {
+	if (XmlParse._formatOptions['removeKeySpace']) {
+        item = item.replace(/[\s"]/g, '');
+    }
+    if (XmlParse._formatOptions['trim']) {
+        item = item.replace(/^ +| +$/g, '');
+    }
+    if (XmlParse._formatOptions['lowerCase']) {
+        item = item.toLowerCase();
+    }
+    return item;
+};
 
-	//parse jsonData.re.t  ------table
-	if (jsonData.re.t) {
-	    var dataLength = 1;
-	    //jsonData.re.t maybe object or array
-	    if (jsonData.re.t.length && jsonData.re.t.length >= 0) {
-	        dataLength = jsonData.re.t.length;
-	    }
-	    for (var i = 0; i < dataLength; i++) {
-	        var item = jsonData.re.t[i] || jsonData.re.t;
-	        if (item.r) {
-	            var itemArr = [];
-	            var itemDataLength = 1;
-	            //item.r maybe object or array
-	            if (item.r.length && item.r.length >= 0) {
-	                itemDataLength = item.r.length;
-	            }
-	            for (var j = 0; j < itemDataLength; j++) {
-	                var tTempData = {};
-	                var tableKeyItem = item.th['h'];
-	                var tableValueItem = item.r[j] || item.r;
-	                for (var x = 0; x <= tableKeyItem.length - 1; x++) {
-	                    if (_options['removeKeySpace']) {
-	                        tableKeyItem[x] = tableKeyItem[x].replace(/[\s"]/g, '');
-	                    }
-	                    if (_options['trim']) {
-	                        tableKeyItem[x] = tableKeyItem[x].replace(/^ +| +$/g, '');
-	                    }
-	                    if (_options['lowerCase']) {
-	                        tableKeyItem[x] = tableKeyItem[x].toLowerCase();
-	                    }
-	                    tTempData[tableKeyItem[x]]=tableValueItem['c'][x];
-	                }
-	                itemArr.push(tTempData);
-	            }
-	            result[item['_tn']]=itemArr;
-	        }
-	        else if (_options['debug']) {
-	            var debugItemKeys = {};
-	            for (var x = 0; x < item.th['h'].length; x++) {
-	                var debugItem = item.th['h'][x];
-	                if (_options['removeKeySpace']) {
-	                    debugItem = debugItem.replace(/[\s"]/g, '');
-	                }
-	                if (_options['trim']) {
-	                    debugItem = debugItem.replace(/^ +| +$/g, '');
-	                }
-	                if (_options['lowerCase']) {
-	                    debugItem = debugItem.toLowerCase();
-	                }
-	                debugItemKeys[debugItem] = undefined;
-	            }
-	            result['_debug'][item['_tn']] = debugItemKeys;
-	        }
-	    }
+XmlParse.object2Array = function (originTable) {
+    var result = [];
+    if (!$.isArray(originTable)) {
+		result.push(originTable);
+	} else {
+		result = originTable;
 	}
 	return result;
 }
 
+XmlParse.parseXmlData = function (data, result) {
+    data = XmlParse.object2Array(data);
+    for (var i = 0; i < data.length; i++) {
+        var item = data[i];
+        
+        var formatItem = XmlParse.formatJson(item["_name"]);
+
+        result[formatItem] = item["Text"];
+    }
+};
+
+XmlParse.parseXmlTable = function (table, result) {
+    table = XmlParse.object2Array(table);
+	for (var i = 0; i < table.length; i++) {
+		var tableName = table[i]['_tn'].replace(/[\s"]/g, '');
+		var columnCount = table[i]['_nc'];
+		var tableColumn = XmlParse.object2Array(table[i]['th']['h']);
+		var tableRow = table[i]['r'];
+    	result[tableName] = {};
+		
+		if ($.isArray(table[i]['th'])) {
+			// TODO ------------ do more test to decide if we to keep it
+			// table column and row are in 'th'(show alg)
+			var obj = {};
+			for (var thRowIndex = 1; thRowIndex < table[i]['th'].length; thRowIndex++) {
+				obj[table[i]['th'][thRowIndex]['h'][0]] = table[i]['th'][thRowIndex]['h'][1];
+			}
+			result[tableName] = obj;
+		} else { // normal table(most situation)
+    		if (tableRow == undefined) {
+    			// table has one column and no row value
+    			var columns = {};
+    			for (var columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+    				var formatColumn = XmlParse.formatJson(tableColumn[columnIndex]);
+    				columns[formatColumn] = undefined;
+    			}
+    			result[tableName] = columns;
+    		}
+    		else {
+    			if ($.isArray(tableRow)) { 
+    				// table has one column in 'th' and rows value in 'c'
+    				var rows = [];
+	    			for (var rowIndex = 0; rowIndex < tableRow.length; rowIndex++) {
+    					var row = {};
+    					for (var columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+		    				var formatColumn = XmlParse.formatJson(tableColumn[columnIndex]);
+    						row[formatColumn] = XmlParse.object2Array(tableRow[rowIndex]['c'])[columnIndex];
+		    			}
+	    				rows.push(row);
+					}
+    				result[tableName] = rows;
+	    		} else { 
+	    			// table has one column and one row value
+	    			var oneRow = XmlParse.object2Array(tableRow['c']);
+	    			var columns = {};
+	    			for (var columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+	    				var formatColumn = XmlParse.formatJson(tableColumn[columnIndex]);
+	    				columns[formatColumn] = oneRow[columnIndex];
+	    			}
+	    			result[tableName] = columns;
+	    		}
+	    	}
+	    }
+	}
+};
+
+XmlParse.parseXmlDataTable = function (jsonData, result) {
+
+	if (jsonData && jsonData.re && jsonData.re.data) {
+		XmlParse.parseXmlData(jsonData.re.data, result);
+	}
+	
+	if (jsonData && jsonData.re && jsonData.re.t) {
+		XmlParse.parseXmlTable(jsonData.re.t, result);
+	}
+
+	/// output data
+	if (jsonData && jsonData.data) {
+		XmlParse.parseXmlData(jsonData.data, result);
+	}
+	
+	if (jsonData && jsonData.t) {
+		XmlParse.parseXmlTable(jsonData.t, result);
+	}
+
+	if (jsonData && jsonData.re && jsonData.re.output) {
+		$.each(jsonData.re.output,function (index, item) {
+			var showCMD = XmlParse.formatJson(item["_command"]);
+	        result[showCMD] = {};
+
+			if (item.output) {
+				XmlParse.parseXmlOutputTable(item.output, result[showCMD]);
+			} else {
+				XmlParse.parseXmlDataTable(item, result[showCMD]);
+			}
+		});
+	}
+};
+
+XmlParse.parseXmlOutputTable = function (outputData, result) {
+	$.each(outputData, function (index, item){
+		var showCMD = XmlParse.formatJson(item["_command"]);
+	    result[showCMD] = {};
+		XmlParse.parseXmlDataTable(item, result[showCMD]);
+	});
+}
+
+XmlParse.xml2Json = function (xmlData, options) {
+	var jsonData = XmlParse._x2js.xml2json(xmlData);
+	
+	if (options) {
+	    $.extend(XmlParse._formatOptions, options);
+	}
+	var result = {};
+	
+	XmlParse.parseXmlDataTable(jsonData, result);
+
+	return result;
+};
+
 module.exports = {
-	XmlParseJson : XmlParse.parseJson
+	Xml2Json : XmlParse.xml2Json
 }

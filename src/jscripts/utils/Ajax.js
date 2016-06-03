@@ -1,4 +1,4 @@
-import {XmlParseJson} from './XmlParse'
+import {Xml2Json} from './XmlParse'
 
 var Ajax = {
 	api : '../swarm.cgi',
@@ -10,17 +10,17 @@ Ajax.get = function (data, callback, type = 'get') {
 	if (type == 'get') {
 		Ajax.url = '?'; 
 	}
-	$.extend({
+	$.extend(data, {
 		'refresh' : false,
 		'nocache' : Math.random()
-	}, data);
+	});
 	$.ajax({
 		type: type,
 		dataType: 'xml',
 		url: Ajax.api + Ajax.url,
 		data: data,
 		success: function (result) {
-			var jsonResult = XmlParseJson(result);
+			var jsonResult = Xml2Json(result);
 			if (jsonResult && jsonResult._debug) {
 				console.log('debug:' + jsonResult._debug);
 				delete jsonResult._debug;

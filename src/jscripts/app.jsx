@@ -103,17 +103,35 @@ ReactDOM.render(
     document.getElementById('sideNav')
 )
 
-AjaxGet({
-    'opcode':'network-summary',
-    'cmd':'show network-summary'
-}, function(data){
-    console.log(data);
-});
-
 AjaxPost({
     'opcode':'login',
     'user':'admin',
     'passwd':'admin'
 }, function(data){
     console.log(data);
+    var cmdList = [
+        'show ui-network-settings',
+        'show tacacs-servers',
+        'show external-captive-portal',
+        'show dpi app all',
+        'show dpi appcategory all',
+        'show dpi webcategory all',
+        'show dhcps config',
+        'show facebook',
+        'show bcast-filter-all',
+        'show time-range',
+        'show time-profile',
+        'show dpi-error-page-urls',
+        'show summary'
+    ];
+    AjaxGet({
+        'opcode':'show',
+        'cmd': cmdList.join('\n'),
+        'ip' : '127.0.0.1',
+        'sid' : data.sid
+    }, function(data){
+        console.log(data);
+    });
 });
+
+
