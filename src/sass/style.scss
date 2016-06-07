@@ -427,3 +427,39 @@
         }
     }
 }
+
+
+.wizard {
+    .wizard-header {
+        height: 2.5rem;
+
+        .wizard-title {
+            color: black;
+        }
+    }
+    .wizard-controls {
+        overflow: hidden;
+
+        li {
+            float:left;
+            padding: 0.5rem 0.5rem 0.5rem 0;
+        }
+    }
+    .wizard-footer {
+        position: fixed;
+        bottom: 0.625rem;
+        right: 0.625rem;
+
+        .button {
+            float: right;
+            margin-right: 0.625rem;
+            width: 5rem;
+        }
+    }
+}
+
+.white-button {
+    background: none;
+    color: $colorLink;
+    border: 1px solid $colorLink;
+}

@@ -1,6 +1,7 @@
 import {Tab} from './ui/widget/tab'
 import {SideNav} from './ui/widget/sideNav'
 import {AjaxGet, AjaxPost} from './utils/Ajax'
+import {Wizard} from './ui/widget/wizard'
 
 var generalPanel = {
     title: 'General',
@@ -52,10 +53,41 @@ var systemTabs = {
 
 var TabFactory = React.createFactory(Tab);
 
+// ReactDOM.render(
+//     TabFactory(systemTabs),
+//     document.getElementById('container')
+// );
+
+var basic = {
+    title: 'Basic',
+    items: [{
+        label: 'Name'
+    }]
+}
+
+var vlan = {
+    title: 'VLAN',
+    items: [{
+        label: 'VLAN assignment'
+    }]
+}
+
+var security = {
+    title: 'Security',
+    items: [{
+        label: 'Passphase'
+    }]
+}
+
+var networkWizardConfig = {
+    title: 'Create new network',
+    wizardsConfig: [basic, vlan, security]
+}
+
 ReactDOM.render(
-    TabFactory(systemTabs),
+    <Wizard {...networkWizardConfig} />,
     document.getElementById('container')
-);
+)
 
 var navConfig = [{
     'name': 'Monitoring',
