@@ -1,3 +1,5 @@
+require("babel-register");
+
 var gulp = require('gulp'),
     compass = require('gulp-compass'),
     uglify = require('gulp-uglify'),
@@ -87,9 +89,9 @@ gulp.task('watch', function () {
 })
 
 gulp.task('testing', function () {
-    return gulp.src('testing/UT/**/*.js', {read: false})
+    return gulp.src(['testing/UT/**/*.js'], {read: false})
         // gulp-mocha needs filepaths so you can't have any plugins before it 
-        .pipe(mocha({reporter: 'mochawesome'}));// spec/dot/nyan/TAP
+        .pipe(mocha({reporter: 'mochawesome', require:['./testing/.setup']}));// spec/dot/nyan/TAP
 });
 
 

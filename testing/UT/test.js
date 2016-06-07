@@ -1,15 +1,4 @@
-
-var expect = require('chai').expect;
-//
-function add(x, y) {
-  return x + y;
-}
-
-describe('Test for add function', function() {
-  it('1 + 1 should equal 2', function() {
-    expect(add(1, 1)).to.be.equal(3);
-  });
-});
+import { expect } from 'chai';
 
 describe('Testing', function() {
   it('Testing', function() {
