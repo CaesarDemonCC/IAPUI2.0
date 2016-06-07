@@ -439,10 +439,28 @@
     }
     .wizard-controls {
         overflow: hidden;
+        padding: 0.625rem 0;
 
         li {
             float:left;
-            padding: 0.5rem 0.5rem 0.5rem 0;
+            cursor: hand;
+
+            a {
+                padding: 0.625rem;
+                width: 6.25rem;
+                display: inline-block;
+                text-align: center;
+                color: $colorNeutralMd;
+            }
+
+            .visited {
+                color: $colorLink;
+            }
+
+            a.current {
+                background-color: $colorLink;
+                color: #fff;
+            }
         }
     }
     .wizard-footer {

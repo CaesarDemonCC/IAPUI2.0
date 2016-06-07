@@ -10,12 +10,20 @@ var WizardControls = React.createClass({
         var wizardCtrls = this.props.wizardCtrls.map(function (WizardCtrl, index) {
             var props = {
                 key: index,
-                className: index == self.props.currentStep ? 'current' : '',
-                title: WizardCtrl.title,
                 onClick: self.goToStep.bind(self, index)
             }
 
-            return <li {...props}><a>{WizardCtrl.title}</a></li>;
+            var className = '';
+
+            if (index <= self.props.maxStep) {
+                className += 'visited '
+            }
+
+            if (index == self.props.currentStep) {
+                className += 'current ';
+            }
+
+            return <li {...props}><a className={className}>{WizardCtrl.title}</a></li>;
         })
         return (
             <ul className='wizard-controls'>
@@ -66,13 +74,17 @@ var Wizard = React.createClass({
     getInitialState: function () {
         return {
             currentStep: 0,
+            maxStep: 0,
             lastStep: this.props.wizardsConfig.length - 1 || 0
         }
     },
 
     goToStep: function (index) {
         console.log('goToStep ' + index);
-        this.setState({currentStep: index});
+        this.setState({
+            currentStep: index,
+            maxStep: this.state.maxStep < index? index: this.state.maxStep
+        });
     },
 
     goBack: function () {
@@ -104,9 +116,14 @@ var Wizard = React.createClass({
 
         content = <PanelContent key={this.state.currentStep} items={wizardsConfig[this.state.currentStep].items} handler={wizardsConfig[this.state.currentStep].handler}/>;
 
+        var wcProps = {
+            ...this.state,
+            wizardCtrls: wizardCtrls,
+            clickHandler: this.goToStep
+        }
+
         var buttonProps = {
-            currentStep: this.state.currentStep,
-            lastStep: this.state.lastStep,
+            ...this.state,
             goBack: this.goBack,
             goNext: this.goNext,
             onSubmit: this.onSubmit,
@@ -118,7 +135,7 @@ var Wizard = React.createClass({
                 <div className='wizard-header'>
                     <h3 className="wizard-title">{this.props.title}</h3>
                 </div>
-                <WizardControls wizardCtrls={wizardCtrls} clickHandler={this.goToStep} currentStep={this.state.currentStep}/>
+                <WizardControls {...wcProps} />
                 <div className='wizard-content'>
                     {content}
                 </div>
