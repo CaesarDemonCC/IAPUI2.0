@@ -8,22 +8,24 @@ var WizardControls = React.createClass({
         var self = this;
 
         var wizardCtrls = this.props.wizardCtrls.map(function (WizardCtrl, index) {
-            var props = {
-                key: index,
-                onClick: self.goToStep.bind(self, index)
-            }
-
             var className = '';
 
-            if (index <= self.props.maxStep) {
-                className += 'visited '
+            //if (index <= self.props.activeStep) {
+            if (index <= self.props.currentStep) {
+                className += 'active '
             }
 
             if (index == self.props.currentStep) {
                 className += 'current ';
             }
 
-            return <li {...props}><a className={className}>{WizardCtrl.title}</a></li>;
+            var props = {
+                key: index,
+                onClick: self.goToStep.bind(self, index),
+                className: className
+            }
+
+            return <li {...props}><span className='badge'>{index + 1}</span><span className='wizard-control-title'>{WizardCtrl.title}</span></li>;
         })
         return (
             <ul className='wizard-controls'>
@@ -74,7 +76,7 @@ var Wizard = React.createClass({
     getInitialState: function () {
         return {
             currentStep: 0,
-            maxStep: 0,
+            activeStep: 0,
             lastStep: this.props.wizardsConfig.length - 1 || 0
         }
     },
@@ -83,7 +85,7 @@ var Wizard = React.createClass({
         console.log('goToStep ' + index);
         this.setState({
             currentStep: index,
-            maxStep: this.state.maxStep < index? index: this.state.maxStep
+            activeStep: this.state.activeStep < index? index: this.state.activeStep
         });
     },
 

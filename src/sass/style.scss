@@ -437,29 +437,76 @@
             color: black;
         }
     }
+    $wizardControlWidth: 2.5rem;
     .wizard-controls {
         overflow: hidden;
-        padding: 0.625rem 0;
+        margin: 0 0.25rem 0.8rem 0;
+        border: 1px solid $colorNeutralMd;
 
         li {
             float:left;
-            cursor: hand;
+            cursor: pointer;
+            position: relative;
+            line-height: $wizardControlWidth;
+            margin-right: $wizardControlWidth;
+            color: $colorNeutralMd;
 
-            a {
-                padding: 0.625rem;
-                width: 6.25rem;
-                display: inline-block;
-                text-align: center;
-                color: $colorNeutralMd;
+            span.wizard-control-title {
+                margin: 0 0.625rem;
             }
 
-            .visited {
+            &:before, &:after {
+                content: '';
+                display: block;
+                width: 0;
+                height: 0;
+                position: absolute;
+                top: 0;
+                right: -$wizardControlWidth;
+                border: $wizardControlWidth/2 solid transparent;
+                border-left-color: #fff;
+            }
+        }
+
+        // li:nth-child(1):before {
+        //     border-color: transparent;
+        // }
+
+        .active {
+            background-color: $colorLink;
+            color: #fff;
+
+            .badge {
+                background-color: #fff;
                 color: $colorLink;
             }
 
-            a.current {
-                background-color: $colorLink;
-                color: #fff;
+            &:before {
+                border-color: $colorLink;
+                border-left-color: transparent;
+            }
+
+            &:after {
+                border-left-color: $colorLink;
+            }
+        }
+
+        .badge {
+            background-color: $colorNeutralMd;
+            color: #fff;
+            line-height: 1rem;
+            border: none;
+            top: -0.125rem;
+        }
+
+        li.current {
+            &:before {
+                border-color: transparent;
+                border-left-color: $colorLink;
+            }
+
+            &:after {
+                border-left-color: $colorLink;
             }
         }
     }
