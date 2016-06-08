@@ -449,7 +449,7 @@
             position: relative;
             line-height: $wizardControlWidth;
             margin-right: $wizardControlWidth;
-            color: $colorNeutralMd;
+            color: $colorIncompelteStepText;
 
             span.wizard-control-title {
                 margin: 0 0.625rem;
@@ -492,7 +492,7 @@
         }
 
         .badge {
-            background-color: $colorNeutralMd;
+            background-color: $colorIncompelteStepText;
             color: #fff;
             line-height: 1rem;
             border: none;
