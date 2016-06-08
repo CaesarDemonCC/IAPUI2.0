@@ -1,4 +1,4 @@
-import {Xml2Json} from './XmlParse'
+import {Xml2Json} from './xmlParse'
 
 var Ajax = {
 	api : '../swarm.cgi',
@@ -43,6 +43,5 @@ Ajax.post = function (data, callback) {
 };
 
 module.exports = {
-	AjaxGet : Ajax.get,
-	AjaxPost : Ajax.post
+	Ajax : Ajax
 }

@@ -1,3 +1,5 @@
+import X2JS from '../third_party/xml2json.min'
+
 var XmlParse = {
 	_x2js: new X2JS(),
 	_formatOptions : {
@@ -138,7 +140,12 @@ XmlParse.parseXmlOutputTable = function (outputData, result) {
 }
 
 XmlParse.xml2Json = function (xmlData, options) {
-	var jsonData = XmlParse._x2js.xml2json(xmlData);
+	var jsonData;
+	if (typeof xmlData === 'string') {
+		jsonData = XmlParse._x2js.xml_str2json(xmlData);
+	} else {
+		jsonData = XmlParse._x2js.xml2json(xmlData);
+	}
 	
 	if (options) {
 	    $.extend(XmlParse._formatOptions, options);
