@@ -2,7 +2,7 @@ import {Tab} from './ui/widget/tab'
 import {SideNav} from './ui/widget/sideNav'
 import {Wizard} from './ui/widget/wizard'
 import {LoginDialog} from './factory/loginDialog'
-import {Table} from './ui/widget/table'
+import Table from './ui/widget/table'
 import {Ajax} from './utils/ajax'
 import {isLoggedIn, getUser} from './utils/auth'
 
@@ -223,51 +223,7 @@ var App = React.createClass({
     }
 });
 
-// ReactDOM.render(
-//     <App />,
-//     document.getElementById('container')
-// )
-
-var ssidProps = {
-    columns : [{
-        name: 'Name',
-        dataIndex: 'name'
-    }, {
-        name: 'Clients',
-        dataIndex: 'clients'
-    }, {
-        name: 'Action',
-        dataIndex: 'action',
-        render: (text, record) => {
-            let onEditClick = (e) => {
-                console.log(record);
-                e.stopPropagation();
-            }
-            let onDeleteClick = (e) => {
-                console.log(record);
-                e.stopPropagation();
-            }
-            return (
-                <div>
-                <a className="icosolo icon_edit" onClick={onEditClick}></a>
-                <a className="icosolo icon_delete delete" onClick={onDeleteClick}></a>
-                </div>
-            );
-        }
-    }],
-    dataSource: [{
-        name: 'test-ssid',
-        clients: '3'
-    }, {
-        name: 'test-ssid-psk',
-        clients: '2'
-    }],
-    rowKey: 'name',
-    sortable: true,
-    title: 'Networks'
-};
-
- ReactDOM.render(
-    <Table  {...ssidProps} />,
+ReactDOM.render(
+    <App />,
     document.getElementById('container')
 )

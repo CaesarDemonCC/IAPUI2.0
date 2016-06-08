@@ -34,7 +34,7 @@ var LoginDialog = React.createClass({
                 sid : data.sid,
                 role : data.type
             });
-            
+
             this.closeDialog();
 
             if(this.props.cb){
@@ -46,10 +46,12 @@ var LoginDialog = React.createClass({
     render () {
 	    var loginEl =(<div></div>);
         if(this.state.visible){
-            loginEl = (<div>
-                <Dialog title='Welcome' ref='dialog'
+            loginEl = (<div className='login-container'>
+                <Dialog title={<div className='welcome'>Welcome</div>} ref='dialog'
                 onCancel={this.onCancel} onSubmit={this.onSubmit} 
-                items={this.getLoginItems()}>
+                items={this.getLoginItems()} 
+
+                footer={<div><button className='button medium columns medium-12' onClick={this.onSubmit}>OK</button></div>}>
                 </Dialog>
             </div>)
         }

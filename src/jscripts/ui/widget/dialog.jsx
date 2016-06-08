@@ -17,15 +17,19 @@ const Dialog = React.createClass({
               </div>
             );
         }
-        
-        footer = (
-          <div>
-            <div className='divider_horiz'></div>
-            <button className='button medium columns large-2' onClick={this.onSubmit}>OK</button>
-            <button className='button secondary medium columns large-2' onClick={this.onCancel}>Cancel</button>
-          </div>
-        );
-        
+        if (!this.props.footer) {
+            footer = (
+              <div>
+                <div className='divider_horiz'></div>
+                <button className='button medium columns large-2' onClick={this.onSubmit}>OK</button>
+                <button className='button secondary medium columns large-2' onClick={this.onCancel}>Cancel</button>
+              </div>
+            );
+        } else {
+            footer = (<div>
+              {this.props.footer}
+              </div>);
+        }
         
         return (
           <div>
