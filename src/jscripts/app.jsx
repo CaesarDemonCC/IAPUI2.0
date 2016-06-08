@@ -1,6 +1,5 @@
 import {Tab} from './ui/widget/tab'
 import {SideNav} from './ui/widget/sideNav'
-import {AjaxGet, AjaxPost} from './utils/Ajax'
 import {Wizard} from './ui/widget/wizard'
 
 var generalPanel = {
@@ -134,36 +133,4 @@ ReactDOM.render(
     <SideNav data={navConfig}/>,
     document.getElementById('sideNav')
 )
-
-AjaxPost({
-    'opcode':'login',
-    'user':'admin',
-    'passwd':'admin'
-}, function(data){
-    console.log(data);
-    var cmdList = [
-        'show ui-network-settings',
-        'show tacacs-servers',
-        'show external-captive-portal',
-        'show dpi app all',
-        'show dpi appcategory all',
-        'show dpi webcategory all',
-        'show dhcps config',
-        'show facebook',
-        'show bcast-filter-all',
-        'show time-range',
-        'show time-profile',
-        'show dpi-error-page-urls',
-        'show summary'
-    ];
-    AjaxGet({
-        'opcode':'show',
-        'cmd': cmdList.join('\n'),
-        'ip' : '127.0.0.1',
-        'sid' : data.sid
-    }, function(data){
-        console.log(data);
-    });
-});
-
 
