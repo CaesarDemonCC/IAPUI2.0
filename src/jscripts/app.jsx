@@ -1,6 +1,10 @@
 import {Tab} from './ui/widget/tab'
 import {SideNav} from './ui/widget/sideNav'
 import {Wizard} from './ui/widget/wizard'
+import {LoginDialog} from './factory/loginDialog'
+import {Table} from './ui/widget/table'
+import {Ajax} from './utils/ajax'
+import {isLoggedIn, getUser} from './utils/auth'
 
 var generalPanel = {
     title: 'General',
@@ -83,10 +87,6 @@ var networkWizardConfig = {
     wizardsConfig: [basic, vlan, security]
 }
 
-ReactDOM.render(
-    <Wizard {...networkWizardConfig} />,
-    document.getElementById('container')
-)
 
 var navConfig = [{
     'name': 'Monitoring',
@@ -129,8 +129,145 @@ var navConfig = [{
     }]
 }];
 
-ReactDOM.render(
-    <SideNav data={navConfig}/>,
-    document.getElementById('sideNav')
-)
 
+var App = React.createClass({
+    getInitialState() {
+        return {
+            displayLoginDialog: !isLoggedIn()
+        };
+    },
+    setssidProps (ssidProps){
+        this.setState({
+            ssidProps: ssidProps
+        });
+    },
+    showSummary() {
+        var cmdList = [
+            'show stats global',
+            'show summary'
+        ];
+        Ajax.get({
+            'opcode':'show',
+            'cmd': cmdList.join('\n'),
+            'ip' : '127.0.0.1',
+            'sid' : getUser().sid
+        }, function(data){
+            var ssidProps = {
+                columns : [{
+                    name: 'Name',
+                    dataIndex: 'name'
+                }, {
+                    name: 'Clients',
+                    dataIndex: 'clients'
+                }, {
+                    name: 'Action',
+                    dataIndex: 'action',
+                    render: (text, record) => {
+                        let onEditClick = (e) => {
+                            console.log(record);
+                            e.stopPropagation();
+                        }
+                        let onDeleteClick = (e) => {
+                            console.log(record);
+                            e.stopPropagation();
+                        }
+                        return (
+                            <div>
+                            <a className="icosolo icon_edit" onClick={onEditClick}></a>
+                            <a className="icosolo icon_delete delete" onClick={onDeleteClick}></a>
+                            </div>
+                        );
+                    }
+                }],
+                dataSource: [],
+                rowKey: 'name',
+                sortable: true,
+                title: 'Networks'
+            };
+            $.each(data.showsummary, (key, value) => {
+                if(key.indexOf('Networks') > 0) {
+                    value.forEach((network, index) =>{
+                        ssidProps.dataSource.push({
+                            'name' : network.essid,
+                            'clients' : network.clients
+                        });
+                    });
+                }
+            });
+            this.setState({
+                displayLoginDialog : !isLoggedIn(),
+                ssidProps: ssidProps
+            });
+        }.bind(this));
+    },
+    componentDidUpdate(prevProps) {
+        console.log(prevProps);
+    },
+    render () {
+        var element;
+        if (this.state.displayLoginDialog){
+            element = (<LoginDialog hideAfterLogIn={true} cb={this.showSummary}/>);
+        } else {
+            //element = (<Wizard {...networkWizardConfig} />);   
+            element = (<Table  {...this.state.ssidProps} />); 
+            ReactDOM.render(
+                <SideNav data={navConfig}/>,
+                document.getElementById('sideNav')
+            )
+        }
+        return (
+            <div>
+                {element}
+            </div>
+        );
+    }
+});
+
+// ReactDOM.render(
+//     <App />,
+//     document.getElementById('container')
+// )
+
+var ssidProps = {
+    columns : [{
+        name: 'Name',
+        dataIndex: 'name'
+    }, {
+        name: 'Clients',
+        dataIndex: 'clients'
+    }, {
+        name: 'Action',
+        dataIndex: 'action',
+        render: (text, record) => {
+            let onEditClick = (e) => {
+                console.log(record);
+                e.stopPropagation();
+            }
+            let onDeleteClick = (e) => {
+                console.log(record);
+                e.stopPropagation();
+            }
+            return (
+                <div>
+                <a className="icosolo icon_edit" onClick={onEditClick}></a>
+                <a className="icosolo icon_delete delete" onClick={onDeleteClick}></a>
+                </div>
+            );
+        }
+    }],
+    dataSource: [{
+        name: 'test-ssid',
+        clients: '3'
+    }, {
+        name: 'test-ssid-psk',
+        clients: '2'
+    }],
+    rowKey: 'name',
+    sortable: true,
+    title: 'Networks'
+};
+
+ ReactDOM.render(
+    <Table  {...ssidProps} />,
+    document.getElementById('container')
+)
