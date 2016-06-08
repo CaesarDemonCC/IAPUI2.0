@@ -1,7 +1,10 @@
 import {getCookie, setCookie} from './cookie'
 
 var Auth = {
-	user : null
+	user : {
+		sid : '',
+		role : ''
+	}
 };
 
 Auth.setUser = function (user){
@@ -23,7 +26,7 @@ Auth.isAdmin = function () {
 };
 
 Auth.isLoggedIn = function () {
-	return Auth.getUser() == null ? false : true;
+	return Auth.getUser().sid === '' ? false : true;
 };
 
 Auth.logout = function () {

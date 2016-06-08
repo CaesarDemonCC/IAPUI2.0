@@ -1,5 +1,3 @@
-import X2JS from '../third_party/xml2json.min'
-
 var XmlParse = {
 	_x2js: new X2JS(),
 	_formatOptions : {

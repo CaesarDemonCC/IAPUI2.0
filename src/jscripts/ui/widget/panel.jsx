@@ -13,18 +13,17 @@ var generateItem = function (item, index) {
         default: 
             Field = formField.TextInputRow;
     }
-
-    result = <Field key={index} {...item} />
-
+    result = <Field key={index} {...item}/>
     return result;
 }
+
 
 var Panel = React.createClass({
     render: function() {
         return (
             <div className='panel'>
                 <PanelTitle title={this.props.title} />
-                <PanelContent items={this.props.items} />
+                <PanelContent items={this.props.items} getData ={this.props.getData}/>
                 <ButtonBar />
             </div>
         );
@@ -45,6 +44,14 @@ var PanelContent = React.createClass({
         if (handler && typeof handler === 'function') {
             handler.call(this);
         }
+    },
+    getData : function () {
+        var result = {};
+        $.each(this.refs, (index, item)=>{
+            var inputVal = $(ReactDOM.findDOMNode(item)).find('input').val();
+            result[index] = inputVal;
+        })
+        return result;
     },
     render: function () {
         var items = this.props.items.map(generateItem);
