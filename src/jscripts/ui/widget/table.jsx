@@ -1,7 +1,5 @@
 
-import React, {Component} from 'react';
-
-class Table extends Component {
+class Table extends React.Component {
 	constructor (props) {
 	    super(props);
 
