@@ -110,6 +110,9 @@ table.data {
 
     tr {
         position: relative;
+        &.selected {
+            background: #ECF8FD;
+        }
     }
 
     td {
