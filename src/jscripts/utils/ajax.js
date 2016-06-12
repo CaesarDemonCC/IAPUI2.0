@@ -6,9 +6,12 @@ var Ajax = {
 };
 
 
-Ajax.get = function (data, callback, type = 'get') {
+Ajax.get = function (data, callback, options, type = 'get') {
 	if (type == 'get') {
 		Ajax.url = '?'; 
+	}
+	if (options) {
+		this.options = options;
 	}
 	$.extend(data, {
 		'refresh' : false,
@@ -20,7 +23,7 @@ Ajax.get = function (data, callback, type = 'get') {
 		url: Ajax.api + Ajax.url,
 		data: data,
 		success: function (result) {
-			var jsonResult = Xml2Json(result);
+			var jsonResult = Xml2Json(result, this.options);
 			if (jsonResult && jsonResult._debug) {
 				console.log('debug:' + jsonResult._debug);
 				delete jsonResult._debug;
@@ -28,7 +31,7 @@ Ajax.get = function (data, callback, type = 'get') {
 			if (callback) {
 				callback(jsonResult);
 			}
-		}
+		}.bind(this)
 	})
 	.done(function() {
 		console.log( type + ":success" );
@@ -38,8 +41,8 @@ Ajax.get = function (data, callback, type = 'get') {
 	});
 };
 
-Ajax.post = function (data, callback) {
-	Ajax.get(data, callback, 'post');
+Ajax.post = function (data, callback, options) {
+	Ajax.get(data, callback, options,  'post');
 };
 
 module.exports = {
