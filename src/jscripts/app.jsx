@@ -1,103 +1,17 @@
-import {Tab} from './ui/widget/tab'
+
 import {SideNav} from './ui/widget/sideNav'
-import {Wizard} from './ui/widget/wizard'
 import {LoginDialog} from './factory/loginDialog'
-import Table from './ui/widget/table'
-import {Ajax} from './utils/ajax'
 import {isLoggedIn, getUser} from './utils/auth'
-
-var generalPanel = {
-    title: 'General',
-    items: [{
-        id: 'input-1',
-        label: 'Name'
-    }, {
-        label: 'System Location'
-    }, {
-        id: 'input-3',
-        label: 'VC IP'
-    }, {
-        id: 'dynamic-proxy',
-        type: 'checkbox',
-        label: 'Dynamic Proxy'
-    }, {
-        label: 'MAS Integration',
-        type: 'select',
-        options: [{
-            text: 'Enabled',
-            value: 'enable'
-        }, {
-            text: 'Disabled',
-            value: 'disable'
-        }]
-    }],
-    handler: function () {
-        document.getElementById('dynamic-proxy').onchange = function () {
-            alert(this.checked);
-        }
-    }
-}
-
-var adminPanel = {
-    title: 'Admin',
-    items: [{
-        label: 'Test'
-    }],
-    handler: function () {
-        alert('adminPanel');
-    }
-}
-
-
-var systemTabs = {
-    title: 'System',
-    tabsConfig: [generalPanel, adminPanel]
-}
-
-var TabFactory = React.createFactory(Tab);
-
-// ReactDOM.render(
-//     TabFactory(systemTabs),
-//     document.getElementById('container')
-// );
-
-var basic = {
-    title: 'Basic',
-    items: [{
-        label: 'Name'
-    }]
-}
-
-var vlan = {
-    title: 'VLAN',
-    items: [{
-        label: 'VLAN assignment'
-    }]
-}
-
-var security = {
-    title: 'Security',
-    items: [{
-        label: 'Passphase'
-    }]
-}
-
-var networkWizardConfig = {
-    title: 'Create new network',
-    wizardsConfig: [basic, vlan, security]
-}
-
 
 var navConfig = [{
     'name': 'Monitoring',
     //'path': '/',
     'children': [{
         'name': 'Overview',
-        'path': '#/'
+        'path': '#/overview'
     }, {
         'name': 'Networks',
-        'path': '#/',
-        'selected': true
+        'path': '#/networks-monitoring'
     }]
 }, {
     'name': 'Configuration',
@@ -106,26 +20,26 @@ var navConfig = [{
         //'path': '#/',
         'children': [{
             'name': 'Wireless',
-            'path': '#/'
+            'path': '#/networks-config'
         }, {
             'name': 'Wired',
-            'path': '#/'
+            'path': '#/wired'
         }]
     }, {
         'name': 'Uplink',
-        'path': '#/'
+        'path': '#/uplink'
     }]
 }, {
     'name': 'Maintenance',
     'children': [{
         'name': 'About',
-        'path': '#/'
+        'path': '#/about'
     }, {
         'name': 'Configuration',
-        'path': '#/'
+        'path': '#/config'
     }, {
         'name': 'Reboot',
-        'path': '#/'
+        'path': '#/reboot'
     }]
 }];
 
@@ -141,7 +55,7 @@ var App = React.createClass({
             ssidProps: ssidProps
         });
     },
-    showSummary() {
+    /*showSummary() {
         var cmdList = [
             'show stats global',
             'show summary'
@@ -199,17 +113,15 @@ var App = React.createClass({
                 ssidProps: ssidProps
             });
         }.bind(this));
-    },
+    },*/
     componentDidUpdate(prevProps) {
         console.log(prevProps);
     },
     render () {
         var element;
         if (this.state.displayLoginDialog){
-            element = (<LoginDialog hideAfterLogIn={true} cb={this.showSummary}/>);
+            element = (<LoginDialog hideAfterLogIn={true}/>);
         } else {
-            //element = (<Wizard {...networkWizardConfig} />);   
-            element = (<Table  {...this.state.ssidProps} />); 
             ReactDOM.render(
                 <SideNav data={navConfig}/>,
                 document.getElementById('sideNav')
@@ -218,12 +130,21 @@ var App = React.createClass({
         return (
             <div>
                 {element}
+                {this.props.children}
             </div>
         );
     }
 });
 
-ReactDOM.render(
-    <App />,
-    document.getElementById('container')
-)
+const routes = {
+    path: '/',
+    component: App,
+    indexRoute: { component: App },
+    childRoutes: [/*{
+        path: 'overview',
+        component: Overview
+    }*/]
+};
+
+var Router = ReactRouter.Router;
+ReactDOM.render(<Router routes={routes} />, document.getElementById('container'));
