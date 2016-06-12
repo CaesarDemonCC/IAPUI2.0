@@ -71,8 +71,19 @@ var SelectRow = React.createClass({
     }
 });
 
+var Template = React.createClass({
+    render: function () {
+        return (
+            <div>
+                {this.props.template}
+            </div>
+        )
+    }
+});
+
 module.exports = {
     TextInputRow: TextInputRow,
     CheckBoxInputRow: CheckBoxInputRow,
-    SelectRow: SelectRow
+    SelectRow: SelectRow,
+    Template: Template
 }

@@ -10,6 +10,11 @@ var generateItem = function (item, index) {
         case 'select':
             Field = formField.SelectRow;
             break;
+        case 'template':
+            item.ref='template'
+            Field = formField.Template;
+            break;
+            //return item.template;
         default: 
             Field = formField.TextInputRow;
     }
