@@ -14,6 +14,10 @@ Auth.setUser = function (user){
 };
 
 Auth.getUser = function () {
+	if (getCookie('sid')) {
+		Auth.user.sid = getCookie('sid');
+		Auth.user.role = getCookie('userType');
+	}
 	return Auth.user;
 };
 

@@ -1,7 +1,7 @@
-
 import {SideNav} from './ui/widget/sideNav'
 import {LoginDialog, Logout} from './factory/loginDialog'
 import {isLoggedIn} from './utils/auth'
+import {About} from './factory/about'
 
 var navConfig = [{
     'name': 'Monitoring',
@@ -55,65 +55,6 @@ var App = React.createClass({
             ssidProps: ssidProps
         });
     },
-    /*showSummary() {
-        var cmdList = [
-            'show stats global',
-            'show summary'
-        ];
-        Ajax.get({
-            'opcode':'show',
-            'cmd': cmdList.join('\n'),
-            'ip' : '127.0.0.1',
-            'sid' : getUser().sid
-        }, function(data){
-            var ssidProps = {
-                columns : [{
-                    name: 'Name',
-                    dataIndex: 'name'
-                }, {
-                    name: 'Clients',
-                    dataIndex: 'clients'
-                }, {
-                    name: 'Action',
-                    dataIndex: 'action',
-                    render: (text, record) => {
-                        let onEditClick = (e) => {
-                            console.log(record);
-                            e.stopPropagation();
-                        }
-                        let onDeleteClick = (e) => {
-                            console.log(record);
-                            e.stopPropagation();
-                        }
-                        return (
-                            <div>
-                            <a className="icosolo icon_edit" onClick={onEditClick}></a>
-                            <a className="icosolo icon_delete delete" onClick={onDeleteClick}></a>
-                            </div>
-                        );
-                    }
-                }],
-                dataSource: [],
-                rowKey: 'name',
-                sortable: true,
-                title: 'Networks'
-            };
-            $.each(data.showsummary, (key, value) => {
-                if(key.indexOf('Networks') > 0) {
-                    value.forEach((network, index) =>{
-                        ssidProps.dataSource.push({
-                            'name' : network.essid,
-                            'clients' : network.clients
-                        });
-                    });
-                }
-            });
-            this.setState({
-                displayLoginDialog : !isLoggedIn(),
-                ssidProps: ssidProps
-            });
-        }.bind(this));
-    },*/
     render () {
         var Header = React.createClass({
             render: function () {
@@ -163,7 +104,7 @@ var requireAuth = function (nextState, replace) {
 
 var redirectToHomePage = function (nextState, replace) {
     replace({
-        pathname: '/home'
+        pathname: '/'
     })
 }
 
@@ -193,6 +134,9 @@ const routes = {
     }, {
         path: 'logout',
         component: Logout
+    }, {
+        path: 'about',
+        component: About
     }, {
         path: '*',
         onEnter: redirectToHomePage
