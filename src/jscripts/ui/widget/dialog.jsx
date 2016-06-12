@@ -48,10 +48,14 @@ const Dialog = React.createClass({
                   <a className="icosolo icon_close" onClick={this.onCancel}></a>
               </div>);
       }
+      var dialogContentClass = 'message';
+      if(this.props.className) {
+          dialogContentClass = this.props.className;
+      }
         return (
           <div className='overlay light open'>
               {close}
-              <div className='message'>
+              <div className={dialogContentClass}>
                   {this.getDialogEl()}
               </div>
           </div>

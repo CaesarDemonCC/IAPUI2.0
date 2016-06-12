@@ -139,7 +139,7 @@ var App = React.createClass({
 const routes = {
     path: '/',
     component: App,
-    indexRoute: { component: App },
+    //indexRoute: { component: App },
     childRoutes: [/*{
         path: 'overview',
         component: Overview

@@ -7,14 +7,14 @@ var LoginDialog = React.createClass({
 		return [{
             type:'template',
             template:(
-                <div className='container'>
-                    <div className='login-container'>
+                <div>
+                    <div>
                         <div className='logo-container'>
                             <div className='logo' />
                         </div>
                     <div className='welcome'>Welcome</div>
                     <input className='medium-12 columns input' placeholder='username' type='text' ref='username'/>
-                    <input className='medium-12 columns input' placeholder='password' type='password'  ref='passwd'/>
+                    <input className='medium-12 columns input'  placeholder='password' onKeyDown={this.onKeyDown} type='password'  ref='passwd'/>
                     <button className='button medium columns medium-12' onClick={this.onSubmit}>OK</button>
                     </div>
                 </div>)
@@ -24,6 +24,11 @@ var LoginDialog = React.createClass({
         return {
           visible: !isLoggedIn()
         };
+    },
+    onKeyDown(e) {
+      if (e.keyCode  === 13) {
+        this.onSubmit(e);
+      }
     },
     closeDialog() {
         this.setState({
@@ -58,7 +63,8 @@ var LoginDialog = React.createClass({
                 <Dialog ref='dialog'
                 onCancel={this.onCancel} onSubmit={this.onSubmit} 
                 items={this.getLoginItems()} 
-                footer={<div></div>}>
+                footer={<div></div>}
+                className='login-container'>
                 </Dialog>
             </div>)
         }
