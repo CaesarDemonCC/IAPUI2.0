@@ -1,8 +1,8 @@
-import {getUser, setUser,isLoggedIn} from '../utils/auth'
+import {getUser, setUser, isLoggedIn, logout} from '../utils/auth'
 import {Dialog} from '../ui/widget/dialog'
 import {Ajax} from '../utils/ajax'
 
-var LoginDialog = React.createClass({
+var LoginDialog = ReactRouter.withRouter(React.createClass({
 	getLoginItems () {
 		return [{
             type:'template',
@@ -51,11 +51,16 @@ var LoginDialog = React.createClass({
                     role : data.type
                 });
 
-                this.closeDialog();
+                var location = this.props.location,
+                    router = this.props.router;
 
-                if(this.props.cb){
-                    this.props.cb();
-                }
+                 router.replace('/');
+                // if (location.state && location.state.nextPathname) {
+                //     router.replace(location.state.nextPathname)
+                // } else {
+                //     router.replace('/home');
+                // }
+
             }
         }.bind(this));
     },
@@ -73,8 +78,24 @@ var LoginDialog = React.createClass({
         }
         return loginEl;
     }
-}); 
+}));
+
+var Logout = ReactRouter.withRouter(React.createClass({
+    componentWillMount: function () {
+        Ajax.post({
+            'opcode':'login'
+        }, function(data){
+            logout();
+            var router = this.props.router;
+            router.replace('/login');
+        }.bind(this));
+    },
+    render: function () {
+        return <div>Logging out...</div>
+    }
+}));
 
 module.exports = {
-	LoginDialog : LoginDialog
+	LoginDialog : LoginDialog,
+    Logout: Logout
 }

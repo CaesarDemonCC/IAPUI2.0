@@ -1,7 +1,7 @@
 
 import {SideNav} from './ui/widget/sideNav'
-import {LoginDialog} from './factory/loginDialog'
-import {isLoggedIn, getUser} from './utils/auth'
+import {LoginDialog, Logout} from './factory/loginDialog'
+import {isLoggedIn} from './utils/auth'
 
 var navConfig = [{
     'name': 'Monitoring',
@@ -114,37 +114,90 @@ var App = React.createClass({
             });
         }.bind(this));
     },*/
-    componentDidUpdate(prevProps) {
-        console.log(prevProps);
-    },
     render () {
-        var element;
-        if (this.state.displayLoginDialog){
-            element = (<LoginDialog hideAfterLogIn={true}/>);
-        } else {
-            ReactDOM.render(
-                <SideNav data={navConfig}/>,
-                document.getElementById('sideNav')
-            )
-        }
+        var Header = React.createClass({
+            render: function () {
+                return (
+                    <div className='header'>
+                        <div className='logo small-5 columns' />
+                        <div className='bannermenu small-7 columns'>
+                            <div className='logout'>
+                                <a href='#/logout'>Logout</a>
+                            </div>
+                            <div className='icon_help' />
+                            <span className='search'>
+                                <label className='icon_search' />
+                                <input type='search' id='searchInput' />
+                            </span>
+                        </div>
+                    </div>
+                )
+            }
+        });
+
         return (
             <div>
-                {element}
-                {this.props.children}
+                <Header />
+                <div>
+                    <div id='sideNav' className='medium-3 large-2 columns'>
+                        <SideNav data={navConfig} />
+                    </div>
+                    <div id='container' className='medium-9 large-10 columns'>
+                        {this.props.children}
+                    </div>
+                </div>
             </div>
         );
     }
 });
 
+var requireAuth = function (nextState, replace) {
+    console.log(nextState);
+    if (nextState.location.pathname !== '/login' && !isLoggedIn()) {
+        replace({
+            pathname: '/login',
+            state: { nextPathname: nextState.location.pathname }
+        })
+    }
+}
+
+var redirectToHomePage = function (nextState, replace) {
+    replace({
+        pathname: '/home'
+    })
+}
+
+var Home = React.createClass({
+    render: function () {
+        return <div>Home</div>;
+    }
+})
+
+var Overview = React.createClass({
+    render: function () {
+        return <div>Overview</div>;
+    }
+})
+
 const routes = {
     path: '/',
     component: App,
-    //indexRoute: { component: App },
-    childRoutes: [/*{
+    onEnter: requireAuth,
+    indexRoute: { component: Home },
+    childRoutes: [{
         path: 'overview',
         component: Overview
-    }*/]
+    }, {
+        path: 'login',
+        component: LoginDialog
+    }, {
+        path: 'logout',
+        component: Logout
+    }, {
+        path: '*',
+        onEnter: redirectToHomePage
+    }]
 };
 
 var Router = ReactRouter.Router;
-ReactDOM.render(<Router routes={routes} />, document.getElementById('container'));
+ReactDOM.render(<Router routes={routes} />, document.body);

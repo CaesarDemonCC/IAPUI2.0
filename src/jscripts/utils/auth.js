@@ -30,7 +30,10 @@ Auth.isLoggedIn = function () {
 };
 
 Auth.logout = function () {
-	Auth.setUser(null);
+	Auth.setUser({
+		'userType': '',
+		'sid': ''
+	});
 };
 
 module.exports = {
