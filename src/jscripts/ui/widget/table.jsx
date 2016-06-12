@@ -16,6 +16,9 @@ class Table extends React.Component {
 
   	componentWillReceiveProps (nextProps) {
   		console.log('componentWillReceiveProps');
+  		if (nextProps.dataSource != this.props.dataSource) {
+	      	this.setState({ data: nextProps.dataSource });
+	    }
   	}
 
   	componentDidUpdate () {
@@ -45,7 +48,7 @@ class Table extends React.Component {
 
   		this.state.sort = {key: key, asc: asc};
 
-  		this.sortData(key, asc);
+  		this.setState({data:this.sortData(key, asc)});
   	}
 
   	onRowSelect (record) {
@@ -115,8 +118,6 @@ class Table extends React.Component {
 	}
 
 	createBody (data) {
-		data = this.state.data;
-
 		let rows = data.map((d, i) => {
 			let tds = [];
 			this.props.columns.map((h, j) => {
@@ -135,7 +136,7 @@ class Table extends React.Component {
 	}
 
 	sortData (key, asc) {
-	    let data = this.state.data;
+	    let data = this.props.dataSource;
 	    data = data.sort(function(a, b) {
 	      	var x = a[key];
 	      	var y = b[key];
@@ -146,7 +147,16 @@ class Table extends React.Component {
 	      	}
 	    });
 
-	    this.setState({ data });
+	    return data;
+	}
+
+	getData () {
+		// TBD
+		if (this.props.sortable && this.state.sort.key) {
+			return this.sortData(this.state.sort.key, this.state.sort.asc); 
+		} else {
+			return this.props.dataSource;
+		}
 	}
 
 	render () {
@@ -155,7 +165,7 @@ class Table extends React.Component {
 				{this.createTitle()}
 				<table className="data responsive">
 					{this.createHeader()}
-					{this.createBody()}
+					{this.createBody(this.getData())}
 					{this.createFooter()}
 				</table>
 			</div>
