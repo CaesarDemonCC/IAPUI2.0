@@ -13,13 +13,16 @@ var LoginDialog = React.createClass({
                             <div className='logo' />
                         </div>
                     <div className='welcome'>Welcome</div>
-                    <input className='medium-12 columns input' placeholder='username' type='text' ref='username'/>
-                    <input className='medium-12 columns input'  placeholder='password' onKeyDown={this.onKeyDown} type='password'  ref='passwd'/>
+                    <input className='medium-12 columns input' placeholder='Username' type='text' ref='username'/>
+                    <input className='medium-12 columns input'  placeholder='Password' onKeyDown={this.onKeyDown} type='password'  ref='passwd'/>
                     <button className='button medium columns medium-12' onClick={this.onSubmit}>OK</button>
                     </div>
                 </div>)
 	    }];
 	},
+    componentDidMount() {
+        this.refs.username.focus();
+    },
     getInitialState() {
         return {
           visible: !isLoggedIn()
@@ -38,23 +41,23 @@ var LoginDialog = React.createClass({
     onSubmit (e) {
     	//var data = this.refs.dialog.refs.panelContent.getData();
       	Ajax.post({
-        'opcode':'login',
-        'user':this.refs.username.value,
-        'passwd':this.refs.passwd.value
-    }, function(data){
-        if(data.sid) {
-            setUser({
-                sid : data.sid,
-                role : data.type
-            });
+            'opcode':'login',
+            'user':this.refs.username.value,
+            'passwd':this.refs.passwd.value
+        }, function(data){
+            if(data.sid) {
+                setUser({
+                    sid : data.sid,
+                    role : data.type
+                });
 
-            this.closeDialog();
+                this.closeDialog();
 
-            if(this.props.cb){
-                this.props.cb();
+                if(this.props.cb){
+                    this.props.cb();
+                }
             }
-        }
-    }.bind(this));
+        }.bind(this));
     },
     render () {
 	    var loginEl =(<div></div>);
