@@ -9,10 +9,10 @@ var navConfig = [{
     //'path': '/',
     'children': [{
         'name': 'Overview',
-        'path': '#/overview'
+        'path': '/overview'
     }, {
         'name': 'Networks',
-        'path': '#/networks'
+        'path': '/networks'
     }]
 }, {
     'name': 'Configuration',
@@ -21,26 +21,26 @@ var navConfig = [{
         //'path': '#/',
         'children': [{
             'name': 'Wireless',
-            'path': '#/networks-config'
+            'path': '/networks-config'
         }, {
             'name': 'Wired',
-            'path': '#/wired'
+            'path': '/wired'
         }]
     }, {
         'name': 'Uplink',
-        'path': '#/uplink'
+        'path': '/uplink'
     }]
 }, {
     'name': 'Maintenance',
     'children': [{
         'name': 'About',
-        'path': '#/about'
+        'path': '/about'
     }, {
         'name': 'Configuration',
-        'path': '#/config'
+        'path': '/config'
     }, {
         'name': 'Reboot',
-        'path': '#/reboot'
+        'path': '/reboot'
     }]
 }];
 
@@ -82,7 +82,7 @@ var App = React.createClass({
                 <Header />
                 <div>
                     <div id='sideNav' className='medium-3 large-2 columns'>
-                        <SideNav data={navConfig} />
+                        <SideNav data={navConfig} currentLocation={this.props.location.pathname} />
                     </div>
                     <div id='container' className='medium-9 large-10 columns'>
                         {this.props.children}

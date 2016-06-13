@@ -21,7 +21,7 @@ var nodeMixin = {
     }
 }
 
-var SideNav = React.createClass({
+var SideNav = ReactRouter.withRouter(React.createClass({
     mixins: [toggleMenuMixin],
     getInitialState: function () {
         var data = $.extend(true, [], this.props.data),
@@ -29,8 +29,16 @@ var SideNav = React.createClass({
 
         var depthMap = {};
 
+        var currentLocation = this.props.currentLocation;
+        console.log(currentLocation);
+
         var setId = function (data, level) {
             data.forEach(function (item) {
+
+                if (item.path && item.path == currentLocation) {
+                    item.selected = true;
+                }
+
                 if (depthMap[level] == undefined) {
                     depthMap[level] = 0;
                 } else {
@@ -93,7 +101,7 @@ var SideNav = React.createClass({
             </div>
         )
     }
-})
+}));
 
 var Node = React.createClass({
     mixins: [toggleMenuMixin, nodeMixin],
@@ -119,7 +127,7 @@ var Node = React.createClass({
         }
         return (
             <li className={'folder ' + this.state.selected?'':''} >
-                <a href={data.path||null} onClick={data.path?this.selectHandler.bind(this, data._id):this.menuToggleHandler}>{data.name}</a>
+                <a href={'#'+data.path||null} onClick={data.path?this.selectHandler.bind(this, data._id):this.menuToggleHandler}>{data.name}</a>
                 <ul className={this.state.expanded?'expand':''} >
                     {children}
                 </ul>
@@ -139,7 +147,7 @@ var LeafNode = React.createClass({
         var data = this.props.data;
         return (
             <li className={this.state.selected?'current':''} onClick={this.selectHandler.bind(this, data._id)} >
-                <a href={data.path}>{data.name}</a>
+                <a href={'#'+data.path}>{data.name}</a>
             </li>
         )
     }
