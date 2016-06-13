@@ -24,34 +24,29 @@ var nodeMixin = {
 var SideNav = ReactRouter.withRouter(React.createClass({
     mixins: [toggleMenuMixin],
     getInitialState: function () {
-        var data = $.extend(true, [], this.props.data),
-            level = 0;
-
-        var depthMap = {};
-
+        var data = $.extend(true, [], this.props.data);
         var currentLocation = this.props.currentLocation;
-        console.log(currentLocation);
+        var self = this;
 
-        var setId = function (data, level) {
-            data.forEach(function (item) {
+        var setId = function (d, opt_parentID) {
+            d.forEach(function (item, index) {
+                var parentID = opt_parentID? opt_parentID + '.' : '';
+                item._id = parentID + index;
 
                 if (item.path && item.path == currentLocation) {
                     item.selected = true;
+                    // Set the parent node as selected
+                    self.setSelected(opt_parentID, data, true);
                 }
 
-                if (depthMap[level] == undefined) {
-                    depthMap[level] = 0;
-                } else {
-                    depthMap[level] += 1;
-                }
-                item._id = level + '.' + depthMap[level];
                 if (item.children) {
-                    setId(item.children, level + 1)
+                    setId(item.children, item._id)
                 }
             })
         }
+
         if (data && $.isArray(data)) {
-            setId(data, level)
+            setId(data)
         }
 
         return {
@@ -59,24 +54,36 @@ var SideNav = ReactRouter.withRouter(React.createClass({
             treeData: data
         };
     },
-    selectNode: function (nodeId) {
-        var data = this.state.treeData;
-        if (data && $.isArray(data)) {
-            var newData = $.extend(true, [], data);
-            function setSelected (nodes) {
-                nodes.forEach(function (item) {
+    setSelected: function (nodeId, nodes, opt_doNotUnselectOthers) {
+
+        if (nodes && nodes.length) {
+            var item;
+            for (var i = 0; i < nodes.length; i++) {
+                item = nodes[i];
+                if (opt_doNotUnselectOthers) {
+                    if (item._id === nodeId) {
+                        item.selected = true;
+                        break;
+                    }
+                } else {
                     if (item._id === nodeId) {
                         item.selected = true;
                     } else {
                         item.selected = false;
                     }
+                }
 
-                    if (item.children) {
-                        setSelected(item.children);
-                    }
-                })
+                if (item.children) {
+                    this.setSelected(nodeId, item.children);
+                }
             }
-            setSelected(newData);
+        }
+    },
+    selectNode: function (nodeId) {
+        var data = this.state.treeData;
+        if (data && $.isArray(data)) {
+            var newData = $.extend(true, [], data);
+            this.setSelected(nodeId, newData);
 
             this.setState({
                 treeData: newData,
@@ -126,8 +133,8 @@ var Node = React.createClass({
             })
         }
         return (
-            <li className={'folder ' + this.state.selected?'':''} >
-                <a href={'#'+data.path||null} onClick={data.path?this.selectHandler.bind(this, data._id):this.menuToggleHandler}>{data.name}</a>
+            <li className={'folder ' + (this.state.selected?'current':'')} >
+                <a href={data.path?'#'+data.path:null} onClick={data.path?this.selectHandler.bind(this, data._id):this.menuToggleHandler}>{data.name}</a>
                 <ul className={this.state.expanded?'expand':''} >
                     {children}
                 </ul>
@@ -147,7 +154,7 @@ var LeafNode = React.createClass({
         var data = this.props.data;
         return (
             <li className={this.state.selected?'current':''} onClick={this.selectHandler.bind(this, data._id)} >
-                <a href={'#'+data.path}>{data.name}</a>
+                <a href={data.path?'#'+data.path:null}>{data.name}</a>
             </li>
         )
     }
