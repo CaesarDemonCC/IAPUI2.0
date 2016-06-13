@@ -56,14 +56,19 @@ var About = React.createClass({
 		this.showAbout();
     },
 	render () {
-		var aboutElement = (<div/>);
+		var aboutElement = (<div />);
+		var titleElement = (<div className='title_heading form_heading'>About</div>)
 		if(this.state.about) {
 			aboutElement = this.state.about.map((item) => {
 				return (<SpanLable {...item}/>)
 			});
 		}
-		return (<div>
-			{aboutElement}
+		return (
+		<div className='panel'>
+			{titleElement}
+			<div className='about' >
+				{aboutElement}
+			</div>
 		</div>)
 	}
 });
