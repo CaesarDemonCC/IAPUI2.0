@@ -2,7 +2,6 @@ import {SideNav} from './ui/widget/sideNav'
 import {LoginDialog, Logout} from './factory/loginDialog'
 import {isLoggedIn} from './utils/auth'
 import {About} from './factory/about'
-import {Reboot} from './factory/reboot'
 import {Networks} from './factory/networks'
 
 var navConfig = [{
@@ -124,7 +123,7 @@ var Overview = React.createClass({
     }
 })
 
-const routes = {
+var routes = {
     path: '/',
     component: App,
     onEnter: requireAuth,
@@ -142,9 +141,6 @@ const routes = {
         path: 'about',
         component: About
     }, {
-        path: 'reboot',
-        component: Reboot
-    }, {
         path: 'networks',
         component: Networks
     }, {
@@ -152,6 +148,17 @@ const routes = {
         onEnter: redirectToHomePage
     }]
 };
+
+//TODO: Use a more graceful way to replace this!
+function addOnEnterIntoChildRoutes (routes, listener) {
+    var childRoutes = routes.childRoutes;
+    if (childRoutes && childRoutes.length) {
+        childRoutes.forEach(function (item) {
+            item.onEnter = listener;
+        });
+    }
+}
+addOnEnterIntoChildRoutes(routes, requireAuth);
 
 var Router = ReactRouter.Router;
 ReactDOM.render(<Router routes={routes} />, document.body);
