@@ -159,7 +159,11 @@ XmlParse.parseXmlOutputTable = function (outputData, result) {
 	    result[showCMD] = {};
 		XmlParse.parseXmlDataTable(item, result[showCMD]);
 	});
-}
+};
+
+XmlParse.parseError = function (ErrorData, result) {
+
+};
 
 XmlParse.xml2Json = function (xmlData, options) {
 	var jsonData;
@@ -178,7 +182,11 @@ XmlParse.xml2Json = function (xmlData, options) {
 	}
 	var result = {};
 	
-	XmlParse.parseXmlDataTable(jsonData, result);
+	if (jsonData.re && jsonData.re.error) {
+		return jsonData.re;
+	} else {
+		XmlParse.parseXmlDataTable(jsonData, result);
+	}
 
 	return result;
 };

@@ -22,9 +22,16 @@ Ajax.get = function (data, callback, options, type = 'get') {
 		data: data,
 		success: function (result) {
 			var jsonResult = Xml2Json(result, options);
-			
-			if (callback) {
-				callback(jsonResult);
+			if (jsonResult.error) {
+				if (jsonResult.error === 'Invalid Session ID') {
+					ReactRouter.hashHistory.replace('/login');
+				} else {
+					alert(jsonResult.error);
+				}
+			} else {
+				if (callback) {
+					callback(jsonResult);
+				}
 			}
 		}
 	})
