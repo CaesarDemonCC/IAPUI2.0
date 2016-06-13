@@ -1,10 +1,5 @@
 var XmlParse = {
-	_x2js: new X2JS(),
-	_formatOptions : {
-	    'removeKeySpace' : true, ///Remove all space
-	    'trim' : true,           ///Remove start or end space
-	    'lowerCase' : true       ///Is parse to lower case
-	}
+	_x2js: new X2JS()
 };
 
 XmlParse.formatJson = function (item) {
@@ -144,7 +139,11 @@ XmlParse.xml2Json = function (xmlData, options) {
 	} else {
 		jsonData = XmlParse._x2js.xml2json(xmlData);
 	}
-	
+	XmlParse._formatOptions = {
+	    'removeKeySpace' : true, ///Remove all space
+	    'trim' : true,           ///Remove start or end space
+	    'lowerCase' : true       ///Is parse to lower case
+	}
 	if (options) {
 	    $.extend(XmlParse._formatOptions, options);
 	}

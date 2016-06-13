@@ -2,7 +2,8 @@ import {Xml2Json} from './xmlParse'
 
 var Ajax = {
 	api : '../swarm.cgi',
-	url : ''
+	url : '',
+	options: null
 };
 
 
@@ -10,9 +11,8 @@ Ajax.get = function (data, callback, options, type = 'get') {
 	if (type == 'get') {
 		Ajax.url = '?'; 
 	}
-	if (options) {
-		this.options = options;
-	}
+	this.options = options;
+	
 	$.extend(data, {
 		'refresh' : false,
 		'nocache' : Math.random()
