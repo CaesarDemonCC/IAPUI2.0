@@ -84,6 +84,9 @@ var SideNav = ReactRouter.withRouter(React.createClass({
         if (data && $.isArray(data)) {
             var newData = $.extend(true, [], data);
             this.setSelected(nodeId, newData);
+            if (nodeId.match(/.\d+$/)) {
+                this.setSelected(nodeId.replace(/.\d+$/, ''), newData, true);
+            }
 
             this.setState({
                 treeData: newData,
