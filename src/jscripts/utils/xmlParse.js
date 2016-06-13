@@ -2,6 +2,35 @@ var XmlParse = {
 	_x2js: new X2JS()
 };
 
+/**
+ * Decodes symbols at the string to html
+ * 
+ * @method
+ * @param {String} html String for decoding
+ * @return {String} String after decoding
+ */
+XmlParse.decodeHTML = function (html) {
+    if (html && html.length > 0) {
+        var complete = false;
+        var startHtml;
+        var elem = document.createElement('span');
+        // To avoid html tag parsing and automatic completion
+        // e.g. <iframe> =====> <iframe></iframe>
+        html = html.replace(/</g, '&lt;');
+        elem.innerHTML = html;
+        // here we decode these: &amp;#39;, &amp;#32;, etc.
+        //we can not use goog.dom.getTextContent - it's convert to or more spaces to one
+        html = elem.innerHTML; 
+        html = html.replace(/&amp;/g, '&');
+        html = html.replace(/&lt;/g, '<');
+        html = html.replace(/&gt;/g, '>');
+        html = html.replace(/&quot;/g, '"');
+    } else {
+        html = '';
+    }
+    return html;
+};
+
 XmlParse.formatJson = function (item) {
 	if (XmlParse._formatOptions['removeKeySpace']) {
         item = item.replace(/[\s"]/g, '');
@@ -32,7 +61,7 @@ XmlParse.parseXmlData = function (data, result) {
         
         var formatItem = XmlParse.formatJson(item["_name"]);
 
-        result[formatItem] = item["Text"];
+        result[formatItem] = this.decodeHTML(item["Text"]);
     }
 };
 
@@ -50,7 +79,7 @@ XmlParse.parseXmlTable = function (table, result) {
 			// table column and row are in 'th'(show alg)
 			var obj = {};
 			for (var thRowIndex = 1; thRowIndex < table[i]['th'].length; thRowIndex++) {
-				obj[table[i]['th'][thRowIndex]['h'][0]] = table[i]['th'][thRowIndex]['h'][1];
+				obj[table[i]['th'][thRowIndex]['h'][0]] = this.decodeHTML(table[i]['th'][thRowIndex]['h'][1]);
 			}
 			result[tableName] = obj;
 		} else { // normal table(most situation)
@@ -71,7 +100,7 @@ XmlParse.parseXmlTable = function (table, result) {
     					var row = {};
     					for (var columnIndex = 0; columnIndex < columnCount; columnIndex++) {
 		    				var formatColumn = XmlParse.formatJson(tableColumn[columnIndex]);
-    						row[formatColumn] = XmlParse.object2Array(tableRow[rowIndex]['c'])[columnIndex];
+    						row[formatColumn] = this.decodeHTML(XmlParse.object2Array(tableRow[rowIndex]['c'])[columnIndex]);
 		    			}
 	    				rows.push(row);
 					}
@@ -82,7 +111,7 @@ XmlParse.parseXmlTable = function (table, result) {
 	    			var columns = {};
 	    			for (var columnIndex = 0; columnIndex < columnCount; columnIndex++) {
 	    				var formatColumn = XmlParse.formatJson(tableColumn[columnIndex]);
-	    				columns[formatColumn] = oneRow[columnIndex];
+	    				columns[formatColumn] = this.decodeHTML(oneRow[columnIndex]);
 	    			}
 	    			result[tableName] = columns;
 	    		}
