@@ -13,22 +13,24 @@ var navConfig = [{
     }, {
         'name': 'Networks',
         'path': '/networks'
+    }, {
+        'name': 'Access Points',
+        'path': '/aps'
+    }, {
+        'name': 'Clients',
+        'path': '/clients'
     }]
 }, {
     'name': 'Configuration',
     'children': [{
+        'name': 'System',
+        'path': '/system'
+    },{
         'name': 'Networks',
-        //'path': '#/',
-        'children': [{
-            'name': 'Wireless',
-            'path': '/networks-config'
-        }, {
-            'name': 'Wired',
-            'path': '/wired'
-        }]
+        'path': '/network-config'
     }, {
-        'name': 'Uplink',
-        'path': '/uplink'
+        'name': 'RF',
+        'path': '/rf'
     }]
 }, {
     'name': 'Maintenance',
