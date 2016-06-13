@@ -1,6 +1,16 @@
 import {PanelContent} from './panel'
+import {PropTypes} from 'react'
 
 const Dialog = React.createClass({
+    propTypes: {
+      title: PropTypes.string,
+      className: PropTypes.string,
+      onSubmit: PropTypes.func,
+      onCancel: PropTypes.func,
+      footer: PropTypes.element,
+      close: PropTypes.bool,
+      items: PropTypes.array
+    },
     onSubmit (e) {
       this.props.onSubmit(e);
     },
