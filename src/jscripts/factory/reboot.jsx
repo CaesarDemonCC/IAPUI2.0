@@ -1,6 +1,6 @@
 import {Dialog} from '../ui/widget/dialog'
 import {Ajax} from '../utils/ajax'
-import {getUser} from '../utils/auth'
+import {Upload} from '../utils/upload'
 
 var Reboot = React.createClass({
 	getInitialState() {
@@ -14,9 +14,7 @@ var Reboot = React.createClass({
         ];
         Ajax.post({
             'opcode':'action',
-            'cmd': cmdList.join('\n'),
-            'ip' : '127.0.0.1',
-            'sid' : getUser().sid
+            'cmd': cmdList.join('\n')
         }, function(data){    
         	
         }.bind(this));
@@ -59,11 +57,29 @@ var Reboot = React.createClass({
 		return (<div className='panel'>
 				{titleElement}
 				<button className='medium button medium-2 columns' onClick={this.showRebootConfirm}>Reboot</button>
+				<Upload {...props}><a >asdfasd</a></Upload>
 				{rebootConfirm}
 			</div>)
 	}
 });
-
+const props = {
+  action: '../swarm.cgi',
+  data: {psk: "", cert_type: "ca_cert", cert_format: "pem_format", opcode: "cert-upload"},
+  name: 'cert',
+  onStart(files) {
+    const file = files[0];
+    console.log('onStart', file, file.name);
+  },
+  onSuccess(ret) {
+    console.log('onSuccess', ret);
+  },
+  onProgress(step, file) {
+    console.log('onProgress', step, file);
+  },
+  onError(err) {
+    console.log('onError', err);
+  },
+};
 module.exports = {
 	Reboot : Reboot
 }
