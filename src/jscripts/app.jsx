@@ -5,6 +5,7 @@ import {About} from './factory/about'
 import {Reboot} from './factory/reboot'
 import {Networks} from './factory/networks'
 import {System} from './factory/system'
+import {User} from './factory/user'
 
 var navConfig = [{
     'name': 'Monitoring',
@@ -30,6 +31,9 @@ var navConfig = [{
     },{
         'name': 'Networks',
         'path': '/network-config'
+    }, {
+        'name': 'User',
+        'path': '/user'
     }, {
         'name': 'RF',
         'path': '/rf'
@@ -169,11 +173,14 @@ var routes = {
         path: 'reboot',
         component: Reboot
     }, {
-        path: 'networks',
+        path: 'network-config',
         component: Networks
     }, {
         path: 'system',
         component: System
+    }, {
+        path: 'user',
+        component: User
     }, {
         path: 'clients',
         component: Clients
