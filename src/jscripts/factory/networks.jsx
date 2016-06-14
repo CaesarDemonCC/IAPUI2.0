@@ -1,8 +1,41 @@
 import {Ajax} from '../utils/ajax'
 import Table from '../ui/widget/table'
-import {getUser} from '../utils/auth'
 
 var Networks = React.createClass({
+	getDefaultProps(){
+		return {
+	        columns : [{
+	            name: 'Name',
+	            dataIndex: 'name'
+	        }, {
+	            name: 'Clients',
+	            dataIndex: 'clients'
+	        }, {
+	            name: 'Action',
+	            dataIndex: 'action',
+	            render: (text, record) => {
+	                let onEditClick = (e) => {
+	                    console.log(record);
+	                    e.stopPropagation();
+	                }
+	                let onDeleteClick = (e) => {
+	                    console.log(record);
+	                    e.stopPropagation();
+	                }
+	                return (
+	                    <div>
+	                    <a className="icosolo icon_edit" onClick={onEditClick}></a>
+	                    <a className="icosolo icon_delete delete" onClick={onDeleteClick}></a>
+	                    </div>
+	                );
+	            }
+	        }],
+	        dataSource: [],
+	        rowKey: 'name',
+	        sortable: true,
+	        title: 'Networks'
+		};
+	},
 	getInitialState() {
         return {
         	dataSource : []
@@ -15,9 +48,7 @@ var Networks = React.createClass({
         ];
         Ajax.get({
             'opcode':'show',
-            'cmd': cmdList.join('\n'),
-            'ip' : '127.0.0.1',
-            'sid' : getUser().sid
+            'cmd': cmdList.join('\n')
         }, function(data){    
         	var dataSource = [];        
         	$.each(data.showsummary, (key, value) => {
@@ -36,43 +67,11 @@ var Networks = React.createClass({
             });
         }.bind(this));
     },
-    componentWillMount () {
+    componentDidMount () {
 		this.showSummary();
     },
     render () {
-    	var ssidProps = {
-	            columns : [{
-	                name: 'Name',
-	                dataIndex: 'name'
-	            }, {
-	                name: 'Clients',
-	                dataIndex: 'clients'
-	            }, {
-	                name: 'Action',
-	                dataIndex: 'action',
-	                render: (text, record) => {
-	                    let onEditClick = (e) => {
-	                        console.log(record);
-	                        e.stopPropagation();
-	                    }
-	                    let onDeleteClick = (e) => {
-	                        console.log(record);
-	                        e.stopPropagation();
-	                    }
-	                    return (
-	                        <div>
-	                        <a className="icosolo icon_edit" onClick={onEditClick}></a>
-	                        <a className="icosolo icon_delete delete" onClick={onDeleteClick}></a>
-	                        </div>
-	                    );
-	                }
-	            }],
-	            dataSource: [],
-	            rowKey: 'name',
-	            sortable: true,
-	            title: 'Networks'
-	    	};
-    	return <Table {...ssidProps} dataSource = {this.state.dataSource}/>
+    	return <Table {...this.props} dataSource = {this.state.dataSource}/>
 	}
 });
 

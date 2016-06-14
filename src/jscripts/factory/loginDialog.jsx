@@ -83,7 +83,7 @@ var LoginDialog = ReactRouter.withRouter(React.createClass({
 var Logout = ReactRouter.withRouter(React.createClass({
     componentWillMount: function () {
         Ajax.post({
-            'opcode':'login'
+            'opcode':'logout'
         }, function(data){
             logout();
             var router = this.props.router;

@@ -1,7 +1,6 @@
 //var panel = require('./panel');
 import {PanelContent} from './panel'
 import {Ajax} from '../../utils/ajax'
-import {getUser} from '../../utils/auth'
 
 var TabControls = React.createClass({
     goToTab : function (index) {
@@ -47,9 +46,7 @@ var Tab = React.createClass({
         });
         Ajax.get({
             'opcode':'show',
-            'cmd': cmdList.join('\n'),
-            'ip' : '127.0.0.1',
-            'sid' : getUser().sid
+            'cmd': cmdList.join('\n')
         }, function(data){
             if (this.props.parseData) {
                 this.props.parseData(data);

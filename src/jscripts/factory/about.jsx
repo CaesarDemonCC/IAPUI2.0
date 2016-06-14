@@ -1,7 +1,5 @@
 import {Ajax} from '../utils/ajax'
 import Table from '../ui/widget/table'
-import {getUser} from '../utils/auth'
-
 
 var SpanLable = React.createClass({
     displayName: 'spanLable',
@@ -32,25 +30,21 @@ var About = React.createClass({
         var cmdList = [
             'show about'
         ];
-        if (getUser().sid) {
-	        Ajax.get({
-	            'opcode':'show',
-	            'cmd': cmdList.join('\n'),
-	            'ip' : '127.0.0.1',
-	            'sid' : getUser().sid
-	        }, function(data){    
-	        	var about = [];        
-	        	$.each(data, (key, value) => {
-	                    about.push({
-	                        'lable' : key,
-	                        'text' : value
-	                    });
-	            });
-	            this.setState({
-	                'about': about
-	            });
-	        }.bind(this), {'lowerCase': false, 'removeKeySpace': false});
-        }
+        Ajax.get({
+            'opcode':'show',
+            'cmd': cmdList.join('\n')
+        }, function(data){    
+        	var about = [];        
+        	$.each(data, (key, value) => {
+                    about.push({
+                        'lable' : key,
+                        'text' : value
+                    });
+            });
+            this.setState({
+                'about': about
+            });
+        }.bind(this), {'lowerCase': false, 'removeKeySpace': false});
     },
     componentWillMount () {
 		this.showAbout();

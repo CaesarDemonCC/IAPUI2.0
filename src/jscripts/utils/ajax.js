@@ -1,4 +1,5 @@
 import {Xml2Json} from './xmlParse'
+import {getUser} from '../utils/auth'
 
 var Ajax = {
 	api : '../swarm.cgi',
@@ -13,8 +14,14 @@ Ajax.get = function (data, callback, options, type = 'get') {
 
 	$.extend(data, {
 		'refresh' : false,
-		'nocache' : Math.random()
+		'nocache' : Math.random(),
+        'ip' : '127.0.0.1'        
 	});
+	if (getUser().sid) {
+		$.extend(data, {
+			'sid' : getUser().sid        
+		});
+	}
 	$.ajax({
 		type: type,
 		dataType: 'xml',

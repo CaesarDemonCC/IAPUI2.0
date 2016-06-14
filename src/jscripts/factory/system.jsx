@@ -1,6 +1,5 @@
 import {Tab} from '../ui/widget/tab'
 import {Ajax} from '../utils/ajax'
-import {getUser} from '../utils/auth'
 
 var System = React.createClass({
 	getTabsConfig () {
