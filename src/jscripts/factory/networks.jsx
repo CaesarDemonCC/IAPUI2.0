@@ -5,9 +5,7 @@ import {getUser} from '../utils/auth'
 var Networks = React.createClass({
 	getInitialState() {
         return {
-        	ssidProps : {
-	            
-	        }
+        	dataSource : []
     	};
     },
 	showSummary() {
@@ -23,7 +21,7 @@ var Networks = React.createClass({
         }, function(data){    
         	var dataSource = [];        
         	$.each(data.showsummary, (key, value) => {
-                if(key.indexOf('Networks') > 0) {
+                if(key.indexOf('Network') > 0) {
                     value.forEach((network, index) =>{
                         dataSource.push({
                             'name' : network.essid,
@@ -32,7 +30,17 @@ var Networks = React.createClass({
                     });
                 }
             });
-            var ssidProps = {
+            
+            this.setState({
+                'dataSource': dataSource
+            });
+        }.bind(this));
+    },
+    componentWillMount () {
+		this.showSummary();
+    },
+    render () {
+    	var ssidProps = {
 	            columns : [{
 	                name: 'Name',
 	                dataIndex: 'name'
@@ -64,17 +72,7 @@ var Networks = React.createClass({
 	            sortable: true,
 	            title: 'Networks'
 	    	};
-	    	ssidProps.dataSource = dataSource;
-            this.setState({
-                'ssidProps': ssidProps
-            });
-        }.bind(this));
-    },
-    componentWillMount () {
-		this.showSummary();
-    },
-    render () {
-    	return <Table {...this.state.ssidProps}/>
+    	return <Table {...ssidProps} dataSource = {this.state.dataSource}/>
 	}
 });
 

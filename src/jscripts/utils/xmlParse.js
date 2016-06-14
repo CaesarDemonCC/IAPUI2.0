@@ -113,7 +113,7 @@ XmlParse.parseXmlTable = function (table, result) {
 	    				var formatColumn = XmlParse.formatJson(tableColumn[columnIndex]);
 	    				columns[formatColumn] = this.decodeHTML(oneRow[columnIndex]);
 	    			}
-	    			result[tableName] = columns;
+	    			result[tableName] = XmlParse.object2Array(columns);
 	    		}
 	    	}
 	    }
@@ -159,10 +159,6 @@ XmlParse.parseXmlOutputTable = function (outputData, result) {
 	    result[showCMD] = {};
 		XmlParse.parseXmlDataTable(item, result[showCMD]);
 	});
-};
-
-XmlParse.parseError = function (ErrorData, result) {
-
 };
 
 XmlParse.xml2Json = function (xmlData, options) {
