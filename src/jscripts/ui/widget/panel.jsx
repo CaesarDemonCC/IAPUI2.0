@@ -45,9 +45,27 @@ var PanelTitle = React.createClass({
 
 var PanelContent = React.createClass({
     componentDidMount: function () {
+        console.log('componentDidMount');
         var handler = this.props.handler;
         if (handler && typeof handler === 'function') {
             handler.call(this);
+        }
+
+        this.setData(this.props);
+    },
+    componentWillUpdate(nextProps, nextState) {
+        this.setData(nextProps);
+    },
+    setData : function (props) {
+        if (props.tabData) {
+            $.each(this.refs, (key, item) => {
+                var value = props.tabData[key];
+                if (key.indexOf('re-') > -1 && value == undefined
+                    && props.tabData[key.substr(key.indexOf('re-') + 3)]) {
+                    value = props.tabData[key.substr(key.indexOf('re-') + 3)];
+                }
+                $(ReactDOM.findDOMNode(item)).find('.input').val(value);
+            });
         }
     },
     getData : function () {

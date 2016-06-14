@@ -2,7 +2,9 @@ import {SideNav} from './ui/widget/sideNav'
 import {LoginDialog, Logout} from './factory/loginDialog'
 import {isLoggedIn} from './utils/auth'
 import {About} from './factory/about'
+import {Reboot} from './factory/reboot'
 import {Networks} from './factory/networks'
+import {System} from './factory/system'
 
 var navConfig = [{
     'name': 'Monitoring',
@@ -141,8 +143,14 @@ var routes = {
         path: 'about',
         component: About
     }, {
+        path: 'reboot',
+        component: Reboot
+    }, {
         path: 'networks',
         component: Networks
+    }, {
+        path: 'system',
+        component: System
     }, {
         path: '*',
         onEnter: redirectToHomePage

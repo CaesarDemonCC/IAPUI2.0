@@ -7,7 +7,7 @@ var TextLabel = React.createClass({
 var TextInput = React.createClass({
     render: function () {
         var props = this.props;
-        return <input type='text' className='input' id={props.id || ''} style={props.style || {}}/>
+        return <input type={props.type || 'text'} className='input' id={props.id || ''} style={props.style || {}}/>
     }
 })
 
