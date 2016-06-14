@@ -54,12 +54,12 @@ var LoginDialog = ReactRouter.withRouter(React.createClass({
                 var location = this.props.location,
                     router = this.props.router;
 
-                 router.replace('/');
-                // if (location.state && location.state.nextPathname) {
-                //     router.replace(location.state.nextPathname)
-                // } else {
-                //     router.replace('/home');
-                // }
+                //router.replace('/');
+                if (location.state && location.state.nextPathname) {
+                    router.replace(location.state.nextPathname)
+                } else {
+                    router.replace('/');
+                }
 
             }
         }.bind(this));
