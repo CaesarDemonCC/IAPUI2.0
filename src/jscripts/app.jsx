@@ -6,13 +6,14 @@ import {Reboot} from './factory/reboot'
 import {Networks} from './factory/networks'
 import {System} from './factory/system'
 import {User} from './factory/user'
+import {Overview} from './factory/overview'
 
 var navConfig = [{
     'name': 'Monitoring',
     //'path': '/',
     'children': [{
         'name': 'Overview',
-        'path': '/overview'
+        'path': '/'
     }, {
         'name': 'Networks',
         'path': '/networks'
@@ -117,18 +118,6 @@ var redirectToHomePage = function (nextState, replace) {
     })
 }
 
-var Home = React.createClass({
-    render: function () {
-        return <div>Home</div>;
-    }
-})
-
-var Overview = React.createClass({
-    render: function () {
-        return <div>Overview</div>;
-    }
-})
-
 var Clients = React.createClass({
     componentDidMount: function () {
         var config = {
@@ -156,11 +145,8 @@ var routes = {
     path: '/',
     component: App,
     onEnter: requireAuth,
-    indexRoute: { component: Home },
+    indexRoute: { component: Overview },
     childRoutes: [{
-        path: 'overview',
-        component: Overview
-    }, {
         path: 'login',
         component: LoginDialog
     }, {

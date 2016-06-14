@@ -77,6 +77,11 @@ class Table extends React.Component {
 		let headers = [];
 
 		this.props.columns.map((h, i) => {
+			let optionalClass = '';
+			/*if (h.dataIndex != this.props.rowKey) {
+				optionalClass = ' optional';
+			}*/
+
 			if (sortable) {
 				//class="sort down"
 				let sortClass = '';
@@ -88,9 +93,9 @@ class Table extends React.Component {
 					}
 				}
 
-				headers.push(<th className={sortClass} onClick={clickFn}>{h.name}</th>);
+				headers.push(<th className={sortClass + optionalClass} onClick={clickFn}>{h.name}</th>);
 		    } else {
-		    	headers.push(<th>{h.name}</th>);
+		    	headers.push(<th className={optionalClass}>{h.name}</th>);
 		    }
 			
 		});
@@ -106,7 +111,12 @@ class Table extends React.Component {
 			content = col.render.call(this, content, row, index);
 		}
 
-		return <td key={colKey}>{content}</td>;
+		let optionalClass = '';
+		/*if (colKey != this.props.rowKey) {
+			optionalClass = 'optional';
+		}*/
+
+		return <td className={optionalClass} key={colKey}>{content}</td>;
 	}
 
 	createRow (row, cols, index) {
@@ -117,7 +127,17 @@ class Table extends React.Component {
 		return <tr key={row[rowKey]} className={rowClass} onClick={onClickFn}>{cols}</tr>;
 	}
 
+	createBlankBody () {
+		const colspan = this.props.columns.length;
+
+		return <tbody><tr><td colSpan={colspan}>{this.props.noData}</td></tr></tbody>;
+	}
+
 	createBody (data) {
+		if (!data.indexOf || data.length == 0) {
+			return this.createBlankBody();
+		} 
+
 		let rows = data.map((d, i) => {
 			let tds = [];
 			this.props.columns.map((h, j) => {
@@ -162,7 +182,6 @@ class Table extends React.Component {
 	render () {
 		const table = (
 			<div className="table_wrapper">
-				{this.createTitle()}
 				<table className="data responsive">
 					{this.createHeader()}
 					{this.createBody(this.getData())}
@@ -172,11 +191,10 @@ class Table extends React.Component {
 		);
 
 		return (
-			<div className="panel_wrapper">
-				<div className="panel table rounded white no_pad">
-	          		{table}
-          		</div>
-			</div>
+			<div className="panel table rounded white no_pad">
+				{this.createTitle()}
+          		{table}
+      		</div>
 		)
 	}
 } 
@@ -185,7 +203,8 @@ Table.defaultProps = {
 	columns: [],
 	dataSource: [],
 	sortable: false,
-	rowKey: 'name'
+	rowKey: 'name',
+	noData: 'No data to display'
 };
 
 module.exports = Table;
