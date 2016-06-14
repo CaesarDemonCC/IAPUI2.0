@@ -73,7 +73,7 @@ var Tab = React.createClass({
         return (
             <div className='tabs responsive wizard'>
                 <TabControls tabCtrls={tabCtrls} clickHandler={this.goToTab} currentTab={this.state.currentTab}/>
-                <div style={{paddingTop:'1.5rem',paddingLeft:'1.5rem'}}>
+                <div className='panel-content'>
                     {content}
                 </div>
                 <div className='wizard-footer'>

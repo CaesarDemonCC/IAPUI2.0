@@ -486,7 +486,7 @@
 
         .button {
             float: right;
-            margin-right: 0.625rem;
+            margin-left: 0.625rem;
             width: 5rem;
         }
     }
@@ -496,4 +496,12 @@
     background: none;
     color: $colorLink;
     border: 1px solid $colorLink;
+}
+
+.tabs {
+    .panel-content {
+        padding: 1.5rem;
+        border: 1px solid $colorDivider;
+        border-top: none;
+    }
 }
