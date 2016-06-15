@@ -1,5 +1,6 @@
 
 var Admin = {
+	originData: {},
 	getTabConfig () {
 		return {
             title: 'Admin',
@@ -22,16 +23,30 @@ var Admin = {
         };
 	},
 	parseData (data) {
-		var adminData = {};
-		if (data['showmgmt-user'].ManagementUserTable) {
-            $.each(data['showmgmt-user'].ManagementUserTable, (index, item) => {
+        var adminData = {};
+        if (data['showmgmt-user'].ManagementUserTable) {
+            $.each(data['showmgmt-user'].ManagementUserTable, (index, item)=> {
                 if (item.type === 'Admin') {
-                    adminData = item;
+                    this.originData = item;
                 }
             });
         }
-        return adminData;
-	}
+        return this.originData;
+    },
+    getCMD (changeData) {
+        var cmd = '';
+        if (changeData) {
+            if (changeData['name'] !== this.originData['name'] || changeData['password'] !== this.originData['password']) {
+                cmd += 'hash-mgmt-user ' + changeData['name'];
+                if (changeData['password'] !== this.originData['password']) {
+                    cmd += ' password clear ' + changeData['password'] + '\n';
+                } else {
+                    cmd += ' password hash ' + changeData['password'] + '\n';
+                }
+            }
+        }
+        return cmd;
+    }
 };
 
 module.exports = {

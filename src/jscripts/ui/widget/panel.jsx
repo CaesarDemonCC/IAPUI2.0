@@ -53,7 +53,7 @@ var PanelContent = React.createClass({
 
         this.setData(this.props);
     },
-    componentWillUpdate(nextProps, nextState) {
+    componentWillUpdate: function (nextProps, nextState) {
         this.setData(nextProps);
     },
     setData : function (props) {
@@ -71,7 +71,7 @@ var PanelContent = React.createClass({
     getData : function () {
         var result = {};
         $.each(this.refs, (index, item)=>{
-            var inputVal = $(ReactDOM.findDOMNode(item)).find('input').val();
+            var inputVal = $(ReactDOM.findDOMNode(item)).find('.input').val();
             result[index] = inputVal;
         })
         return result;

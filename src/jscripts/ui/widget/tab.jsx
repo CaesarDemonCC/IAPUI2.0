@@ -28,6 +28,8 @@ var Tab = React.createClass({
     },
 
     goToTab: function (index) {
+        var currentTabData = this.refs.panelContent.getData();
+        this.props.tabsData[this.state.currentTab] = currentTabData;
         this.setState({currentTab: index});
     },
 
@@ -42,11 +44,17 @@ var Tab = React.createClass({
     componentDidMount: function() {
         var cmdList= [];
         this.props.tabsConfig.forEach((prop) => {
-            cmdList.push(prop.showCmd);
+            if ($.isArray(prop.showCmd)) {
+                prop.showCmd.forEach((cmd)=>{
+                    cmdList.push(cmd);
+                });
+            } else {
+                cmdList.push(prop.showCmd);
+            }
         });
         Ajax.get({
             'opcode':'show',
-            'cmd': cmdList.join('\n')
+            'cmd': cmdList
         }, function(data){
             if (this.props.parseData) {
                 this.props.parseData(data);
@@ -65,7 +73,7 @@ var Tab = React.createClass({
             handlers.push(tab.handler || function () {})
         })
 
-        content = <PanelContent key={this.state.currentTab} tabData={this.props.tabsData[this.state.currentTab]} items={tabsConfig[this.state.currentTab].items} handler={tabsConfig[this.state.currentTab].handler}/>;
+        content = <PanelContent ref='panelContent' key={this.state.currentTab} tabData={this.props.tabsData[this.state.currentTab]} items={tabsConfig[this.state.currentTab].items} handler={tabsConfig[this.state.currentTab].handler}/>;
 
         return (
             <div className='tabs responsive wizard'>
