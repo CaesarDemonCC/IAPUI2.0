@@ -1,4 +1,4 @@
-import {Dialog} from '../ui/widget/dialog'
+import {ComfirmDialog} from '../ui/widget/comfirmdialog'
 import {Ajax} from '../utils/ajax'
 import {Upload} from '../utils/upload'
 
@@ -16,32 +16,13 @@ var Reboot = React.createClass({
             'opcode':'action',
             'cmd': cmdList.join('\n')
         }, function(data){    
-        	
+        	alert('haha')
         }.bind(this));
 	},
 	onCancel () {
 		this.setState({
 			showReboot : false
 		})
-	},
-	getRebootConfirm () {
-		var items = [{
-				type: 'template',
-				template:(<div>
-					<p>Service will be interrupted during the Reboot process. Do you want to continue?</p>
-				      <div className="controls">
-				        <button className="medium button secondary medium-4 columns" onClick={this.onCancel}>Cancel</button>
-				        <button className="medium button medium-4 columns" onClick={this.rebootAll}>Yes</button>
-				      </div>
-				</div>)
-			}];
-		return (<div>
-				<Dialog className='message confirmation' close={true} ref='rebootDialog'
-				onCancel={this.onCancel} onSubmit={this.rebootAll} 
-				items={items} 
-                footer={<div></div>}
-                />
-			</div>)
 	},
 	showRebootConfirm () {
 		this.setState({
@@ -50,15 +31,19 @@ var Reboot = React.createClass({
 	},
 	render () {
 		var titleElement = (<div className='title_heading form_heading'>Reboot</div>)
-		var rebootConfirm;
-		if (this.state.showReboot) {
-			rebootConfirm = this.getRebootConfirm();
-		}
+		var comfirmDialog;
+        if (this.state.showReboot) {
+            comfirmDialog = (<div>
+                <ComfirmDialog message='Service will be interrupted during the Reboot process. Do you want to continue?'
+                onCancel={this.onCancel} onSubmit={this.rebootAll} 
+                />
+            </div>)
+        }
 		return (<div className='panel'>
 				{titleElement}
 				<button className='medium button medium-2 columns' onClick={this.showRebootConfirm}>Reboot</button>
 				<Upload {...props}><a >asdfasd</a></Upload>
-				{rebootConfirm}
+				{comfirmDialog}
 			</div>)
 	}
 });
