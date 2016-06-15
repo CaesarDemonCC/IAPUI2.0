@@ -63,12 +63,98 @@
         width: 4rem;
         padding-left: 2rem;
     }
+
+    .wrapper {
+        flex-flow: row wrap;
+        > div {
+            width: 100%;
+        }
+    }
 }
 
 @media only screen and (max-width: 1100px) {
     .header .bannermenu .search {
         #searchInput {
             padding: 0.45rem;
+        }
+    }
+}
+
+@media only screen and (max-width: 650px) {
+}
+
+.app {
+    display: flex;
+    flex-flow: column wrap;
+    height: 100%;
+    overflow-x: hidden;
+
+    $layoutDivider: 1px solid $colorNeutralMd;
+
+    .header {
+        padding: 0.625rem 1rem;
+        overflow: hidden;
+        border-bottom: $layoutDivider;
+        height: 4rem;
+
+        .logo {
+            height: 4rem;
+        }
+
+        .bannermenu {
+            float: right;
+            color: #02a7ec;
+
+            & > div {
+                float: right;
+                height: 2rem;
+                width: 2rem;
+                margin-right: 0.25rem;
+            }
+
+            .logout {
+                padding-top: 0.75rem;
+                padding-left: 0.25rem;
+            }
+
+            .search {
+                float: right;
+                input {
+                    width: 1rem;
+                    padding: 0.25rem;
+                    margin-top: 0.25rem;
+                    margin-left: 0.2rem;
+                    border: 1px solid #ccc;
+                    @include border-radius(10rem);
+                    @include transition(all 0.5s);
+                    outline: none;
+                }
+
+                > input:focus {
+                    width: 6rem;
+                    padding-left: 2rem;
+                }
+            }
+        }
+    }
+
+    .wrapper {
+        display: flex;
+        flex: 1;
+
+        .sidenav-wrapper {
+            padding: 0.25rem 0.8rem;
+        }
+
+        .container {
+            flex:1;
+            border-left: $layoutDivider;
+
+            > div {
+                > .panel {
+                    border: none;
+                }
+            }
         }
     }
 }
@@ -88,51 +174,6 @@
     background-image: url('../images/login-logo.png');
     background-repeat: no-repeat;
     background-size: contain;
-}
-
-.header {
-    padding: 0.625rem 1rem;
-    overflow: hidden;
-
-    .logo {
-        height: 4rem;
-    }
-
-    .bannermenu {
-        float: right;
-        color: #02a7ec;
-
-        & > div {
-            float: right;
-            height: 2rem;
-            width: 2rem;
-            margin-right: 0.25rem;
-        }
-
-        .logout {
-            padding-top: 0.75rem;
-            padding-left: 0.25rem;
-        }
-
-        .search {
-            float: right;
-            input {
-                width: 1rem;
-                padding: 0.25rem;
-                margin-top: 0.25rem;
-                margin-left: 0.2rem;
-                border: 1px solid #ccc;
-                @include border-radius(10rem);
-                @include transition(all 0.5s);
-                outline: none;
-            }
-
-            > input:focus {
-                width: 6rem;
-                padding-left: 2rem;
-            }
-        }
-    }
 }
 
 .panel {
