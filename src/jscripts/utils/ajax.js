@@ -31,7 +31,7 @@ Ajax.get = function (data, callback, options, type = 'get') {
 			var jsonResult = Xml2Json(result, options);
 			if (jsonResult.error) {
 				if (jsonResult.error === 'Invalid Session ID') {
-					ReactRouter.hashHistory.replace('/logout');
+					location.href = '#/logout';
 				} else {
 					alert(jsonResult.error);
 				}
