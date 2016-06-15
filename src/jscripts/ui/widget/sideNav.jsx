@@ -101,7 +101,7 @@ var SideNav = ReactRouter.withRouter(React.createClass({
         });
 
         return (
-            <div>
+            <div className='sidenav-wrapper'>
                 <div className='mobile_menu_toggle' onClick={this.menuToggleHandler}>
                     <a className={this.state.expanded?'icon_arrow_up':'icon_arrow_down'}>Menu</a>
                 </div>

@@ -2,14 +2,14 @@
 
 .sidenav {
     display: block;
-    position: fixed;
-    top: 5rem;
-    bottom: 0;
+    //position: fixed;
+    //top: 5rem;
+    //bottom: 0;
     //width: 15rem;
     overflow-x: hidden;
     overflow-y: auto;
     //background-color: $colorNeutralMd;
-    @include box-shadow(-2px 0 0 $colorDividerLt inset, -1px 0 0 $colorDivider inset);
+    //@include box-shadow(-2px 0 0 $colorDividerLt inset, -1px 0 0 $colorDivider inset);
     @include transition(max-height 600ms ease);
     @include breakpoint(mama-bear) {
         position: relative;

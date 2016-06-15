@@ -87,13 +87,13 @@ var App = React.createClass({
         });
 
         return (
-            <div>
+            <div className='app'>
                 <Header />
-                <div>
-                    <div id='sideNav' className='medium-3 large-2 columns'>
+                <div className='wrapper'>
+                    <div classNav='nav'>
                         <SideNav data={navConfig} currentLocation={this.props.location.pathname} />
                     </div>
-                    <div id='container' className='medium-9 large-10 columns'>
+                    <div id='container' className='container'>
                         {this.props.children}
                     </div>
                 </div>
