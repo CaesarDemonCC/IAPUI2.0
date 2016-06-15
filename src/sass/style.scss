@@ -86,7 +86,7 @@
 
 .app {
     display: flex;
-    flex-flow: column wrap;
+    flex-flow: column;
     height: 100%;
     overflow: hidden;
 
@@ -94,7 +94,7 @@
 
     .header {
         padding: 0.625rem 1rem;
-        overflow: hidden;
+        //overflow: hidden;
         border-bottom: $layoutDivider;
         height: 4rem;
 
