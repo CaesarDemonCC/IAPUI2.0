@@ -1,6 +1,20 @@
 var ReactHighchart = React.createClass({
+    componentWillReceiveProps (nextProps) {
+        var chart = new Highcharts['Chart']({
+            ...nextProps.config,
+            credits: {
+                enabled: false
+            },
+            chart: {
+                renderTo: this.refs.chart
+            }
+        });
+    },
     componentDidMount: function () {
         var defaultConfig = {
+            credits: {
+                enabled: false
+            },
             xAxis: {
                 categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
             },

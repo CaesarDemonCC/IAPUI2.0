@@ -70,7 +70,7 @@ const SummaryInfo = React.createClass({
     	labels.map((c, i) => {
     		let label = c.label;
     		let v = data[c.dataIndex] || '';
-    		body.push(<div className={this.getColumnClass(labels.length, i)}><div className="label">{label}</div><div className="value">{v}</div></div>);
+    		body.push(<div key={i} className={this.getColumnClass(labels.length, i)}><div className="label">{label}</div><div className="value">{v}</div></div>);
     	});
 
     	return body;
@@ -90,7 +90,78 @@ const SummaryInfo = React.createClass({
 });
 
 const SummaryChart = React.createClass({
+	getInitialState() {
+	    return {
+	    	timestamp: [],
+	        throughputIn: [],
+            throughputOut: [],
+			clients: [] 
+	    };
+	},
+	getDefaultProps() {
+	    return {
+	    	
+	    };
+	},
+	componentWillReceiveProps (nextProps) {
+      	this.setState(nextProps);
+  	},
+
     render() {
+    	let throughputIn = this.state.throughputIn;
+    	let throughputOut = this.state.throughputOut;
+    	let clients = this.state.clients;
+    	let timestamp = this.state.timestamp;
+
+    	let badgeIn = throughputIn.length > 0 ? throughputIn[throughputIn.length - 1] : 0;
+    	let badgeOut = throughputOut.length > 0 ? throughputOut[throughputOut.length - 1] : 0;
+    	let badgeClient = clients.length > 0 ? clients[clients.length - 1] : 0;
+
+
+    	let throughputConfig = {
+    		title: {
+    			text: null
+    		},
+    		xAxis: {
+                categories: timestamp
+            },
+            yAxis: {
+            	title: {
+            		text: null
+            	}
+            },
+            series: [{
+            	name: 'In',
+            	type: 'areaspline',
+            	color: '#02a7ec',
+                data: throughputIn
+            }, {
+            	name: 'Out',
+            	type: 'areaspline',
+            	color: '#F5831E',
+                data: throughputOut
+            }]
+    	};
+    	let clientConfig = {
+    		title: {
+    			text: null
+    		},
+    		xAxis: {
+                categories: timestamp
+            },
+            yAxis: {
+            	title: {
+            		text: null
+            	}
+            },
+            series: [{
+            	name: 'clients',
+            	type: 'areaspline',
+            	color: '#02a7ec',
+                data: clients
+            }]
+    	};
+
         return (
         	<div className="panel">
 				<div className="medium-6 columns">
@@ -100,7 +171,7 @@ const SummaryChart = React.createClass({
 						</h2>
 						<div className="chart_bubble">
 							<span className="">
-								<div className="chartLabel badge badge-medium badge-blue">0</div>
+								<div className="chartLabel badge badge-medium badge-blue">{badgeIn}</div>
 								<div className="chartLabel">
 					                <label className="chartLabelHeader" style={{display:'inline-table'}}>
 					                	<label style={{display:'table-row'}} className="chartUnits">bps</label>
@@ -109,7 +180,7 @@ const SummaryChart = React.createClass({
 				                </div>
 							</span>
 							<span className="">
-								<div className="chartLabel badge badge-medium badge-orange">0</div>
+								<div className="chartLabel badge badge-medium badge-orange">{badgeOut}</div>
 								<div className="chartLabel">
 					                <label className="chartLabelHeader" style={{display:'inline-table'}}>
 					                	<label style={{display:'table-row'}} className="chartUnits">bps</label>
@@ -118,7 +189,8 @@ const SummaryChart = React.createClass({
 				                </div>
 							</span>
 						</div>
-                        <ReactHighchart config={{}}/>
+						<br/>
+                        <ReactHighchart key='throughput' config={throughputConfig}/>
 					</div>
 				</div>
 				<div className="medium-6 columns">
@@ -128,7 +200,7 @@ const SummaryChart = React.createClass({
 						</h2>
 						<div className="chart_bubble">
 				            <span>
-				                <div className="chartLabel badge badge-medium badge-blue">0</div>
+				                <div className="chartLabel badge badge-medium badge-blue">{badgeClient}</div>
 				                <div className="chartLabel">
 				                	<label className="chartLabelHeader" style={{display:'inline-table'}}>
 				                		<label style={{display:'table-row'}} className="chartUnits">  </label>
@@ -137,7 +209,8 @@ const SummaryChart = React.createClass({
 				                </div>
 				            </span>
 			         	</div>
-                        <ReactHighchart config={{}}/>
+			         	<br/>
+                        <ReactHighchart key='client' config={clientConfig}/>
 					</div>
 				</div>
 			</div>
@@ -187,23 +260,26 @@ const SummaryTable = React.createClass({
 		        dataIndex: 'name'
 		    }, {
 		        name: 'IP Address',
-		        dataIndex: 'ip'
+		        dataIndex: 'ipaddress'
 		    }, {
 		        name: 'ESSID',
-		        dataIndex: 'ssid'
+		        dataIndex: 'essid'
 		    }, {
 		        name: 'Access Point',
-		        dataIndex: 'ap'
+		        dataIndex: 'accesspoint'
 		    }],
 		    rowKey: 'name',
 		    sortable: true,
 		    title: 'Clients'
 		};
         return (
-            <div className="panel">
-				<div className="medium-3 columns"><Table {...nTableConfig} dataSource={this.state.networks} /></div>
-				<div className="medium-3 columns"><Table {...aTableConfig} dataSource={this.state.aps} /></div>
-				<div className="medium-6 columns"><Table {...cTableConfig} dataSource={this.state.clients} /></div>
+            <div className="summary panel">
+            	<h2 className="title_heading form_heading">
+					Summary
+				</h2>
+				<div className="medium-3 columns"><Table key='networks' {...nTableConfig} dataSource={this.state.networks} /></div>
+				<div className="medium-3 columns"><Table key='aps' {...aTableConfig} dataSource={this.state.aps} /></div>
+				<div className="medium-6 columns"><Table key='clients' {...cTableConfig} dataSource={this.state.clients} /></div>
 			</div>
         );
     }
@@ -214,6 +290,7 @@ const Overview = React.createClass({
         return {
     		info: {},
     		chart: {
+    			timestamp: [],
     			throughputIn: [],
                 throughputOut: [],
     			clients: []
@@ -226,9 +303,58 @@ const Overview = React.createClass({
     	};
     },
 
+    formatTime(content, fullFormat) {
+	    var result = content;
+	    var timest = parseInt(content, 10);
+	    if (!isNaN(timest)) {
+	        var d = new Date(timest * 1000);
+	        var h = d.getHours();
+	        var m = d.getMinutes();
+	        var s = d.getSeconds();
+	        if (h < 10) {
+	            h = '0' + h;
+	        }
+	        if (s < 10) {
+	            s = '0' + s;
+	        }
+	        if (m < 10) {
+	            m = '0' + m;
+	        }
+	        result = h + ':' + m + ':' + s;
+	        if (fullFormat) {
+	            var date = d.getDate(),
+	                mon = d.getMonth() + 1,
+	                year = d.getFullYear();
+	            result = year + '/' + mon + '/' + date + ' ' + result;
+	        }
+	    }
+	    return result;
+	},
+
     parseChartData(chartData) {
-        console.log(chartData);
-    	return chartData;
+        let statsData = {
+        	timestamp: [],
+            throughputIn: [],
+            throughputOut: [],
+            clients: []
+        };
+        if (chartData && $.isArray(chartData['SwarmGlobalStats'])) {
+        	let datas = chartData['SwarmGlobalStats'];
+
+        	datas.forEach((v, i) => {
+        		statsData.timestamp.push(this.formatTime(v['timestamp']));
+        		statsData.throughputIn.push(v['throughput[in](bps)'] * 1);
+        		statsData.throughputOut.push(v['throughput[out](bps)'] * 1);
+        		statsData.clients.push(v['clients'] * 1);
+        	});
+
+        	statsData.timestamp.reverse();
+        	statsData.throughputIn.reverse();
+        	statsData.throughputOut.reverse();
+        	statsData.clients.reverse();
+        }
+
+        return statsData;
     },
     parseTableData(tableData) {
     	let res = {};
@@ -248,19 +374,38 @@ const Overview = React.createClass({
     	return res;
     },
 
+    getTestData(data) {
+    	let stats = data['SwarmGlobalStats'];
+    	let res = [];
+
+    	for (let i = 0; i < stats.length; i++) {
+    		let o = {
+    			'clients': parseInt(Math.random() * 50) + 5,
+    			'frames[in](fps)': "1",
+				'frames[out](fps)': "0",
+				'throughput[in](bps)': parseInt(Math.random() * 1000) + 100,
+				'throughput[out](bps)': parseInt(Math.random() * 2000) + 50,
+				'timestamp': stats[i]['timestamp']
+    		};
+    		res.push(o);
+    	}
+
+    	return res;
+    },
+
     showSummary() {
-        var cmdList = [
+        const cmdList = [
             'show stats global',
             'show summary'
         ];
         Ajax.get({
             'opcode':'show',
-            'cmd': cmdList.join('\n'),
-            'ip' : '127.0.0.1',
-            'sid' : getUser().sid
+            'cmd': cmdList
         }, function(data){    
-        	var dataSource = [];   
-        	console.log(data);   
+        	console.log(data);
+
+        	// test data
+        	data.showstatsglobal.SwarmGlobalStats = this.getTestData(data.showstatsglobal);
 
         	let chartData = this.parseChartData(data.showstatsglobal);
         	let tableData = this.parseTableData(data.showsummary);
@@ -276,6 +421,11 @@ const Overview = React.createClass({
 
     componentWillMount () {
 		this.showSummary();
+		let self = this;
+
+		setInterval(function () {
+			self.showSummary();
+		}, 30000)
     },
 
 	componentDidMount () {

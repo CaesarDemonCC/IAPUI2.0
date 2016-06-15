@@ -134,7 +134,7 @@ class Table extends React.Component {
 	}
 
 	createBody (data) {
-		if (!data.indexOf || data.length == 0) {
+		if (!$.isArray(data) || data.length == 0) {
 			return this.createBlankBody();
 		} 
 
@@ -191,7 +191,7 @@ class Table extends React.Component {
 		);
 
 		return (
-			<div className="panel table rounded white no_pad">
+			<div className="panel table white no_pad">
 				{this.createTitle()}
           		{table}
       		</div>
