@@ -66,6 +66,7 @@
 
     .wrapper {
         flex-flow: row wrap;
+        overflow-y: auto;
         > div {
             width: 100%;
         }
