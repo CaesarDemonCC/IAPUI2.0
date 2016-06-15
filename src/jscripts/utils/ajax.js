@@ -1,5 +1,5 @@
 import {Xml2Json} from './xmlParse'
-import {getUser} from '../utils/auth'
+import {getUser, logout} from '../utils/auth'
 
 var Ajax = {
 	api : '../swarm.cgi',
@@ -31,7 +31,8 @@ Ajax.get = function (data, callback, options, type = 'get') {
 			var jsonResult = Xml2Json(result, options);
 			if (jsonResult.error) {
 				if (jsonResult.error === 'Invalid Session ID') {
-					location.href = '#/logout';
+					logout();
+					location.href = '#/login';
 				} else {
 					alert(jsonResult.error);
 				}
