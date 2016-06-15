@@ -87,7 +87,7 @@
     display: flex;
     flex-flow: column wrap;
     height: 100%;
-    overflow-x: hidden;
+    overflow: hidden;
 
     $layoutDivider: 1px solid $colorNeutralMd;
 
@@ -149,6 +149,7 @@
         .container {
             flex:1;
             border-left: $layoutDivider;
+            overflow-y: auto;
 
             > div {
                 > .panel {
@@ -579,7 +580,7 @@
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
-            @include box-shadow(0 -2px 0 $colorDividerLt inset);
+            //@include box-shadow(0 -2px 0 $colorDividerLt inset);
         }
 
         .value {
@@ -588,7 +589,8 @@
             border-right: 1px solid $colorNeutralMd;
             border-bottom: 1px solid $colorNeutralMd;
             padding: 0.5rem 1rem 0.625rem;
-            height: 1.5625rem;
+            height: 1.25rem;
+            line-height: 1.25rem;
             white-space:nowrap;
             overflow: hidden;
             text-overflow: ellipsis;

@@ -1,6 +1,7 @@
 import Table from '../ui/widget/table'
 import {Ajax} from '../utils/ajax'
 import {getUser} from '../utils/auth'
+import ReactHighchart from '../ui/widget/reactHighchart'
 
 const SummaryInfo = React.createClass({
 	getInitialState() {
@@ -117,6 +118,7 @@ const SummaryChart = React.createClass({
 				                </div>
 							</span>
 						</div>
+                        <ReactHighchart config={{}}/>
 					</div>
 				</div>
 				<div className="medium-6 columns">
@@ -135,6 +137,7 @@ const SummaryChart = React.createClass({
 				                </div>
 				            </span>
 			         	</div>
+                        <ReactHighchart config={{}}/>
 					</div>
 				</div>
 			</div>
@@ -211,8 +214,9 @@ const Overview = React.createClass({
         return {
     		info: {},
     		chart: {
-    			throughput: 0,
-    			clients: 0
+    			throughputIn: [],
+                throughputOut: [],
+    			clients: []
     		},
     		table: {
     			neworks: {},
@@ -223,6 +227,7 @@ const Overview = React.createClass({
     },
 
     parseChartData(chartData) {
+        console.log(chartData);
     	return chartData;
     },
     parseTableData(tableData) {
