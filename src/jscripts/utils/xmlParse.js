@@ -32,15 +32,17 @@ XmlParse.decodeHTML = function (html) {
 };
 
 XmlParse.formatJson = function (item) {
-	if (XmlParse._formatOptions['removeKeySpace']) {
-        item = item.replace(/[\s"]/g, '');
-    }
-    if (XmlParse._formatOptions['trim']) {
-        item = item.replace(/^ +| +$/g, '');
-    }
-    if (XmlParse._formatOptions['lowerCase']) {
-        item = item.toLowerCase();
-    }
+	if (item) {
+		if (XmlParse._formatOptions['removeKeySpace']) {
+	        item = item.replace(/[\s"]/g, '');
+	    }
+	    if (XmlParse._formatOptions['trim']) {
+	        item = item.replace(/^ +| +$/g, '');
+	    }
+	    if (XmlParse._formatOptions['lowerCase']) {
+	        item = item.toLowerCase();
+	    }
+	}
     return item;
 };
 

@@ -20,7 +20,7 @@ var User = React.createClass({
         ];
         Ajax.get({
             'opcode':'show',
-            'cmd': cmdList.join('\n')
+            'cmd': cmdList
         }, function(data){    
         	var dataSource = [];        
         	data.UserTable.forEach((item, index) => {

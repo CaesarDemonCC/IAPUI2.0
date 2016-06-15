@@ -22,6 +22,10 @@ Ajax.get = function (data, callback, options, type = 'get') {
 			'sid' : getUser().sid        
 		});
 	}
+	if (data.cmd && $.isArray(data.cmd)) {
+		data.cmd = data.cmd.join('\n')
+	}
+	
 	$.ajax({
 		type: type,
 		dataType: 'xml',

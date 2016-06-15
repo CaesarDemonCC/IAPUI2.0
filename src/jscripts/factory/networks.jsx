@@ -48,7 +48,7 @@ var Networks = React.createClass({
         ];
         Ajax.get({
             'opcode':'show',
-            'cmd': cmdList.join('\n')
+            'cmd': cmdList
         }, function(data){    
         	var dataSource = [];        
         	$.each(data.showsummary, (key, value) => {
