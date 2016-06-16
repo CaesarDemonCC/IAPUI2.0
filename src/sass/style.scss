@@ -458,6 +458,8 @@
         height: 2.5rem;
 
         .wizard-title {
+            padding-top:0.5rem;
+            padding-left:0.5rem;
             color: black;
         }
     }
@@ -534,6 +536,9 @@
             }
         }
     }
+    .wizard-content {
+        padding-left:1.5rem;
+    }
     .wizard-footer {
         position: fixed;
         bottom: 0.625rem;
@@ -558,6 +563,7 @@
         padding: 1.5rem;
         border: 1px solid $colorDivider;
         border-top: none;
+        border-bottom: none;
     }
 }
 
