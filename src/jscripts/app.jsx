@@ -181,7 +181,9 @@ function addOnEnterIntoChildRoutes (routes, listener) {
     var childRoutes = routes.childRoutes;
     if (childRoutes && childRoutes.length) {
         childRoutes.forEach(function (item) {
-            item.onEnter = listener;
+            if (!item.onEnter) {
+                item.onEnter = listener;    
+            }
         });
     }
 }
