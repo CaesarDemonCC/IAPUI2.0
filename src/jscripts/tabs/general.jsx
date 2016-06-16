@@ -44,22 +44,24 @@ var General = {
 	},
 	getCMD (changeData) {
         var cmd = '';
+        var generalCmd = '', armCmd = '';
         if (changeData) {
             if (changeData['name'] !== this.originData['name']) {
-                cmd += 'name ' + changeData['name'] + '\n';
+                generalCmd += 'name ' + changeData['name'] + '\n';
             }
             if (changeData['vcipaddress'] !== this.originData['vcipaddress']) {
                 var vcip = changeData['vcipaddress'].length > 0 ? changeData['vcipaddress'] : '0.0.0.0';
-                cmd += "virtual-controller-ip " + changeData['vcipaddress'] + '\n';
+                generalCmd += "virtual-controller-ip " + changeData['vcipaddress'] + '\n';
             }
             if (changeData['allownewaps'] !== this.originData['allownewaps']) {
-                cmd += changeData['allownewaps'] == 'enable' ? 'allow-new-aps' + '\n' : 'no allow-new-aps' + '\n';
+                generalCmd += changeData['allownewaps'] == 'enable' ? 'allow-new-aps' + '\n' : 'no allow-new-aps' + '\n';
             }
             if (changeData['clientmatch'] !== this.originData['clientmatch']) {
-                cmd += changeData['clientmatch'] == 'enable' ? 'client-match' + '\n' : 'no client-match' + '\n';
+                armCmd += changeData['clientmatch'] == 'enable' ? 'client-match' + '\n' : 'no client-match' + '\n';
             }
         }
-        return cmd;
+        armCmd.length > 0 ? armCmd = 'arm \n' + armCmd + '\nexit' : '';
+        return cmd = generalCmd + armCmd;
     }
 };
 

@@ -60,8 +60,9 @@ var System = ReactRouter.withRouter(React.createClass({
                 'opcode':'config',
                 'cmd': cmd
             },(result)=>{
-                alert('good');
-                this.setState({isDirty: false})
+                //alert('good');
+                //this.setState({isDirty: false})
+                this.props.router.go(this.props.location);
             });
         }
     },
