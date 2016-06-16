@@ -2,7 +2,7 @@ import Table from '../ui/widget/table'
 import {Dialog} from '../ui/widget/dialog'
 import {Ajax} from '../utils/ajax'
 
-var User = React.createClass({
+var Users = React.createClass({
 	showEditUser () {
 		this.setState({
 			editUser : true
@@ -108,5 +108,5 @@ var User = React.createClass({
 });
 
 module.exports = {
-	User : User
+	Users : Users
 }

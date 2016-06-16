@@ -5,7 +5,7 @@ import {About} from './factory/about'
 import {Reboot} from './factory/reboot'
 import {Networks} from './factory/networks'
 import {System} from './factory/system'
-import {User} from './factory/user'
+import {Users} from './factory/users'
 import {Overview} from './factory/overview'
 
 var navConfig = [{
@@ -33,8 +33,8 @@ var navConfig = [{
         'name': 'Networks',
         'path': '/network-config'
     }, {
-        'name': 'User',
-        'path': '/user'
+        'name': 'Users',
+        'path': '/users'
     }, {
         'name': 'RF',
         'path': '/rf'
@@ -165,8 +165,8 @@ var routes = {
         path: 'system',
         component: System
     }, {
-        path: 'user',
-        component: User
+        path: 'users',
+        component: Users
     }, {
         path: 'clients',
         component: Clients
