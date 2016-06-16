@@ -30,7 +30,7 @@ var Reboot = React.createClass({
 		});
 	},
 	render () {
-		var titleElement = (<div className='title_heading form_heading'>Reboot</div>)
+		var titleElement = (<h2 className='title_heading form_heading'>Reboot</h2>)
 		var comfirmDialog;
         if (this.state.showReboot) {
             comfirmDialog = (<div>
@@ -39,10 +39,9 @@ var Reboot = React.createClass({
                 />
             </div>)
         }
-		return (<div className='panel'>
+		return (<div className='panel no_border'>
 				{titleElement}
 				<button className='medium button medium-2 columns' onClick={this.showRebootConfirm}>Reboot</button>
-				<Upload {...props}><a >asdfasd</a></Upload>
 				{comfirmDialog}
 			</div>)
 	}

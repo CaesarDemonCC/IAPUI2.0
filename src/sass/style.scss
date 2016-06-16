@@ -158,11 +158,11 @@
             border-left: $layoutDivider;
             overflow-y: auto;
 
-            > div {
+            /*> div {
                 > .panel {
                     border: none;
                 }
-            }
+            }*/
         }
     }
 }
@@ -556,8 +556,9 @@
 .tabs {
     .panel-content {
         padding: 1.5rem;
-        border: 1px solid $colorDivider;
-        border-top: none;
+        //border: 1px solid $colorDivider;
+        //border-top: none;
+        border: 0;
     }
 }
 
@@ -615,4 +616,14 @@
         padding-left: 0;
         padding-right: 0;
     }
+}
+
+table.data {
+    .title_heading {
+        white-space: nowrap;
+    }
+}
+
+.panel.no_border {
+    border: 0;
 }

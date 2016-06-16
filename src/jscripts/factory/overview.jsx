@@ -77,7 +77,7 @@ const SummaryInfo = React.createClass({
     },
     render() {
         return (
-			<div className="panel">
+			<div className="panel no_border">
 				<h2 className="title_heading form_heading">
 					Info
 				</h2>
@@ -173,7 +173,7 @@ const SummaryChart = React.createClass({
     	};
 
         return (
-        	<div className="panel">
+        	<div className="panel no_border">
 				<div className="medium-6 columns">
 					<div>
 						<h2 className="title_heading form_heading">
@@ -183,18 +183,18 @@ const SummaryChart = React.createClass({
 							<span className="">
 								<div className="chartLabel badge badge-medium badge-blue">{badgeIn}</div>
 								<div className="chartLabel">
-					                <label className="chartLabelHeader" style={{display:'inline-table'}}>
-					                	<label style={{display:'table-row'}} className="chartUnits">bps</label>
-					                	<span className="chartInlineLabel ng-binding" style={{display:'table-row'}}>In</span>
+					                <label className="chartLabelHeader">
+					                	<label className="chartUnits">bps</label>
+					                	<span className="chartInlineLabel">In</span>
 					                </label>
 				                </div>
 							</span>
 							<span className="">
 								<div className="chartLabel badge badge-medium badge-orange">{badgeOut}</div>
 								<div className="chartLabel">
-					                <label className="chartLabelHeader" style={{display:'inline-table'}}>
-					                	<label style={{display:'table-row'}} className="chartUnits">bps</label>
-					                	<span className="chartInlineLabel ng-binding" style={{display:'table-row'}}>Out</span>
+					                <label className="chartLabelHeader">
+					                	<label className="chartUnits">bps</label>
+					                	<span className="chartInlineLabel">Out</span>
 					                </label>
 				                </div>
 							</span>
@@ -212,9 +212,9 @@ const SummaryChart = React.createClass({
 				            <span>
 				                <div className="chartLabel badge badge-medium badge-blue">{badgeClient}</div>
 				                <div className="chartLabel">
-				                	<label className="chartLabelHeader" style={{display:'inline-table'}}>
-				                		<label style={{display:'table-row'}} className="chartUnits">  </label>
-				                		<span className="chartInlineLabel ng-binding" style={{display:'table-row'}}>Clients</span>
+				                	<label className="chartLabelHeader">
+				                		<label className="chartUnits">  </label>
+				                		<span className="chartInlineLabel">Clients</span>
 				                	</label>
 				                </div>
 				            </span>
@@ -283,7 +283,7 @@ const SummaryTable = React.createClass({
 		    title: 'Clients'
 		};
         return (
-            <div className="summary panel">
+            <div className="summary panel no_border">
             	<h2 className="title_heading form_heading">
 					Summary
 				</h2>
