@@ -30,7 +30,7 @@ class Table extends React.Component {
   		let titleContent = title;
 
   		if (title && title.render) {
-			titleContent = title.render.call(this, title.text || '');
+			titleContent = title.render(title.text || '');
   		} 
 
   		return titleContent ? <div className="title_heading">{titleContent}</div> : '';
@@ -93,9 +93,9 @@ class Table extends React.Component {
 					}
 				}
 
-				headers.push(<th className={sortClass + optionalClass} onClick={clickFn}>{h.name}</th>);
+				headers.push(<th key={h.name} className={sortClass + optionalClass} onClick={clickFn}>{h.name}</th>);
 		    } else {
-		    	headers.push(<th className={optionalClass}>{h.name}</th>);
+		    	headers.push(<th key={h.name} className={optionalClass}>{h.name}</th>);
 		    }
 			
 		});
@@ -108,7 +108,7 @@ class Table extends React.Component {
 		let content = row[colKey] || '';
 		
 		if (col.render) {
-			content = col.render.call(this, content, row, index);
+			content = col.render(content, row, index);
 		}
 
 		let optionalClass = '';
@@ -153,6 +153,17 @@ class Table extends React.Component {
 
 	createFooter () {
 		// TBD
+		if (this.props.newHandler) {
+			let onClickFn = null;
+			if (this.props.newHandler && $.isFunction(this.props.newHandler)) {
+				onClickFn = function () {
+					this.props.newHandler();
+				}.bind(this);
+			} 
+			return <div><a className="icosolo icon_add" onClick={onClickFn}/></div>
+		}
+		
+		return '';
 	}
 
 	sortData (key, asc) {
@@ -185,7 +196,6 @@ class Table extends React.Component {
 				<table className="data responsive">
 					{this.createHeader()}
 					{this.createBody(this.getData())}
-					{this.createFooter()}
 				</table>
 			</div>
 		);
@@ -194,6 +204,7 @@ class Table extends React.Component {
 			<div className="panel table white no_pad">
 				{this.createTitle()}
           		{table}
+          		{this.createFooter()}
       		</div>
 		)
 	}

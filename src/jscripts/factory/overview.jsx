@@ -117,13 +117,23 @@ const SummaryChart = React.createClass({
     	let badgeOut = throughputOut.length > 0 ? throughputOut[throughputOut.length - 1] : 0;
     	let badgeClient = clients.length > 0 ? clients[clients.length - 1] : 0;
 
+    	let inData = [];
+    	let outData = [];
+    	let clientData = [];
+
+    	timestamp.forEach((v, i, a) => {
+    		inData.push([v, throughputIn[i]]);
+    		outData.push([v, throughputOut[i]]);
+    		clientData.push([v, clients[i]]);
+    	});
+
 
     	let throughputConfig = {
     		title: {
     			text: null
     		},
     		xAxis: {
-                categories: timestamp
+    			type: 'datetime'
             },
             yAxis: {
             	title: {
@@ -134,12 +144,12 @@ const SummaryChart = React.createClass({
             	name: 'In',
             	type: 'areaspline',
             	color: '#02a7ec',
-                data: throughputIn
+                data: inData
             }, {
             	name: 'Out',
             	type: 'areaspline',
             	color: '#F5831E',
-                data: throughputOut
+                data: outData
             }]
     	};
     	let clientConfig = {
@@ -147,7 +157,7 @@ const SummaryChart = React.createClass({
     			text: null
     		},
     		xAxis: {
-                categories: timestamp
+                type: 'datetime'
             },
             yAxis: {
             	title: {
@@ -158,7 +168,7 @@ const SummaryChart = React.createClass({
             	name: 'clients',
             	type: 'areaspline',
             	color: '#02a7ec',
-                data: clients
+                data: clientData
             }]
     	};
 
@@ -286,6 +296,7 @@ const SummaryTable = React.createClass({
 });
 
 const Overview = React.createClass({
+	active: false,
 	getInitialState() {
         return {
     		info: {},
@@ -299,7 +310,8 @@ const Overview = React.createClass({
     			neworks: {},
     			aps: {},
     			clients: {}
-    		}
+    		},
+    		testData: null
     	};
     },
 
@@ -342,7 +354,7 @@ const Overview = React.createClass({
         	let datas = chartData['SwarmGlobalStats'];
 
         	datas.forEach((v, i) => {
-        		statsData.timestamp.push(this.formatTime(v['timestamp']));
+        		statsData.timestamp.push(v['timestamp'] * 1000);
         		statsData.throughputIn.push(v['throughput[in](bps)'] * 1);
         		statsData.throughputOut.push(v['throughput[out](bps)'] * 1);
         		statsData.clients.push(v['clients'] * 1);
@@ -380,15 +392,32 @@ const Overview = React.createClass({
 
     	for (let i = 0; i < stats.length; i++) {
     		let o = {
-    			'clients': parseInt(Math.random() * 50) + 5,
+    			'clients': parseInt(Math.random() * 20) + 15,
     			'frames[in](fps)': "1",
 				'frames[out](fps)': "0",
-				'throughput[in](bps)': parseInt(Math.random() * 1000) + 100,
-				'throughput[out](bps)': parseInt(Math.random() * 2000) + 50,
+				'throughput[in](bps)': parseInt(Math.random() * 1000) + 900,
+				'throughput[out](bps)': parseInt(Math.random() * 1000) + 900,
 				'timestamp': stats[i]['timestamp']
     		};
     		res.push(o);
     	}
+
+    	this.state.testData = res;
+
+    	return res;
+    },
+
+    createNewPoint(data) {
+    	let stats = data['SwarmGlobalStats'];
+
+		let res = {
+			'clients': parseInt(Math.random() * 20) + 15,
+			'frames[in](fps)': "1",
+			'frames[out](fps)': "0",
+			'throughput[in](bps)': parseInt(Math.random() * 1000) + 900,
+			'throughput[out](bps)': parseInt(Math.random() * 1000) + 900,
+			'timestamp': stats[0]['timestamp']
+		};
 
     	return res;
     },
@@ -400,44 +429,52 @@ const Overview = React.createClass({
         ];
         Ajax.get({
             'opcode':'show',
-            'cmd': cmdList
-        }, function(data){    
-        	console.log(data);
+            'cmd': cmdList, 
+            'refresh': true
+        }, function(data){
 
-        	// test data
-        	data.showstatsglobal.SwarmGlobalStats = this.getTestData(data.showstatsglobal);
+        	if (this.active) {
+        		// test data
+	        	data.showstatsglobal.SwarmGlobalStats = this.props.testData ? this.props.testData : this.getTestData(data.showstatsglobal);
+	        	data.showstatsglobal.SwarmGlobalStats[0] = this.createNewPoint(data.showstatsglobal);
 
-        	let chartData = this.parseChartData(data.showstatsglobal);
-        	let tableData = this.parseTableData(data.showsummary);
+	        	let chartData = this.parseChartData(data.showstatsglobal);
+	        	let tableData = this.parseTableData(data.showsummary);
 
-        	this.setState({
-        		info: data.showsummary,
-        		chart: chartData,
-        		table: tableData
-        	});
+	        	this.setState({
+	        		info: data.showsummary,
+	        		chart: chartData,
+	        		table: tableData
+	        	});
+        	}
         	
         }.bind(this));
     },
 
     componentWillMount () {
+    	this.active = true;
 		this.showSummary();
-		let self = this;
+    },
 
-		setInterval(function () {
-			self.showSummary();
-		}, 30000)
+    componentWillUnmount () {
+		this.active = false;
     },
 
 	componentDidMount () {
-	    console.log('componentDidMount');
+	    console.log('overview----componentDidMount');
+	    let self = this;
+
+	    setInterval(function () {
+			self.showSummary();
+		}, 30000)
 	},
 
   	componentWillReceiveProps (nextProps) {
-  		console.log('componentWillReceiveProps');
+  		console.log('overview----componentWillReceiveProps');
   	},
 
   	componentDidUpdate () {
-    	console.log('componentDidUpdate');
+    	console.log('overview----componentDidUpdate');
   	},
 
   	render () {
