@@ -133,13 +133,20 @@ const SummaryChart = React.createClass({
     			text: null
     		},
     		xAxis: {
+    			gridLineWidth: 1,
     			type: 'datetime'
             },
             yAxis: {
+            	minorTickInterval: 'auto',
+            	allowDecimals: false,
             	title: {
             		text: null
             	}
             },
+            tooltip: {
+	            shared: true,
+	            valueSuffix: ' bps'
+	        },
             series: [{
             	name: 'In',
             	type: 'areaspline',
@@ -157,9 +164,12 @@ const SummaryChart = React.createClass({
     			text: null
     		},
     		xAxis: {
+    			gridLineWidth: 1,
                 type: 'datetime'
             },
             yAxis: {
+            	minorTickInterval: 'auto',
+            	allowDecimals: false,
             	title: {
             		text: null
             	}
@@ -395,8 +405,8 @@ const Overview = React.createClass({
     			'clients': parseInt(Math.random() * 20) + 15,
     			'frames[in](fps)': "1",
 				'frames[out](fps)': "0",
-				'throughput[in](bps)': parseInt(Math.random() * 1000) + 900,
-				'throughput[out](bps)': parseInt(Math.random() * 1000) + 900,
+				'throughput[in](bps)': parseInt(Math.random() * 500) + 500,
+				'throughput[out](bps)': parseInt(Math.random() * 500) + 500,
 				'timestamp': stats[i]['timestamp']
     		};
     		res.push(o);
@@ -414,8 +424,8 @@ const Overview = React.createClass({
 			'clients': parseInt(Math.random() * 20) + 15,
 			'frames[in](fps)': "1",
 			'frames[out](fps)': "0",
-			'throughput[in](bps)': parseInt(Math.random() * 1000) + 900,
-			'throughput[out](bps)': parseInt(Math.random() * 1000) + 900,
+			'throughput[in](bps)': parseInt(Math.random() * 500) + 500,
+			'throughput[out](bps)': parseInt(Math.random() * 500) + 500,
 			'timestamp': stats[0]['timestamp']
 		};
 

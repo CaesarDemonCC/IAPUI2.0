@@ -66,7 +66,8 @@
 
     .wrapper {
         //flex-flow: row wrap;
-        @include flex-flow(row wrap);
+        // Use vertical layout when the screen is small
+        @include flex-flow(column);
         overflow-y: auto;
         > div {
             width: 100%;
@@ -163,6 +164,12 @@
                     border: none;
                 }
             }*/
+        }
+    }
+
+    p {
+        @include breakpoint(mama-bear) {
+            font-size: 1rem;
         }
     }
 }
@@ -626,4 +633,40 @@ table.data {
 
 .panel.no_border {
     border: 0;
+}
+
+.tabcontrols {
+    padding-top: 0;
+    @include box-shadow(0 0 0 $colorDividerLt inset);
+    li {
+        border: 0;
+        overflow: hidden;
+        color: $colorLink;
+    }
+    li.current a {
+        color: black;
+        border: 0;
+        background-color: #fff;
+    }
+
+    li a {
+        cursor: pointer;
+        color: black;
+        padding: 0.7rem 1.25rem 0.8125rem 2rem;
+        font-size: 1rem;
+        font-weight: bold;
+    }
+    li + div:first-of-type {
+        padding-left: 2rem;
+        //@include transition(display 800ms ease-in-out 0ms);
+    }
+}
+
+.tabs.responsive {
+    
+    .tabcontrols {
+        @include breakpoint(baby-bear) {
+            display: block;
+        }
+    }
 }
