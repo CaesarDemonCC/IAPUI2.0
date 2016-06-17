@@ -68,6 +68,7 @@
         //flex-flow: row wrap;
         // Use vertical layout when the screen is small
         @include flex-flow(column);
+        overflow-x: hidden;
         overflow-y: auto;
         > div {
             width: 100%;
@@ -150,7 +151,7 @@
         @include flex(1);
 
         .sidenav-wrapper {
-            padding: 0.25rem 0.8rem;
+            padding: 0.25rem 0.125rem;
         }
 
         .container {

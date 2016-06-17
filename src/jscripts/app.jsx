@@ -67,7 +67,7 @@ var App = React.createClass({
         })
 
         return {
-            isLoggedIn: false
+            isLoggedIn: isLoggedIn()
         };
     },
     setssidProps (ssidProps){
