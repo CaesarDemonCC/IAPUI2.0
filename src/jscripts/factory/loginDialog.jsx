@@ -1,6 +1,7 @@
 import {getUser, setUser, isLoggedIn, logout} from '../utils/auth'
 import {Dialog} from '../ui/widget/dialog'
 import {Ajax} from '../utils/ajax'
+import EventSystem from '../utils/eventSystem'
 
 var LoginDialog = ReactRouter.withRouter(React.createClass({
 	getLoginItems () {
@@ -51,6 +52,8 @@ var LoginDialog = ReactRouter.withRouter(React.createClass({
                     role : data.type
                 });
 
+                EventSystem.publish('UserLoggedIn', true);
+
                 var location = this.props.location,
                     router = this.props.router;
 
@@ -86,6 +89,9 @@ var Logout = ReactRouter.withRouter(React.createClass({
             'opcode':'logout'
         }, function(data){
             logout();
+            
+            EventSystem.publish('UserLoggedIn', false);
+
             var router = this.props.router;
             router.replace('/login');
         }.bind(this));

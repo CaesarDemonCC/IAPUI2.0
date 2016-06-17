@@ -8,6 +8,8 @@ import {System} from './factory/system'
 import {Users} from './factory/users'
 import {Overview} from './factory/overview'
 
+import EventSystem from './utils/eventSystem'
+
 var navConfig = [{
     'name': 'Monitoring',
     //'path': '/',
@@ -56,8 +58,16 @@ var navConfig = [{
 
 var App = React.createClass({
     getInitialState() {
+        var self = this;
+
+        EventSystem.subscribe('UserLoggedIn', function (loggedIn) {
+            self.setState({
+                isLoggedIn: loggedIn
+            });
+        })
+
         return {
-            displayLoginDialog: !isLoggedIn()
+            isLoggedIn: false
         };
     },
     setssidProps (ssidProps){
@@ -68,6 +78,9 @@ var App = React.createClass({
     render () {
         var Header = React.createClass({
             render: function () {
+                if (!this.props.show) {
+                    return null;
+                }
                 return (
                     <div className='header'>
                         <div className='logo small-5 columns' />
@@ -88,10 +101,10 @@ var App = React.createClass({
 
         return (
             <div className='app'>
-                <Header />
+                <Header show={this.state.isLoggedIn? true: false} />
                 <div className='wrapper'>
                     <div classNav='nav'>
-                        <SideNav data={navConfig} currentLocation={this.props.location.pathname} />
+                        <SideNav data={navConfig} show={this.state.isLoggedIn? true: false} currentLocation={this.props.location.pathname} />
                     </div>
                     <div id='container' className='container'>
                         {this.props.children}
@@ -103,7 +116,6 @@ var App = React.createClass({
 });
 
 var requireAuth = function (nextState, replace) {
-    console.log(nextState);
     if (nextState.location.pathname !== '/login' && !isLoggedIn()) {
         replace({
             pathname: '/login',
@@ -166,5 +178,12 @@ function addOnEnterIntoChildRoutes (routes, listener) {
 }
 addOnEnterIntoChildRoutes(routes, requireAuth);
 
+window.App = App;
+
+var onUpdate = function () {
+    console.log('onUpdate');
+    console.log(arguments);
+}
+
 var Router = ReactRouter.Router;
-ReactDOM.render(<Router routes={routes} />, document.body);
+ReactDOM.render(<Router routes={routes} onUpdate={onUpdate} />, document.body);

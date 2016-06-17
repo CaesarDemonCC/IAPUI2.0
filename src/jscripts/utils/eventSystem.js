@@ -1,30 +1,30 @@
-var EventSystem = (function() {
-  var self = this;
-
-  self.queue = {};
-
-  return {
+var EventSystem = {
+    queue: {},
+    id: new Date(),
     publish: function (event, data) {
-      var queue = self.queue[event];
+      var queue = this.queue[event];
 
       if (typeof queue === 'undefined') {
         return false;
       }
 
-      while(queue.length > 0) {
-        (queue.shift())(data);
-      }
+      // while(queue.length > 0) {
+      //   (queue.shift())(data);
+      // }
+
+      queue.forEach(function (item) {
+          item(data);
+      })
 
       return true;
     },
     subscribe: function(event, callback) {
-      if (typeof self.queue[event] === 'undefined') {
-        self.queue[event] = [];
+      if (typeof this.queue[event] === 'undefined') {
+        this.queue[event] = [];
       }
 
-      self.queue[event].push(callback);
+      this.queue[event].push(callback);
     }
-  };
-}());
+}
 
 module.exports = EventSystem;
