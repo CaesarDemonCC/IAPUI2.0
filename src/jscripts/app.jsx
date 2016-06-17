@@ -66,14 +66,16 @@ var App = React.createClass({
             });
         })
 
+        EventSystem.subscribe('RouteUpdated', function (path) {
+            self.setState({
+                currentLocation: path
+            });
+        })
+
         return {
-            isLoggedIn: isLoggedIn()
+            isLoggedIn: isLoggedIn(),
+            currentLocation: '/'
         };
-    },
-    setssidProps (ssidProps){
-        this.setState({
-            ssidProps: ssidProps
-        });
     },
     render () {
         var Header = React.createClass({
@@ -181,8 +183,7 @@ addOnEnterIntoChildRoutes(routes, requireAuth);
 window.App = App;
 
 var onUpdate = function () {
-    console.log('onUpdate');
-    console.log(arguments);
+    EventSystem.publish('RouteUpdated', this.state.location.pathname)
 }
 
 var Router = ReactRouter.Router;
