@@ -2,39 +2,8 @@ import {Ajax} from '../utils/ajax'
 import Table from '../ui/widget/table'
 
 var Networks = React.createClass({
-	getDefaultProps(){
-		return {
-	        columns : [{
-	            name: 'Name',
-	            dataIndex: 'name'
-	        }, {
-	            name: 'Clients',
-	            dataIndex: 'clients'
-	        }, {
-	            name: 'Action',
-	            dataIndex: 'action',
-	            render: (text, record) => {
-	                let onEditClick = (e) => {
-	                    console.log(record);
-	                    e.stopPropagation();
-	                }
-	                let onDeleteClick = (e) => {
-	                    console.log(record);
-	                    e.stopPropagation();
-	                }
-	                return (
-	                    <div>
-	                    <a className="icosolo icon_edit" onClick={onEditClick}></a>
-	                    <a className="icosolo icon_delete delete" onClick={onDeleteClick}></a>
-	                    </div>
-	                );
-	            }
-	        }],
-	        dataSource: [],
-	        rowKey: 'name',
-	        sortable: true,
-	        title: 'Networks'
-		};
+	newHandler () {
+	    this.props.history.replace('/network-edit/ ');
 	},
 	getInitialState() {
         return {
@@ -43,7 +12,6 @@ var Networks = React.createClass({
     },
 	showSummary() {
         var cmdList = [
-            'show stats global',
             'show summary'
         ];
         Ajax.get({
@@ -51,7 +19,7 @@ var Networks = React.createClass({
             'cmd': cmdList
         }, function(data){    
         	var dataSource = [];        
-        	$.each(data.showsummary, (key, value) => {
+        	$.each(data, (key, value) => {
                 if(key.indexOf('Network') > 0) {
                     value.forEach((network, index) =>{
                         dataSource.push({
@@ -71,10 +39,45 @@ var Networks = React.createClass({
 		this.showSummary();
     },
     render () {
+    	var props = {
+	        columns : [{
+	            name: 'Name',
+	            dataIndex: 'name'
+	        }, {
+	            name: 'Clients',
+	            dataIndex: 'clients'
+	        }, {
+	            name: 'Action',
+	            dataIndex: 'action',
+	            render: (text, record) => {
+	                var editTO = {
+	                	pathname:"network-edit/" + record.name
+	            	}
+	            	var deleteHandler = () =>{
+	            		Ajax.post({
+	            			opcode : 'config',
+	            			cmd : 'no wlan ssid-profile ' + record.name
+	            		});
+	            		this.showSummary();
+	            	}; 
+	                return (
+	                    <div>
+	                    <ReactRouter.Link className="icosolo icon_edit" to={editTO}/>
+	                    <a className="icosolo icon_delete delete" onClick={deleteHandler}/>
+	                    </div>
+	                );
+	            }
+	        }],
+	        dataSource: [],
+	        rowKey: 'name',
+	        sortable: true,
+	        title: 'Networks',
+	        newHandler: this.newHandler
+		};
     	return (
             <div className="panel no_border">
                 <h2 className='title_heading form_heading'>Networks</h2>
-                <Table {...this.props} dataSource = {this.state.dataSource}/>
+                <Table {...props} dataSource = {this.state.dataSource}/>
             </div>
         )
 	}

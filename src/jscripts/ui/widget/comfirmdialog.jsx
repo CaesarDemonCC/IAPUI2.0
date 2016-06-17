@@ -13,7 +13,7 @@ var ComfirmDialog = React.createClass({
 				template:(<div>
 					<p>{this.props.message}</p>
 				      <div className="controls">
-				        <button className="medium button secondary medium-4 columns" onClick={this.cancelHandler}>Cancel</button>
+				        <button className="medium button white-button medium-4 columns" onClick={this.cancelHandler}>Cancel</button>
 				        <button className="medium button medium-4 columns" onClick={this.submitHandler}>Yes</button>
 				      </div>
 				</div>)

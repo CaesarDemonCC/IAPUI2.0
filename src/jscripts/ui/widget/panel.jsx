@@ -10,6 +10,9 @@ var generateItem = function (item, index) {
         case 'select':
             Field = formField.SelectRow;
             break;
+        case 'radio':
+            Field = formField.RadioGroup;
+            break;
         case 'template':
             item.ref='template'
             Field = formField.Template;
@@ -45,13 +48,12 @@ var PanelTitle = React.createClass({
 
 var PanelContent = React.createClass({
     componentDidMount: function () {
-        console.log('componentDidMount');
+        this.setData(this.props);
+
         var handler = this.props.handler;
         if (handler && typeof handler === 'function') {
             handler.call(this);
         }
-
-        this.setData(this.props);
     },
     componentWillUpdate: function (nextProps, nextState) {
         this.setData(nextProps);
@@ -64,8 +66,16 @@ var PanelContent = React.createClass({
                     && props.tabData[key.substr(key.indexOf('re-') + 3)]) {
                     value = props.tabData[key.substr(key.indexOf('re-') + 3)];
                 }
-                $(ReactDOM.findDOMNode(item)).find('.input').val(value);
+                var input = $(ReactDOM.findDOMNode(item)).find('.input');
+                input.val(value);
+                if(input.trigger){
+                    input.trigger('change');
+                }
             });
+            var handler = props.handler;
+            if (handler && typeof handler === 'function') {
+                handler.call(this);
+            }
         }
     },
     getData : function () {

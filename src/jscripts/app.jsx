@@ -7,6 +7,7 @@ import {Networks} from './factory/networks'
 import {System} from './factory/system'
 import {Users} from './factory/users'
 import {Overview} from './factory/overview'
+import {NetworksEdit} from './factory/networksedit'
 
 import EventSystem from './utils/eventSystem'
 
@@ -152,6 +153,9 @@ var routes = {
     }, {
         path: 'network-config',
         component: Networks
+    }, {
+        path: 'network-edit/:networkid',
+        component: NetworksEdit
     }, {
         path: 'system',
         component: System

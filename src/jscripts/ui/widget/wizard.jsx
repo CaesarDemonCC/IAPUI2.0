@@ -1,4 +1,5 @@
 import {PanelContent} from './panel'
+import {Ajax} from '../../utils/ajax'
 
 var WizardControls = React.createClass({
     goToStep : function (index) {
@@ -81,8 +82,30 @@ var Wizard = React.createClass({
         }
     },
 
+    componentDidMount: function() {
+        var cmdList= [];
+        this.props.wizardsConfig.forEach((prop) => {
+            if ($.isArray(prop.showCmd)) {
+                prop.showCmd.forEach((cmd)=>{
+                    cmdList.push(cmd);
+                });
+            } else {
+                cmdList.push(prop.showCmd);
+            }
+        });
+        Ajax.get({
+            'opcode':'show',
+            'cmd': cmdList
+        }, function(data){
+            if (this.props.parseData) {
+                this.props.parseData(data);
+            }
+        }.bind(this));
+    },
+
     goToStep: function (index) {
-        console.log('goToStep ' + index);
+        var currentStepData = this.refs.panelContent.getData();
+        this.props.wizardsData[this.state.currentStep] = currentStepData;
         this.setState({
             currentStep: index,
             activeStep: this.state.activeStep < index? index: this.state.activeStep
@@ -98,7 +121,7 @@ var Wizard = React.createClass({
     },
 
     onSubmit: function () {
-        console.log('Finished!')
+        this.props.onSubmit();
     },
 
     onCancel: function () {
@@ -116,7 +139,7 @@ var Wizard = React.createClass({
             handlers.push(Wizard.handler || function () {})
         })
 
-        content = <PanelContent key={this.state.currentStep} items={wizardsConfig[this.state.currentStep].items} handler={wizardsConfig[this.state.currentStep].handler}/>;
+        content = <PanelContent ref='panelContent' key={this.state.currentStep} tabData={this.props.wizardsData[this.state.currentStep]} items={wizardsConfig[this.state.currentStep].items} handler={wizardsConfig[this.state.currentStep].handler}/>;
 
         var wcProps = {
             ...this.state,
