@@ -8,6 +8,7 @@ import {System} from './factory/system'
 import {Users} from './factory/users'
 import {Overview} from './factory/overview'
 import {NetworksEdit} from './factory/networksedit'
+import {Firmware} from './factory/firmware'
 
 import EventSystem from './utils/eventSystem'
 
@@ -47,6 +48,9 @@ var navConfig = [{
     'children': [{
         'name': 'About',
         'path': '/about'
+    }, {
+        'name': 'Firmware',
+        'path': '/firmware'
     }/*, {
         'name': 'Configuration',
         'path': '/config'
@@ -162,6 +166,9 @@ var routes = {
     }, {
         path: 'users',
         component: Users
+    }, {
+        path: 'firmware',
+        component: Firmware
     }/*, {
         path: 'clients',
         component: Clients

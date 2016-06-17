@@ -445,8 +445,8 @@ const Overview = React.createClass({
 
         	if (this.active) {
         		// test data
-	        	data.showstatsglobal.SwarmGlobalStats = this.props.testData ? this.props.testData : this.getTestData(data.showstatsglobal);
-	        	data.showstatsglobal.SwarmGlobalStats[0] = this.createNewPoint(data.showstatsglobal);
+	        	//data.showstatsglobal.SwarmGlobalStats = this.props.testData ? this.props.testData : this.getTestData(data.showstatsglobal);
+	        	//data.showstatsglobal.SwarmGlobalStats[0] = this.createNewPoint(data.showstatsglobal);
 
 	        	let chartData = this.parseChartData(data.showstatsglobal);
 	        	let tableData = this.parseTableData(data.showsummary);
