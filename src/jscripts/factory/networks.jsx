@@ -71,7 +71,12 @@ var Networks = React.createClass({
 		this.showSummary();
     },
     render () {
-    	return <Table {...this.props} dataSource = {this.state.dataSource}/>
+    	return (
+            <div className="panel no_border">
+                <h2 className='title_heading form_heading'>Networks</h2>
+                <Table {...this.props} dataSource = {this.state.dataSource}/>
+            </div>
+        )
 	}
 });
 
