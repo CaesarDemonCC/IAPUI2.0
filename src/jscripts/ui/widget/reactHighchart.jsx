@@ -53,6 +53,7 @@ var ReactHighchart = React.createClass({
         this.chart = new Highcharts['Chart']({
             ...config,
             chart: {
+                plotBorderWidth: 1,
                 renderTo: this.refs.chart
             }
         })  

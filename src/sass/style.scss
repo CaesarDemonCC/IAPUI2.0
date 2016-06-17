@@ -66,7 +66,9 @@
 
     .wrapper {
         //flex-flow: row wrap;
-        @include flex-flow(row wrap);
+        // Use vertical layout when the screen is small
+        @include flex-flow(column);
+        overflow-x: hidden;
         overflow-y: auto;
         > div {
             width: 100%;
@@ -149,7 +151,7 @@
         @include flex(1);
 
         .sidenav-wrapper {
-            padding: 0.25rem 0.8rem;
+            padding: 0.25rem 0.125rem;
         }
 
         .container {
@@ -158,11 +160,17 @@
             border-left: $layoutDivider;
             overflow-y: auto;
 
-            > div {
+            /*> div {
                 > .panel {
                     border: none;
                 }
-            }
+            }*/
+        }
+    }
+
+    p {
+        @include breakpoint(mama-bear) {
+            font-size: 1rem;
         }
     }
 }
@@ -561,9 +569,9 @@
 .tabs {
     .panel-content {
         padding: 1.5rem;
-        border: 1px solid $colorDivider;
-        border-top: none;
-        border-bottom: none;
+        //border: 1px solid $colorDivider;
+        //border-top: none;
+        border: 0;
     }
 }
 
@@ -620,5 +628,51 @@
     .columns {
         padding-left: 0;
         padding-right: 0;
+    }
+}
+
+table.data {
+    .title_heading {
+        white-space: nowrap;
+    }
+}
+
+.panel.no_border {
+    border: 0;
+}
+
+.tabcontrols {
+    padding-top: 0;
+    @include box-shadow(0 0 0 $colorDividerLt inset);
+    li {
+        border: 0;
+        overflow: hidden;
+        color: $colorLink;
+    }
+    li.current a {
+        color: black;
+        border: 0;
+        background-color: #fff;
+    }
+
+    li a {
+        cursor: pointer;
+        color: black;
+        padding: 0.7rem 1.25rem 0.8125rem 2rem;
+        font-size: 1rem;
+        font-weight: bold;
+    }
+    li + div:first-of-type {
+        padding-left: 2rem;
+        //@include transition(display 800ms ease-in-out 0ms);
+    }
+}
+
+.tabs.responsive {
+    
+    .tabcontrols {
+        @include breakpoint(baby-bear) {
+            display: block;
+        }
     }
 }

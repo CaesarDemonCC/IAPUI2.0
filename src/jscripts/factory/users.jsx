@@ -22,17 +22,20 @@ var Users = React.createClass({
             'opcode':'show',
             'cmd': cmdList
         }, function(data){    
-        	var dataSource = [];        
-        	data.UserTable.forEach((item, index) => {
-                dataSource.push({
-                	'name' : item.name,
-                	'type' : item.attribute == 'Captive Portal' ? 'Guest' : 'Employee'
-                })
-            });
-            
-            this.setState({
-                'dataSource': dataSource
-            });
+        	var dataSource = [];
+        	if ($.isArray(data.UserTable)) {
+        		data.UserTable.forEach((item, index) => {
+	                dataSource.push({
+	                	'name' : item.name,
+	                	'type' : item.attribute == 'Captive Portal' ? 'Guest' : 'Employee'
+	                })
+	            });
+	            
+	            this.setState({
+	                'dataSource': dataSource
+	            });
+        	}       
+        	
         }.bind(this));
     },
     componentDidMount () {
@@ -100,7 +103,8 @@ var Users = React.createClass({
 					/>
 				</div>);
 		}
-		return (<div>
+		return (<div className="panel no_border">
+				<h2 className='title_heading form_heading'>Users</h2>
 				<Table {...this.props} dataSource={this.state.dataSource} />
 				{editUserDialog}
 			</div>)

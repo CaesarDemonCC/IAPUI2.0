@@ -68,25 +68,55 @@ var Tab = React.createClass({
             handlers = [];
 
         var tabsConfig = this.props.tabsConfig;
-        tabsConfig.forEach(function (tab) {
-            tabCtrls.push(tab.title);
-            handlers.push(tab.handler || function () {})
+        // tabsConfig.forEach(function (tab) {
+        //     tabCtrls.push(tab.title);
+        //     handlers.push(tab.handler || function () {})
+        // })
+
+        // content = <PanelContent ref='panelContent' key={this.state.currentTab} tabData={this.props.tabsData[this.state.currentTab]} items={tabsConfig[this.state.currentTab].items} handler={tabsConfig[this.state.currentTab].handler}/>;
+
+        // return (
+        //     <div className='tabs responsive wizard'>
+        //         <TabControls tabCtrls={tabCtrls} clickHandler={this.goToTab} currentTab={this.state.currentTab}/>
+        //         <div className='panel-content'>
+        //             {content}
+        //         </div>
+        //         <div className='wizard-footer'>
+        //             <button className='button medium-1' onClick={this.onSubmit}>OK</button>
+        //             <button className='button white-button medium-1' onClick={this.onCancel}>Cancel</button>
+        //         </div>
+        //     </div>
+        // )
+        // 
+        //
+        var pages = [];
+        var self = this;
+        tabsConfig.forEach(function (tab, index) {
+            var PC = null,
+                isCurrentTab = index === self.state.currentTab;
+            if (isCurrentTab) {
+                PC = <PanelContent ref='panelContent' key={'pn-' + index} tabData={self.props.tabsData[index]} items={tabsConfig[index].items} handler={tabsConfig[index].handler}/>
+            }
+            pages.push(
+                <div key={index}>
+                    <li key={'tc-' + index} className={isCurrentTab ? 'current icon_arrow_up ' : 'icon_arrow_down'} onClick={self.goToTab.bind(self, index)}><a>{tabsConfig[index].title}</a></li>
+                    {PC}
+                </div>
+            )
+
         })
-
-        content = <PanelContent ref='panelContent' key={this.state.currentTab} tabData={this.props.tabsData[this.state.currentTab]} items={tabsConfig[this.state.currentTab].items} handler={tabsConfig[this.state.currentTab].handler}/>;
-
         return (
             <div className='tabs responsive wizard'>
-                <TabControls tabCtrls={tabCtrls} clickHandler={this.goToTab} currentTab={this.state.currentTab}/>
-                <div className='panel-content'>
-                    {content}
-                </div>
+                <ul className="tabcontrols">
+                    {pages}
+                </ul>
                 <div className='wizard-footer'>
                     <button className='button medium-1' onClick={this.onSubmit}>OK</button>
                     <button className='button white-button medium-1' onClick={this.onCancel}>Cancel</button>
                 </div>
             </div>
         )
+        
     }
 });
 

@@ -8,13 +8,15 @@ import {System} from './factory/system'
 import {Users} from './factory/users'
 import {Overview} from './factory/overview'
 
+import EventSystem from './utils/eventSystem'
+
 var navConfig = [{
     'name': 'Monitoring',
     //'path': '/',
     'children': [{
         'name': 'Overview',
         'path': '/'
-    }, {
+    }/*, {
         'name': 'Networks',
         'path': '/networks'
     }, {
@@ -23,7 +25,7 @@ var navConfig = [{
     }, {
         'name': 'Clients',
         'path': '/clients'
-    }]
+    }*/]
 }, {
     'name': 'Configuration',
     'children': [{
@@ -35,19 +37,19 @@ var navConfig = [{
     }, {
         'name': 'Users',
         'path': '/users'
-    }, {
+    }/*, {
         'name': 'RF',
         'path': '/rf'
-    }]
+    }*/]
 }, {
     'name': 'Maintenance',
     'children': [{
         'name': 'About',
         'path': '/about'
-    }, {
+    }/*, {
         'name': 'Configuration',
         'path': '/config'
-    }, {
+    }*/, {
         'name': 'Reboot',
         'path': '/reboot'
     }]
@@ -56,18 +58,31 @@ var navConfig = [{
 
 var App = React.createClass({
     getInitialState() {
+        var self = this;
+
+        EventSystem.subscribe('UserLoggedIn', function (loggedIn) {
+            self.setState({
+                isLoggedIn: loggedIn
+            });
+        })
+
+        EventSystem.subscribe('RouteUpdated', function (path) {
+            self.setState({
+                currentLocation: path
+            });
+        })
+
         return {
-            displayLoginDialog: !isLoggedIn()
+            isLoggedIn: isLoggedIn(),
+            currentLocation: '/'
         };
-    },
-    setssidProps (ssidProps){
-        this.setState({
-            ssidProps: ssidProps
-        });
     },
     render () {
         var Header = React.createClass({
             render: function () {
+                if (!this.props.show) {
+                    return null;
+                }
                 return (
                     <div className='header'>
                         <div className='logo small-5 columns' />
@@ -88,10 +103,10 @@ var App = React.createClass({
 
         return (
             <div className='app'>
-                <Header />
+                <Header show={this.state.isLoggedIn? true: false} />
                 <div className='wrapper'>
                     <div classNav='nav'>
-                        <SideNav data={navConfig} currentLocation={this.props.location.pathname} />
+                        <SideNav data={navConfig} show={this.state.isLoggedIn? true: false} currentLocation={this.props.location.pathname} />
                     </div>
                     <div id='container' className='container'>
                         {this.props.children}
@@ -103,7 +118,6 @@ var App = React.createClass({
 });
 
 var requireAuth = function (nextState, replace) {
-    console.log(nextState);
     if (nextState.location.pathname !== '/login' && !isLoggedIn()) {
         replace({
             pathname: '/login',
@@ -117,29 +131,6 @@ var redirectToHomePage = function (nextState, replace) {
         pathname: '/'
     })
 }
-
-var Clients = React.createClass({
-    componentDidMount: function () {
-        var config = {
-            xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-          },
-          series: [{
-            data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 295.6, 454.4]
-          }]
-        };
-
-        var chart = new Highcharts['Chart']({
-            ...config,
-            chart: {
-                renderTo: this.refs.chart
-            }
-        })
-    },
-    render: function () {
-        return <div ref='chart' />
-    }
-})
 
 var routes = {
     path: '/',
@@ -167,10 +158,10 @@ var routes = {
     }, {
         path: 'users',
         component: Users
-    }, {
+    }/*, {
         path: 'clients',
         component: Clients
-    }, {
+    }*/, {
         path: '*',
         onEnter: redirectToHomePage
     }]
@@ -189,5 +180,11 @@ function addOnEnterIntoChildRoutes (routes, listener) {
 }
 addOnEnterIntoChildRoutes(routes, requireAuth);
 
+window.App = App;
+
+var onUpdate = function () {
+    EventSystem.publish('RouteUpdated', this.state.location.pathname)
+}
+
 var Router = ReactRouter.Router;
-ReactDOM.render(<Router routes={routes} />, document.body);
+ReactDOM.render(<Router routes={routes} onUpdate={onUpdate} />, document.body);

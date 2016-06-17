@@ -23,8 +23,14 @@ var nodeMixin = {
 
 var SideNav = ReactRouter.withRouter(React.createClass({
     mixins: [toggleMenuMixin],
-    getInitialState: function () {
-        var data = $.extend(true, [], this.props.data);
+    componentWillReceiveProps: function (nextProps) {
+        var data = this.calcData(nextProps.data);
+        this.setState({
+            treeData: data
+        });
+    },
+    calcData: function (oData) {
+        var data = $.extend(true, [], oData);
         var currentLocation = this.props.currentLocation;
         var self = this;
 
@@ -49,13 +55,16 @@ var SideNav = ReactRouter.withRouter(React.createClass({
             setId(data)
         }
 
+        return data;
+    },
+    getInitialState: function () {
+        var data = this.calcData(this.props.data);
         return {
             expanded: false,
             treeData: data
         };
     },
     setSelected: function (nodeId, nodes, opt_doNotUnselectOthers) {
-
         if (nodes && nodes.length) {
             var item;
             for (var i = 0; i < nodes.length; i++) {
@@ -96,6 +105,9 @@ var SideNav = ReactRouter.withRouter(React.createClass({
     },
     render: function () {
         var self = this;
+        if (!this.props.show) {
+            return null;
+        }
         var children = this.state.treeData.map(function (item, index) {
             return <Node key={index} data={item} selectNode={self.selectNode}/>
         });
