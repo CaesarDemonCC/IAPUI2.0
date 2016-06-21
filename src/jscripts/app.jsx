@@ -191,8 +191,6 @@ function addOnEnterIntoChildRoutes (routes, listener) {
 }
 addOnEnterIntoChildRoutes(routes, requireAuth);
 
-window.App = App;
-
 var onUpdate = function () {
     EventSystem.publish('RouteUpdated', this.state.location.pathname)
 }

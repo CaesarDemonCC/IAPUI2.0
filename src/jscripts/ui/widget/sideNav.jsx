@@ -6,21 +6,6 @@ var toggleMenuMixin = {
     }
 }
 
-var nodeMixin = {
-    selectHandler: function (nodeId) {
-        this.props.selectNode(nodeId);
-
-        this.setState({
-            selected: !this.state.selected
-        })
-    },
-    componentWillReceiveProps: function (nextProps) {
-        this.setState({
-            selected: nextProps.data.selected
-        })
-    }
-}
-
 var SideNav = ReactRouter.withRouter(React.createClass({
     mixins: [toggleMenuMixin],
     componentWillReceiveProps: function (nextProps) {
@@ -126,50 +111,31 @@ var SideNav = ReactRouter.withRouter(React.createClass({
 }));
 
 var Node = React.createClass({
-    mixins: [toggleMenuMixin, nodeMixin],
+    mixins: [toggleMenuMixin],
     getInitialState: function () {
         return {
-            selected: this.props.data.selected || false,
             expanded: true
         };
+    },
+    selectHandler: function (nodeId) {
+        this.props.selectNode(nodeId);
     },
     render: function () {
         var self = this;
         var data = this.props.data;
         var children = [];
+        var ul = null;
         if (data.children && data.children.length) {
             children = data.children.map(function (item, index) {
-                var NodeType = LeafNode;
-                if (item.children && item.children.length) {
-                    NodeType = Node;
-                }
-
-                return <NodeType key={index} data={item} selectNode={self.props.selectNode} />
+                return <Node key={index} data={item} selectNode={self.props.selectNode} />
             })
+
+            ul = (<ul className={this.state.expanded?'expand':''}>{children}</ul>);
         }
         return (
-            <li className={'folder ' + (this.state.selected?'current':'')} >
+            <li className={'folder ' + (data.selected?'current':'')} >
                 <a href={data.path?'#'+data.path:null} onClick={data.path?this.selectHandler.bind(this, data._id):this.menuToggleHandler}>{data.name}</a>
-                <ul className={this.state.expanded?'expand':''} >
-                    {children}
-                </ul>
-            </li>
-        )
-    }
-})
-
-var LeafNode = React.createClass({
-    mixins: [nodeMixin],
-    getInitialState: function () {
-        return {
-            selected: this.props.data.selected || false
-        };
-    },
-    render: function () {
-        var data = this.props.data;
-        return (
-            <li className={this.state.selected?'current':''} onClick={this.selectHandler.bind(this, data._id)} >
-                <a href={data.path?'#'+data.path:null}>{data.name}</a>
+                {ul}
             </li>
         )
     }

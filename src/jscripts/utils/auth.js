@@ -1,4 +1,5 @@
 import {getCookie, setCookie} from './cookie'
+import EventSystem from '../utils/eventSystem'
 
 var Auth = {
 	user : {
@@ -11,6 +12,8 @@ Auth.setUser = function (user){
 	Auth.user = user;
 	setCookie('userType', user.role);
 	setCookie('sid', user.sid);
+
+	EventSystem.publish('UserLoggedIn', true);
 };
 
 Auth.getUser = function () {
@@ -38,6 +41,8 @@ Auth.logout = function () {
 		'userType': '',
 		'sid': ''
 	});
+
+	EventSystem.publish('UserLoggedIn', false);
 };
 
 module.exports = {

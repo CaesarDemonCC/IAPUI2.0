@@ -1,6 +1,5 @@
 var EventSystem = {
     queue: {},
-    id: new Date(),
     publish: function (event, data) {
       var queue = this.queue[event];
 
