@@ -10,11 +10,10 @@ var gulp = require('gulp'),
     modify = require('gulp-modify'),
     gulpFunction = require('gulp-function'),
     react = require('gulp-react'),
-    webpack = require('gulp-webpack'),
+    webpack = require('webpack-stream'),
     mocha = require('gulp-mocha'),
+    shell = require('gulp-shell'),
     concat = require('gulp-concat');
-
-var rf = require("fs");  
 
 gulp.task('clean', function () {
     del(['dist/*.html', 'dist/images/*', 'dist/styles/*', 'dist/jscripts/*.js', 'dist/jscripts/third_party/*.js', 'dist/fonts/*', 'dist/templates/*']);
@@ -80,11 +79,12 @@ gulp.task('jscripts', function () {
             .pipe(gulp.dest('./dist/jscripts'))
 })
 
+gulp.task('webpackServer', shell.task('npm run webpack'))
+
 gulp.task('watch', function () {
     gulp.watch('src/sass/style.scss', ['styles']);
     gulp.watch(['src/sass/*.scss', '!src/sass/style.scss'], ['commonStyles']);
-    gulp.watch(['./src/jscripts/**/*.js', './src/jscripts/**/*.jsx', '!./src/jscripts/third_party/*.js'], ['jscripts']);
-    // gulp.watch('src/templates/*', ['templatesCache']);
+    //gulp.watch(['./src/jscripts/**/*.js', './src/jscripts/**/*.jsx', '!./src/jscripts/third_party/*.js'], ['jscripts']);
     gulp.watch('src/index.jade', ['html']);
 })
 
@@ -94,6 +94,9 @@ gulp.task('testing', function () {
         .pipe(mocha({reporter: 'mochawesome', require:['./testing/.setup']}));// spec/dot/nyan/TAP
 });
 
+gulp.task('dev', ['clean'], function () {
+    gulp.start(['html', 'commonStyles', 'styles', 'fonts', 'images', 'jsLibs', 'webpackServer', 'watch']);
+})
 
 gulp.task('default', ['clean'], function () {
     gulp.start(['html', 'commonStyles', 'styles', 'fonts', 'images', 'jsLibs', 'jscripts', 'watch']);
