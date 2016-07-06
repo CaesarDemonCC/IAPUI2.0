@@ -130,14 +130,19 @@ const SummaryChart = React.createClass({
 
     	let throughputConfig = {
     		title: {
-    			text: null
+    			text: 'Traffic Trends',
+    			style: {
+    				fontSize: '0.875rem'
+    			}
     		},
     		xAxis: {
-    			gridLineWidth: 1,
+    			//visible: false,
+    			//gridLineWidth: 1,
     			type: 'datetime'
             },
             yAxis: {
-            	minorTickInterval: 'auto',
+            	visible: false,
+            	//minorTickInterval: 'auto',
             	allowDecimals: false,
             	title: {
             		text: null
@@ -147,14 +152,30 @@ const SummaryChart = React.createClass({
 	            shared: true,
 	            valueSuffix: ' bps'
 	        },
+	        plotOptions: {
+        		area: {
+	                //fillOpacity: 0.5,
+	                lineWidth: 1,
+	                marker: {
+	                    enabled: false,
+	                    symbol: 'circle',
+	                    radius: 1,
+	                    states: {
+	                        hover: {
+	                            enabled: false
+	                        }
+	                    }
+	                }
+	            }
+	        },
             series: [{
             	name: 'In',
-            	type: 'areaspline',
+            	type: 'area',
             	color: '#02a7ec',
                 data: inData
             }, {
             	name: 'Out',
-            	type: 'areaspline',
+            	type: 'area',
             	color: '#F5831E',
                 data: outData
             }]
@@ -176,13 +197,13 @@ const SummaryChart = React.createClass({
             },
             series: [{
             	name: 'clients',
-            	type: 'areaspline',
+            	type: 'area',
             	color: '#02a7ec',
                 data: clientData
             }]
     	};
 
-        return (
+        /*return (
         	<div className="panel no_border">
 				<div className="medium-6 columns">
 					<div>
@@ -234,6 +255,65 @@ const SummaryChart = React.createClass({
 					</div>
 				</div>
 			</div>
+        );*/
+
+        let networksConfig = {
+    		
+	        title: {
+	            text: 'Client Counts',
+	            style: {
+    				fontSize: '0.875rem'
+	            }
+	        },
+	        xAxis: {
+	            categories: ['SSID-1', 'SSID-2', 'SSID-3', 'SSID-4', 'SSID-5']
+	        },
+	        legend: {
+	        	enabled: false
+	        },
+	        yAxis: {
+	            min: 0,
+	            allowDecimals: false,
+	            title: {
+	                text: null
+	            }
+	        },
+	        
+	        series: [{
+	        	type: 'column',
+	            name: 'Clients',
+	            color: '#02a7ec',
+	            data: [15, 4, 3, 2, 1]
+	        }]
+    	};
+
+        return (
+        	<div className="panel no_border item_panel">
+        		<div className="medium-6 columns">
+					<p className="item_title">
+					<span className="icon_connectivity icofirst"></span>Internet  
+					<span className="item_content green right"> Connected</span>
+					</p>
+					<p className="item_content">
+					<span className="icon_pointer_down green icofirst"></span> <span>{badgeIn} Kbs</span>
+					<span className="divider-v">&nbsp;</span>
+					<span className="icon_pointer_up green icofirst"></span> <span>{badgeOut} Kbs</span>  
+					</p>
+
+					<div className="item_content">
+						<span>My Instant <span className="divider-v">|</span> 192.168.10.5 <span className="divider-v">|</span> Ethenet</span>
+					</div>
+					<br/>
+					<ReactHighchart key='throughput' config={throughputConfig}/>
+				</div>
+
+				<div className="medium-6 columns">
+					<p className="item_title">
+						<span className="icon_wifi icofirst"></span>Networks<a> 5</a>
+					</p>
+                    <ReactHighchart key='throughput' config={networksConfig}/>
+				</div>
+			</div>
         );
     }
 });
@@ -250,6 +330,7 @@ const SummaryTable = React.createClass({
       	this.setState(nextProps);
   	},
     render() {
+    	let self = this;
     	let nTableConfig = {
 			columns : [{
 		        name: 'Name',
@@ -282,31 +363,214 @@ const SummaryTable = React.createClass({
 		        name: 'IP Address',
 		        dataIndex: 'ipaddress'
 		    }, {
+		        name: 'MAC Address',
+		        dataIndex: 'mac'
+		    }, {
+		        name: 'OS',
+		        dataIndex: 'os'
+		    }, {
 		        name: 'ESSID',
 		        dataIndex: 'essid'
 		    }, {
 		        name: 'Access Point',
 		        dataIndex: 'accesspoint'
+		    }, {
+		        name: 'Signal',
+		        dataIndex: 'signal'
+		    }, {
+		        name: 'Speed(mbps)',
+		        dataIndex: 'speed'
 		    }],
 		    rowKey: 'name',
-		    sortable: true,
-		    title: 'Clients'
+		    sortable: true
+		    	
 		};
+		/*<div className="medium-3 columns"><Table key='networks' {...nTableConfig} dataSource={this.state.networks} /></div>
+				<div className="medium-3 columns"><Table key='aps' {...aTableConfig} dataSource={this.state.aps} /></div>*/
         return (
             <div className="summary panel no_border">
             	<h2 className="title_heading form_heading">
-					Summary
+            		Clients
 				</h2>
-				<div className="medium-3 columns"><Table key='networks' {...nTableConfig} dataSource={this.state.networks} /></div>
-				<div className="medium-3 columns"><Table key='aps' {...aTableConfig} dataSource={this.state.aps} /></div>
-				<div className="medium-6 columns"><Table key='clients' {...cTableConfig} dataSource={this.state.clients} /></div>
+				<div className="medium-12 columns"><Table key='clients' {...cTableConfig} dataSource={this.state.clients} /></div>
+			</div>
+        );
+    }
+});
+
+const SummaryChart1 = React.createClass({
+	getInitialState() {
+	    return {
+	    	timestamp: [],
+	        throughputIn: [],
+            throughputOut: [],
+			clients: [] 
+	    };
+	},
+	getDefaultProps() {
+	    return {
+	    	
+	    };
+	},
+	componentWillReceiveProps (nextProps) {
+      	this.setState(nextProps);
+  	},
+
+    render() {
+    	let throughputIn = this.state.throughputIn;
+    	let throughputOut = this.state.throughputOut;
+    	let clients = this.state.clients;
+    	let timestamp = this.state.timestamp;
+
+    	let badgeIn = throughputIn.length > 0 ? throughputIn[throughputIn.length - 1] : 0;
+    	let badgeOut = throughputOut.length > 0 ? throughputOut[throughputOut.length - 1] : 0;
+    	let badgeClient = clients.length > 0 ? clients[clients.length - 1] : 0;
+
+    	let inData = [];
+    	let outData = [];
+    	let clientData = [];
+
+    	timestamp.forEach((v, i, a) => {
+    		inData.push([v, throughputIn[i]]);
+    		outData.push([v, throughputOut[i]]);
+    		clientData.push([v, clients[i]]);
+    	});
+
+
+    	let networksConfig = {
+    		
+	        title: {
+	            text: 'Client Counts',
+	            style: {
+    				fontSize: '0.875rem'
+	            }
+	        },
+	        xAxis: {
+	            categories: ['SSID-1', 'SSID-2', 'SSID-3', 'SSID-4', 'SSID-5']
+	        },
+	        legend: {
+	        	enabled: false
+	        },
+	        yAxis: {
+	            min: 0,
+	            allowDecimals: false,
+	            title: {
+	                text: null
+	            }
+	        },
+	        
+	        series: [{
+	        	type: 'column',
+	            name: 'Clients',
+	            color: '#02a7ec',
+	            data: [15, 4, 3, 2, 1]
+	        }]
+    	};
+
+    	let clientsConfig = {
+    		title: {
+    			text: 'Traffic Top 5',
+    			style: {
+    				fontSize: '0.875rem'
+	            }
+    		},
+    		xAxis: {
+	            categories: ['USER-1', 'USER-2', 'USER-3', 'USER-4', 'USER-5']
+	        },
+	        legend: {
+	        	enabled: false
+	        },
+            yAxis: {
+            	visible: false,
+            	minorTickInterval: 'auto',
+            	allowDecimals: false,
+            	title: {
+            		text: null
+            	}
+            },
+            tooltip: {
+	            shared: true,
+	            valueSuffix: ' bps'
+	        },
+	        
+            series: [{
+	            name: 'Traffic',
+	            type: 'bar',
+	            color: '#02a7ec',
+	            data: [155, 94, 73, 42, 11]
+	        }]
+    	};
+
+    	let apsConfig = {
+    		title: {
+    			text: 'AP Status',
+    			style: {
+    				fontSize: '0.875rem'
+	            }
+    		},
+    		xAxis: {
+    			visible: false,
+	            categories: ['AP Status']
+	        },
+            yAxis: {
+            	visible: false,
+            	minorTickInterval: 'auto',
+            	allowDecimals: false,
+            	title: {
+            		text: null
+            	}
+            },
+            tooltip: {
+	            shared: true,
+	            valueSuffix: ' '
+	        },
+	        legend: {
+	        	//enabled: false
+	        },
+	        plotOptions: {
+	            series: {
+	                stacking: 'normal',
+	                dataLabels: {
+	                    enabled: true,
+	                    color: '#FFF'
+	                }
+	            }
+	        },
+            series: [{
+	            name: 'Down',
+	            type: 'bar',
+	            color: '#FF0000',
+	            data: [1]
+	        }, {
+	            name: 'Up',
+	            type: 'bar',
+	            color: '#00CC00',
+	            data: [5]
+	        }]
+    	};
+
+        return (
+        	<div className="panel no_border item_panel">
+				<div className="medium-6 columns">
+					<p className="item_title">
+					<span className="icon_phone icofirst"></span> Clients <a> 25</a>
+					</p>
+                    <ReactHighchart key='throughput' config={clientsConfig}/>
+				</div>
+
+				<div className="medium-6 columns">
+					<p className="item_title">
+					<span className="icon_ap icofirst"></span> Access Points <a> 6</a>
+					</p>
+                    <ReactHighchart key='throughput' config={apsConfig}/>
+				</div>
 			</div>
         );
     }
 });
 
 const Overview = React.createClass({
-	active: false,
+	timer: null,
 	getInitialState() {
         return {
     		info: {},
@@ -442,11 +706,10 @@ const Overview = React.createClass({
             'cmd': cmdList, 
             'refresh': true
         }, function(data){
-
-        	if (this.active) {
+        	if (this.isMounted()) {
         		// test data
-	        	//data.showstatsglobal.SwarmGlobalStats = this.props.testData ? this.props.testData : this.getTestData(data.showstatsglobal);
-	        	//data.showstatsglobal.SwarmGlobalStats[0] = this.createNewPoint(data.showstatsglobal);
+	        	data.showstatsglobal.SwarmGlobalStats = this.props.testData ? this.props.testData : this.getTestData(data.showstatsglobal);
+	        	data.showstatsglobal.SwarmGlobalStats[0] = this.createNewPoint(data.showstatsglobal);
 
 	        	let chartData = this.parseChartData(data.showstatsglobal);
 	        	let tableData = this.parseTableData(data.showsummary);
@@ -462,19 +725,25 @@ const Overview = React.createClass({
     },
 
     componentWillMount () {
-    	this.active = true;
-		this.showSummary();
+    	
+		
     },
 
     componentWillUnmount () {
-		this.active = false;
+		
     },
 
 	componentDidMount () {
 	    console.log('overview----componentDidMount');
 	    let self = this;
+	    this.showSummary();
 
-	    setInterval(function () {
+	    if (this.timer) {
+	    	clearInterval(this.timer);
+	    	this.timer = null;
+	    }
+
+	    this.timer = setInterval(function () {
 			self.showSummary();
 		}, 30000)
 	},
@@ -488,11 +757,13 @@ const Overview = React.createClass({
   	},
 
   	render () {
+  		//<SummaryTable {...this.state.table} />
+  		//<SummaryInfo {...this.state.info} />
 		return (
-			<div>
+			<div className="overview-container">
 				<SummaryChart {...this.state.chart} />
-				<SummaryInfo {...this.state.info} />
-				<SummaryTable {...this.state.table} />
+				<div className="divider-h"></div>
+				<SummaryChart1 {...this.state.chart} />
 			</div>
 		);
 	}

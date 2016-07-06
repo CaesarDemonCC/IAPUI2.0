@@ -389,6 +389,12 @@
         content: "preview";
     }
 
+    .icon_connectivity:before {
+        content: "connectivity";
+    }
+    .icon_wifi:before {
+        content: "wifi";
+    }
 }
 
 .noliga {
@@ -731,6 +737,13 @@
     
     .icon_preview:before {
         content: "\e64f";
+    }
+
+    .icon_connectivity:before {
+        content: "\e803";
+    }
+    .icon_wifi:before {
+        content: "\e65a";
     }
 }
 

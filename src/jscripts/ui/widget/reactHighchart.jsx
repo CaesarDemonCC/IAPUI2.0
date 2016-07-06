@@ -31,18 +31,21 @@ var ReactHighchart = React.createClass({
         var defaultConfig = {
             credits: {
                 enabled: false
-            },
-            xAxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-            },
-            series: [{
-                data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 295.6, 454.4]
-            }]
+            } 
         };
+
+        var chartConfig = {
+            height: 230,
+            backgroundColor: 'transparent',
+            renderTo: this.refs.chart,
+            ...this.props.config.chart
+        };
+
         var config = {
             ...defaultConfig,
-            ...this.props.config
-        }
+            ...this.props.config,
+            chart : chartConfig
+        };
 
         Highcharts.setOptions({
             global: {
@@ -50,13 +53,7 @@ var ReactHighchart = React.createClass({
             }
         });
 
-        this.chart = new Highcharts['Chart']({
-            ...config,
-            chart: {
-                plotBorderWidth: 1,
-                renderTo: this.refs.chart
-            }
-        })  
+        this.chart = new Highcharts['Chart']({...config});  
     },
     render: function () {
         return (<div ref='chart'></div>);
