@@ -13,6 +13,9 @@ $baby-bear: 650px;
   @else if $point == mama-bear {
     @media (max-width: 1100px) { @content; }
   }
+  @else if $point == smallerThanIpad {
+    @media (max-width: 1000px)  { @content; }
+  }
   @else if $point == baby-bear {
     @media (max-width: 650px)  { @content; }
   }

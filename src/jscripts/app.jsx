@@ -90,33 +90,54 @@ var App = React.createClass({
                 }
                 return (
                     <div className='header'>
-                        <div className='logo small-5 columns' />
-                        <div className='bannermenu small-7 columns'>
-                            <div className='logout'>
-                                <a href='#/logout'>Logout</a>
+                        <div className='logo small-3 columns' />
+                        <div className='bannermenu small-9 columns'>
+                            <div className='user menu'>
+                                <div className='icon_avatar'></div>
+                                <div className='icon_arrow_down'></div>
                             </div>
-                            <div className='icon_help' />
-                            <span className='search'>
-                                <label className='icon_search' />
-                                <input type='search' id='searchInput' />
-                            </span>
+                            <div className='bannel_divider'></div>
+                            <div className='menu'>
+                                <a className='icon_settings' href='#/system'><span>Settings</span></a>
+                            </div>
+                            <div className='menu'>
+                                <a className='icon_settings' href='#/about'><span>Maintenance</span></a>
+                            </div>
+                            <div className='menu'>
+                                <a className='icon_trend' href='#/'><span>Monitoring</span></a>
+                            </div>
+                            <div className='menu current'>
+                                <a className='icon_avatar' href='#/'><span>Home</span></a>
+                            </div>
                         </div>
                     </div>
                 )
             }
         });
 
+        var Footer = React.createClass({
+            render: function () {
+                return (<div className='footer'>
+                    <a href='#/' className='menu current icon_avatar'></a>
+                    <a href='#/' className='menu icon_trend'></a>
+                    <a href='#/about' className='menu icon_settings'></a>
+                    <a href='#/system' className='menu icon_settings'></a>
+                </div>);
+            }
+        })
+
         return (
             <div className='app'>
                 <Header show={this.state.isLoggedIn? true: false} />
                 <div className='wrapper'>
-                    <div classNav='nav'>
+                    {/*<div classNav='nav'>
                         <SideNav data={navConfig} show={this.state.isLoggedIn? true: false} currentLocation={this.props.location.pathname} />
-                    </div>
+                    </div>*/}
                     <div id='container' className='container'>
                         {this.props.children}
                     </div>
                 </div>
+                <Footer />
             </div>
         );
     }
