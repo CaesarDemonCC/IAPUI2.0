@@ -26,6 +26,8 @@ gulp.task('images', function () {
 })
 
 gulp.task('fonts', function () {
+    gulp.src('src/styles/font-awesome.min.css')
+        .pipe(gulp.dest('dist/styles'))
     return gulp.src('./src/fonts/*')
             .pipe(gulp.dest('./dist/fonts'))
 })
@@ -47,20 +49,20 @@ gulp.task('jsLibs', function () {
 
 
 gulp.task('commonStyles', function () {
-    return gulp.src('./src/sass/common.scss')
+    return gulp.src('src/styles/arubaUI/common.scss')
             .pipe(compass({
                 config_file: './config.rb',
                 css: 'dist/styles',
-                sass: 'src/sass'
+                sass: 'src/styles/arubaUI'
             }))
 })
 
 gulp.task('styles', function() {  
-    return gulp.src('./src/sass/style.scss')
+    return gulp.src('src/styles/arubaUI/style.scss')
             .pipe(compass({
                 config_file: './config.rb',
                 css: 'dist/styles',
-                sass: 'src/sass'
+                sass: 'src/styles/arubaUI'
             }))
 })
 
@@ -82,8 +84,8 @@ gulp.task('jscripts', function () {
 gulp.task('webpackServer', shell.task('npm run webpack'))
 
 gulp.task('watch', function () {
-    gulp.watch('src/sass/style.scss', ['styles']);
-    gulp.watch(['src/sass/*.scss', '!src/sass/style.scss'], ['commonStyles']);
+    gulp.watch('src/styles/style.scss', ['styles']);
+    gulp.watch(['src/styles/arubaUI/*.scss'], ['commonStyles']);
     //gulp.watch(['./src/jscripts/**/*.js', './src/jscripts/**/*.jsx', '!./src/jscripts/third_party/*.js'], ['jscripts']);
     gulp.watch('src/index.jade', ['html']);
 })
