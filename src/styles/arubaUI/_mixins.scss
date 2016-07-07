@@ -3,21 +3,22 @@
 $papa-bear: 1600px;
 $mama-bear: 1100px;
 $baby-bear: 650px;
+$smallerThanIpad: 1000px;
 
 /* MEDIA QUERIES */
 
 @mixin breakpoint($point) {
   @if $point == papa-bear {
-    @media (max-width: 1600px) { @content; }
+    @media (max-width: $papa-bear) { @content; }
   }
   @else if $point == mama-bear {
-    @media (max-width: 1100px) { @content; }
+    @media (max-width: $mama-bear) { @content; }
   }
   @else if $point == smallerThanIpad {
-    @media (max-width: 1000px)  { @content; }
+    @media (max-width: $smallerThanIpad)  { @content; }
   }
   @else if $point == baby-bear {
-    @media (max-width: 650px)  { @content; }
+    @media (max-width: $baby-bear)  { @content; }
   }
 }
 

@@ -116,8 +116,12 @@
         border-bottom: $layoutDivider;
         height: 4rem;
 
+        @include breakpoint(smallerThanIpad) {
+            height: 3rem;
+        }
+
         .logo {
-            height: 4rem;
+            height: 3rem;
         }
 
         .bannermenu {
@@ -125,6 +129,11 @@
             color: #02a7ec;
             height: 4rem;
             line-height: 4rem;
+
+            @include breakpoint(smallerThanIpad) {
+                height: 3rem;
+                line-height: 3rem;
+            }
 
             & > div {
                 float: right;
@@ -207,7 +216,7 @@
         .container {
             //flex:1;
             @include flex(1);
-            border-left: $layoutDivider;
+            //border-left: $layoutDivider;
             overflow-y: auto;
 
             /*> div {
@@ -219,21 +228,24 @@
     }
 
     .footer {
-        height: 4rem;
+        height: 3rem;
         width: 100%;
         overflow: hidden;
         text-align: center;
-        line-height: 4rem;
+        line-height: 3rem;
         color: $colorNeutralDk;
         border-top: $layoutDivider;
         display: none;
 
         [class*='icon_']:before {
             font-size: 3rem;
+            @include breakpoint(smallerThanIpad) {
+                font-size: 2rem;
+            }
         }
 
         a {
-            height: 4rem;
+            height: 3rem;
             width: 25%;
             float: left;
             display: block;
@@ -755,4 +767,70 @@ table.data {
             display: block;
         }
     }
+}
+
+.overview-container {
+    @include display-flex;
+    @include flex-flow(row wrap);
+    height: 100%;
+
+    .item_panel {
+        @include flex(auto);
+        width: 45%;
+        @include breakpoint(baby-bear) {
+            width: 95%;
+        }
+
+        .item_title {
+
+            color: #646569;
+            font-weight: bold;
+            font-size: 1.25rem;
+
+            .green_text {
+                color: #00CC00;
+                font-size: 0.875rem;
+            }
+        }
+
+        .item_title.right {
+            text-align: right;
+        }
+
+        .item_title.middle {
+            text-align: center;
+        }
+
+        .item_content_text {
+
+            font-size: 0.875rem;
+            padding-left: 0.5rem;
+        }
+
+        .item_content_text.green {
+            color: #00CC00;
+        }
+
+        .item_content_chart {
+            @include breakpoint(baby-bear) {
+                display: none;
+            }
+        }
+    }
+}
+
+.divider-h {
+    border-bottom: 1px solid #DFE1E5;
+}
+
+.divider-v {
+    padding: 0 0.5rem;
+}
+
+.green[class*='icon_']  {
+    color: #00CC00;
+}
+
+.orange[class*='icon_']  {
+    color: #F5831E;
 }

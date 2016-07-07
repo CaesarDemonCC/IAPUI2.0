@@ -288,30 +288,33 @@ const SummaryChart = React.createClass({
     	};
 
         return (
-        	<div className="panel no_border item_panel">
+        	<div className="panel no_border item_panel medium-12">
         		<div className="medium-6 columns">
 					<p className="item_title">
-					<span className="icon_connectivity icofirst"></span>Internet  
-					<span className="item_content green right"> Connected</span>
+						<span className="icon_connectivity icofirst"></span>Internet  
+						<span className="green_text right"> Connected</span>
 					</p>
-					<p className="item_content">
-					<span className="icon_pointer_down green icofirst"></span> <span>{badgeIn} Kbs</span>
-					<span className="divider-v">&nbsp;</span>
-					<span className="icon_pointer_up green icofirst"></span> <span>{badgeOut} Kbs</span>  
+					<p className="item_content_text">
+						<span className="icon_pointer_down green icofirst"></span> <span>{badgeIn} Kbs</span>
+						<span className="divider-v">&nbsp;</span>
+						<span className="icon_pointer_up green icofirst"></span> <span>{badgeOut} Kbs</span>  
 					</p>
 
-					<div className="item_content">
+					<p className="item_content_text">
 						<span>My Instant <span className="divider-v">|</span> 192.168.10.5 <span className="divider-v">|</span> Ethenet</span>
-					</div>
+					</p>
 					<br/>
-					<ReactHighchart key='throughput' config={throughputConfig}/>
+					<ReactHighchart className="item_content_chart" key='throughput' config={throughputConfig}/>
 				</div>
 
 				<div className="medium-6 columns">
 					<p className="item_title">
 						<span className="icon_wifi icofirst"></span>Networks<a> 5</a>
 					</p>
-                    <ReactHighchart key='throughput' config={networksConfig}/>
+					<p className="item_content_text">
+						<span>&nbsp;</span>
+					</p>
+                    <ReactHighchart className="item_content_chart" key='throughput' config={networksConfig}/>
 				</div>
 			</div>
         );
@@ -482,6 +485,7 @@ const SummaryChart1 = React.createClass({
 	        },
             yAxis: {
             	visible: false,
+            	max: 155,
             	minorTickInterval: 'auto',
             	allowDecimals: false,
             	title: {
@@ -514,6 +518,7 @@ const SummaryChart1 = React.createClass({
 	        },
             yAxis: {
             	visible: false,
+            	max: 6,
             	minorTickInterval: 'auto',
             	allowDecimals: false,
             	title: {
@@ -550,20 +555,353 @@ const SummaryChart1 = React.createClass({
     	};
 
         return (
-        	<div className="panel no_border item_panel">
+        	<div className="panel no_border item_panel medium-12">
 				<div className="medium-6 columns">
 					<p className="item_title">
-					<span className="icon_phone icofirst"></span> Clients <a> 25</a>
+						<span className="icon_phone icofirst"></span> Clients <a> 25</a>
 					</p>
-                    <ReactHighchart key='throughput' config={clientsConfig}/>
+					<p className="item_content_text">
+						<span>&nbsp;</span>
+					</p>
+                    <ReactHighchart className="item_content_chart" key='throughput' config={clientsConfig}/>
 				</div>
 
 				<div className="medium-6 columns">
 					<p className="item_title">
-					<span className="icon_ap icofirst"></span> Access Points <a> 6</a>
+						<span className="icon_ap icofirst"></span> Access Points <a> 6</a>
 					</p>
-                    <ReactHighchart key='throughput' config={apsConfig}/>
+					<p className="item_content_text">
+						<span>&nbsp;</span>
+					</p>
+                    <ReactHighchart className="item_content_chart" key='throughput' config={apsConfig}/>
 				</div>
+			</div>
+        );
+    }
+});
+
+const InternetPanel = React.createClass({
+	getInitialState() {
+	    return {
+	    	timestamp: [],
+	        throughputIn: [],
+            throughputOut: [],
+			clients: [] 
+	    };
+	},
+	getDefaultProps() {
+	    return {
+	    	
+	    };
+	},
+	componentWillReceiveProps (nextProps) {
+      	this.setState(nextProps);
+  	},
+
+    render() {
+    	let throughputIn = this.state.throughputIn;
+    	let throughputOut = this.state.throughputOut;
+    	let clients = this.state.clients;
+    	let timestamp = this.state.timestamp;
+
+    	let badgeIn = throughputIn.length > 0 ? throughputIn[throughputIn.length - 1] : 0;
+    	let badgeOut = throughputOut.length > 0 ? throughputOut[throughputOut.length - 1] : 0;
+    	let badgeClient = clients.length > 0 ? clients[clients.length - 1] : 0;
+
+    	let inData = [];
+    	let outData = [];
+    	let clientData = [];
+
+    	timestamp.forEach((v, i, a) => {
+    		inData.push([v, throughputIn[i]]);
+    		outData.push([v, throughputOut[i]]);
+    		clientData.push([v, clients[i]]);
+    	});
+
+
+    	let throughputConfig = {
+    		title: {
+    			text: 'Traffic Trends',
+    			style: {
+    				fontSize: '0.875rem'
+    			}
+    		},
+    		xAxis: {
+    			//visible: false,
+    			//gridLineWidth: 1,
+    			type: 'datetime'
+            },
+            yAxis: {
+            	visible: false,
+            	//minorTickInterval: 'auto',
+            	allowDecimals: false,
+            	title: {
+            		text: null
+            	}
+            },
+            tooltip: {
+	            shared: true,
+	            valueSuffix: ' bps'
+	        },
+	        plotOptions: {
+        		area: {
+	                //fillOpacity: 0.5,
+	                lineWidth: 1,
+	                marker: {
+	                    enabled: false,
+	                    symbol: 'circle',
+	                    radius: 1,
+	                    states: {
+	                        hover: {
+	                            enabled: false
+	                        }
+	                    }
+	                }
+	            }
+	        },
+            series: [{
+            	name: 'In',
+            	type: 'area',
+            	color: '#02a7ec',
+                data: inData
+            }, {
+            	name: 'Out',
+            	type: 'area',
+            	color: '#F5831E',
+                data: outData
+            }]
+    	};
+
+    	return (
+    		<div className="panel no_border item_panel">
+				<p className="item_title">
+					<span className="icon_connectivity icofirst"></span>Internet  
+					<span className="green_text right"> Connected</span>
+				</p>
+				<p className="item_content_text">
+					<span className="icon_pointer_down green icofirst"></span> <span>{badgeIn} Kbs</span>
+					<span className="divider-v">&nbsp;</span>
+					<span className="icon_pointer_up green icofirst"></span> <span>{badgeOut} Kbs</span>  
+				</p>
+
+				<p className="item_content_text">
+					<span>My Instant <span className="divider-v">|</span> 192.168.10.5 <span className="divider-v">|</span> Ethenet</span>
+				</p>
+				<br/>
+				<ReactHighchart className="item_content_chart" key='throughput' config={throughputConfig}/>
+			</div>
+        );
+    }
+});
+
+const NetworksPanel = React.createClass({
+	getInitialState() {
+	    return {
+	    	timestamp: [],
+	        throughputIn: [],
+            throughputOut: [],
+			clients: [] 
+	    };
+	},
+	getDefaultProps() {
+	    return {
+	    	
+	    };
+	},
+	componentWillReceiveProps (nextProps) {
+      	this.setState(nextProps);
+  	},
+
+    render() {
+    	let networksConfig = {
+    		
+	        title: {
+	            text: 'Client Counts',
+	            style: {
+    				fontSize: '0.875rem'
+	            }
+	        },
+	        xAxis: {
+	            categories: ['SSID-1', 'SSID-2', 'SSID-3', 'SSID-4', 'SSID-5']
+	        },
+	        legend: {
+	        	enabled: false
+	        },
+	        yAxis: {
+	            min: 0,
+	            allowDecimals: false,
+	            title: {
+	                text: null
+	            }
+	        },
+	        
+	        series: [{
+	        	type: 'column',
+	            name: 'Clients',
+	            color: '#02a7ec',
+	            data: [15, 4, 3, 2, 1]
+	        }]
+    	};
+
+        return (
+			<div className="panel no_border item_panel">
+				<p className="item_title">
+					<span className="icon_wifi icofirst"></span>Networks<a> 5</a>
+				</p>
+				<p className="item_content_text">
+					<span>&nbsp;</span>
+				</p>
+                <ReactHighchart className="item_content_chart" key='throughput' config={networksConfig}/>
+			</div>
+        );
+    }
+});
+
+const ClientsPanel = React.createClass({
+	getInitialState() {
+	    return {
+	    	timestamp: [],
+	        throughputIn: [],
+            throughputOut: [],
+			clients: [] 
+	    };
+	},
+	getDefaultProps() {
+	    return {
+	    	
+	    };
+	},
+	componentWillReceiveProps (nextProps) {
+      	this.setState(nextProps);
+  	},
+
+    render() {
+    	let clientsConfig = {
+    		title: {
+    			text: 'Traffic Top 5',
+    			style: {
+    				fontSize: '0.875rem'
+	            }
+    		},
+    		xAxis: {
+	            categories: ['USER-1', 'USER-2', 'USER-3', 'USER-4', 'USER-5']
+	        },
+	        legend: {
+	        	enabled: false
+	        },
+            yAxis: {
+            	visible: false,
+            	max: 155,
+            	minorTickInterval: 'auto',
+            	allowDecimals: false,
+            	title: {
+            		text: null
+            	}
+            },
+            tooltip: {
+	            shared: true,
+	            valueSuffix: ' bps'
+	        },
+	        
+            series: [{
+	            name: 'Traffic',
+	            type: 'bar',
+	            color: '#02a7ec',
+	            data: [155, 94, 73, 42, 11]
+	        }]
+    	};
+
+        return (
+			<div className="panel no_border item_panel">
+				<p className="item_title">
+					<span className="icon_phone icofirst"></span> Clients <a> 25</a>
+				</p>
+				<p className="item_content_text">
+					<span>&nbsp;</span>
+				</p>
+                <ReactHighchart className="item_content_chart" key='throughput' config={clientsConfig}/>
+			</div>
+        );
+    }
+});
+
+const APsPanel = React.createClass({
+	getInitialState() {
+	    return {
+	    	timestamp: [],
+	        throughputIn: [],
+            throughputOut: [],
+			clients: [] 
+	    };
+	},
+	getDefaultProps() {
+	    return {
+	    	
+	    };
+	},
+	componentWillReceiveProps (nextProps) {
+      	this.setState(nextProps);
+  	},
+
+    render() {
+    	let apsConfig = {
+    		title: {
+    			text: 'AP Status',
+    			style: {
+    				fontSize: '0.875rem'
+	            }
+    		},
+    		xAxis: {
+    			visible: false,
+	            categories: ['AP Status']
+	        },
+            yAxis: {
+            	visible: false,
+            	max: 6,
+            	minorTickInterval: 'auto',
+            	allowDecimals: false,
+            	title: {
+            		text: null
+            	}
+            },
+            tooltip: {
+	            shared: true,
+	            valueSuffix: ' '
+	        },
+	        legend: {
+	        	//enabled: false
+	        },
+	        plotOptions: {
+	            series: {
+	                stacking: 'normal',
+	                dataLabels: {
+	                    enabled: true,
+	                    color: '#FFF'
+	                }
+	            }
+	        },
+            series: [{
+	            name: 'Down',
+	            type: 'bar',
+	            color: '#FF0000',
+	            data: [1]
+	        }, {
+	            name: 'Up',
+	            type: 'bar',
+	            color: '#00CC00',
+	            data: [5]
+	        }]
+    	};
+
+        return (
+			<div className="panel no_border item_panel">
+				<p className="item_title">
+					<span className="icon_ap icofirst"></span> Access Points <a> 6</a>
+				</p>
+				<p className="item_content_text">
+					<span>&nbsp;</span>
+				</p>
+                <ReactHighchart className="item_content_chart" key='throughput' config={apsConfig}/>
 			</div>
         );
     }
@@ -756,14 +1094,23 @@ const Overview = React.createClass({
     	console.log('overview----componentDidUpdate');
   	},
 
-  	render () {
+  	/*render () {
   		//<SummaryTable {...this.state.table} />
   		//<SummaryInfo {...this.state.info} />
 		return (
 			<div className="overview-container">
 				<SummaryChart {...this.state.chart} />
-				<div className="divider-h"></div>
 				<SummaryChart1 {...this.state.chart} />
+			</div>
+		);
+	}*/
+	render () {
+		return (
+			<div className="overview-container">
+				<InternetPanel {...this.state.chart} />
+				<NetworksPanel {...this.state.chart} />
+				<ClientsPanel {...this.state.chart} />
+				<APsPanel {...this.state.chart} />
 			</div>
 		);
 	}

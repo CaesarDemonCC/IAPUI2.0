@@ -56,7 +56,7 @@ var ReactHighchart = React.createClass({
         this.chart = new Highcharts['Chart']({...config});  
     },
     render: function () {
-        return (<div ref='chart'></div>);
+        return (<div ref='chart' className={this.props.className}></div>);
     }
 })
 
