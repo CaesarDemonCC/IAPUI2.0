@@ -84,8 +84,8 @@ gulp.task('jscripts', function () {
 gulp.task('webpackServer', shell.task('npm run webpack'))
 
 gulp.task('watch', function () {
-    gulp.watch('src/styles/style.scss', ['styles']);
-    gulp.watch(['src/styles/arubaUI/*.scss'], ['commonStyles']);
+    gulp.watch('src/styles/arubaUI/style.scss', ['styles']);
+    gulp.watch(['src/styles/arubaUI/*.scss', '!src/styles/arubaUI/style.scss'], ['commonStyles']);
     //gulp.watch(['./src/jscripts/**/*.js', './src/jscripts/**/*.jsx', '!./src/jscripts/third_party/*.js'], ['jscripts']);
     gulp.watch('src/index.jade', ['html']);
 })
