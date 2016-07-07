@@ -115,6 +115,7 @@ var App = React.createClass({
             }
         });
 
+        //TODO: Use one method to generate the same dom for footer and header menu
         var Footer = React.createClass({
             render: function () {
                 return (<div className='footer'>
