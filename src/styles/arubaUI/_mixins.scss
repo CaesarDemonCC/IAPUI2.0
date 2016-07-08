@@ -22,6 +22,18 @@ $smallerThanIpad: 1000px;
   }
 }
 
+$tabletWidth:1280px;
+$mobileWidth:780px;
+
+@mixin device($point) {
+  @if $point == mobile {
+    @media (max-height: $mobileWidth) and (orientation: portrait), (max-width: $mobileWidth) and (orientation:landscape) { @content; }
+  } 
+  @else if $point == tablet {
+    @media (max-height: $tabletWidth) and (min-height: $mobileWidth + 1px) and (orientation: portrait), (max-width: $tabletWidth) and (min-width: $mobileWidth + 1px) and (orientation:landscape) { @content; }
+  }
+}
+
 /* BACKGROUND SIZING FOR IE */
 
 @mixin ie-background-scale($url, $sizingmethod:'scale',$resetbackground: true) {

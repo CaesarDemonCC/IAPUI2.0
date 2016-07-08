@@ -35,7 +35,7 @@ var ReactHighchart = React.createClass({
         };
 
         var chartConfig = {
-            height: 230,
+            //height: 230,
             backgroundColor: 'transparent',
             renderTo: this.refs.chart,
             ...this.props.config.chart

@@ -303,7 +303,6 @@ const SummaryChart = React.createClass({
 					<p className="item_content_text">
 						<span>My Instant <span className="divider-v">|</span> 192.168.10.5 <span className="divider-v">|</span> Ethenet</span>
 					</p>
-					<br/>
 					<ReactHighchart className="item_content_chart" key='throughput' config={throughputConfig}/>
 				</div>
 
@@ -620,6 +619,7 @@ const InternetPanel = React.createClass({
 
 
     	let throughputConfig = {
+    		
     		title: {
     			text: 'Traffic Trends',
     			style: {
@@ -687,7 +687,6 @@ const InternetPanel = React.createClass({
 				<p className="item_content_text">
 					<span>My Instant <span className="divider-v">|</span> 192.168.10.5 <span className="divider-v">|</span> Ethenet</span>
 				</p>
-				<br/>
 				<ReactHighchart className="item_content_chart" key='throughput' config={throughputConfig}/>
 			</div>
         );
@@ -722,7 +721,7 @@ const NetworksPanel = React.createClass({
 	            }
 	        },
 	        xAxis: {
-	            categories: ['SSID-1', 'SSID-2', 'SSID-3', 'SSID-4', 'SSID-5']
+	            categories: ['SSID-11111111111', 'SSID-2', 'SSID-3', 'SSID-4', 'SSID-5', 'SSID-6', 'SSID-7', 'SSID-8', 'SSID-9', 'SSID-10', 'SSID-5', 'SSID-6', 'SSID-7', 'SSID-8', 'SSID-9', 'SSID-10']
 	        },
 	        legend: {
 	        	enabled: false
@@ -739,7 +738,7 @@ const NetworksPanel = React.createClass({
 	        	type: 'column',
 	            name: 'Clients',
 	            color: '#02a7ec',
-	            data: [15, 4, 3, 2, 1]
+	            data: [15, 4, 3, 2, 1, 15, 4, 3, 2, 1, 15, 4, 3, 2, 1]
 	        }]
     	};
 
@@ -747,6 +746,9 @@ const NetworksPanel = React.createClass({
 			<div className="panel no_border item_panel">
 				<p className="item_title">
 					<span className="icon_wifi icofirst"></span>Networks<a> 5</a>
+				</p>
+				<p className="item_content_text">
+					<span>&nbsp;</span>
 				</p>
 				<p className="item_content_text">
 					<span>&nbsp;</span>
@@ -815,6 +817,9 @@ const ClientsPanel = React.createClass({
 			<div className="panel no_border item_panel">
 				<p className="item_title">
 					<span className="icon_phone icofirst"></span> Clients <a> 25</a>
+				</p>
+				<p className="item_content_text">
+					<span>&nbsp;</span>
 				</p>
 				<p className="item_content_text">
 					<span>&nbsp;</span>
@@ -897,6 +902,9 @@ const APsPanel = React.createClass({
 			<div className="panel no_border item_panel">
 				<p className="item_title">
 					<span className="icon_ap icofirst"></span> Access Points <a> 6</a>
+				</p>
+				<p className="item_content_text">
+					<span>&nbsp;</span>
 				</p>
 				<p className="item_content_text">
 					<span>&nbsp;</span>
