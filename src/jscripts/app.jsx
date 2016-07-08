@@ -98,16 +98,16 @@ var App = React.createClass({
                             </div>
                             <div className='bannel_divider'></div>
                             <div className='menu'>
-                                <a className='icon_settings' href='#/system'><span>Settings</span></a>
+                                <a className='fa-cog fa-fw' href='#/system'><span>Settings</span></a>
                             </div>
                             <div className='menu'>
-                                <a className='icon_settings' href='#/about'><span>Maintenance</span></a>
+                                <a className='fa-wrench fa-fw' href='#/about'><span>Maintenance</span></a>
                             </div>
                             <div className='menu'>
-                                <a className='icon_trend' href='#/'><span>Monitoring</span></a>
+                                <a className='fa-bar-chart fa-fw' href='#/'><span>Monitoring</span></a>
                             </div>
                             <div className='menu current'>
-                                <a className='icon_avatar' href='#/'><span>Home</span></a>
+                                <a className='fa-home fa-fw' href='#/'><span>Home</span></a>
                             </div>
                         </div>
                     </div>
@@ -119,10 +119,10 @@ var App = React.createClass({
         var Footer = React.createClass({
             render: function () {
                 return (<div className='footer'>
-                    <a href='#/' className='menu current icon_avatar'></a>
-                    <a href='#/' className='menu icon_trend'></a>
-                    <a href='#/about' className='menu icon_settings'></a>
-                    <a href='#/system' className='menu icon_settings'></a>
+                    <a href='#/' className='menu current fa-home'></a>
+                    <a href='#/' className='menu fa-bar-chart'></a>
+                    <a href='#/about' className='menu fa-wrench'></a>
+                    <a href='#/system' className='menu fa-cog'></a>
                 </div>);
             }
         })

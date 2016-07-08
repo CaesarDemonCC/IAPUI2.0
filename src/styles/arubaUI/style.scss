@@ -100,6 +100,10 @@
     }
 }
 
+.fa [class*=fa-]:before {
+    font-size: 2rem;
+}
+
 .app {
     //display: flex;
     //flex-flow: column;
