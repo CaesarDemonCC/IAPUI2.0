@@ -119,6 +119,9 @@
         //overflow: hidden;
         border-bottom: $layoutDivider;
         height: 4rem;
+        background-color: $colorMenuBackground;
+        @include display-flex;
+        align-items: center;
 
         @include breakpoint(smallerThanIpad) {
             height: 3rem;
@@ -170,6 +173,22 @@
                 }
                 div:last-child {
                     margin-left: -0.5rem;
+                }
+
+                .userMenu {
+                    position: absolute;
+                    display: none;
+                    top: 59px;
+                    right: 46px;
+                    background-color: $colorMenuBackground;
+                    padding: 1rem 1.25rem 1rem 1.25rem;
+                    z-index: 3;
+                    box-shadow: 1px 1px 1px rgba(0,0,0,.15);
+                    -webkit-border-radius: 1px;
+                    -moz-border-radius: 1px;
+                    -o-border-radius: 1px;
+                    border-radius: 1px;
+                    border: 1px solid #ddd
                 }
             }
 
@@ -240,6 +259,7 @@
         color: $colorNeutralDk;
         border-top: $layoutDivider;
         display: none;
+        background-color: $colorMenuBackground;
 
         [class*='icon_']:before {
             font-size: 3rem;
