@@ -400,185 +400,6 @@ const SummaryTable = React.createClass({
     }
 });
 
-const SummaryChart1 = React.createClass({
-	getInitialState() {
-	    return {
-	    	timestamp: [],
-	        throughputIn: [],
-            throughputOut: [],
-			clients: [] 
-	    };
-	},
-	getDefaultProps() {
-	    return {
-	    	
-	    };
-	},
-	componentWillReceiveProps (nextProps) {
-      	this.setState(nextProps);
-  	},
-
-    render() {
-    	let throughputIn = this.state.throughputIn;
-    	let throughputOut = this.state.throughputOut;
-    	let clients = this.state.clients;
-    	let timestamp = this.state.timestamp;
-
-    	let badgeIn = throughputIn.length > 0 ? throughputIn[throughputIn.length - 1] : 0;
-    	let badgeOut = throughputOut.length > 0 ? throughputOut[throughputOut.length - 1] : 0;
-    	let badgeClient = clients.length > 0 ? clients[clients.length - 1] : 0;
-
-    	let inData = [];
-    	let outData = [];
-    	let clientData = [];
-
-    	timestamp.forEach((v, i, a) => {
-    		inData.push([v, throughputIn[i]]);
-    		outData.push([v, throughputOut[i]]);
-    		clientData.push([v, clients[i]]);
-    	});
-
-
-    	let networksConfig = {
-    		
-	        title: {
-	            text: 'Client Counts',
-	            style: {
-    				fontSize: '0.875rem'
-	            }
-	        },
-	        xAxis: {
-	            categories: ['SSID-1', 'SSID-2', 'SSID-3', 'SSID-4', 'SSID-5']
-	        },
-	        legend: {
-	        	enabled: false
-	        },
-	        yAxis: {
-	            min: 0,
-	            allowDecimals: false,
-	            title: {
-	                text: null
-	            }
-	        },
-	        
-	        series: [{
-	        	type: 'column',
-	            name: 'Clients',
-	            color: '#02a7ec',
-	            data: [15, 4, 3, 2, 1]
-	        }]
-    	};
-
-    	let clientsConfig = {
-    		title: {
-    			text: 'Traffic Top 5',
-    			style: {
-    				fontSize: '0.875rem'
-	            }
-    		},
-    		xAxis: {
-	            categories: ['USER-1', 'USER-2', 'USER-3', 'USER-4', 'USER-5']
-	        },
-	        legend: {
-	        	enabled: false
-	        },
-            yAxis: {
-            	visible: false,
-            	max: 155,
-            	minorTickInterval: 'auto',
-            	allowDecimals: false,
-            	title: {
-            		text: null
-            	}
-            },
-            tooltip: {
-	            shared: true,
-	            valueSuffix: ' bps'
-	        },
-	        
-            series: [{
-	            name: 'Traffic',
-	            type: 'bar',
-	            color: '#02a7ec',
-	            data: [155, 94, 73, 42, 11]
-	        }]
-    	};
-
-    	let apsConfig = {
-    		title: {
-    			text: 'AP Status',
-    			style: {
-    				fontSize: '0.875rem'
-	            }
-    		},
-    		xAxis: {
-    			visible: false,
-	            categories: ['AP Status']
-	        },
-            yAxis: {
-            	visible: false,
-            	max: 6,
-            	minorTickInterval: 'auto',
-            	allowDecimals: false,
-            	title: {
-            		text: null
-            	}
-            },
-            tooltip: {
-	            shared: true,
-	            valueSuffix: ' '
-	        },
-	        legend: {
-	        	//enabled: false
-	        },
-	        plotOptions: {
-	            series: {
-	                stacking: 'normal',
-	                dataLabels: {
-	                    enabled: true,
-	                    color: '#FFF'
-	                }
-	            }
-	        },
-            series: [{
-	            name: 'Down',
-	            type: 'bar',
-	            color: '#FF0000',
-	            data: [1]
-	        }, {
-	            name: 'Up',
-	            type: 'bar',
-	            color: '#00CC00',
-	            data: [5]
-	        }]
-    	};
-
-        return (
-        	<div className="panel no_border item_panel medium-12">
-				<div className="medium-6 columns">
-					<p className="item_title">
-						<span className="icon_phone icofirst"></span> Clients <a> 25</a>
-					</p>
-					<p className="item_content_text">
-						<span>&nbsp;</span>
-					</p>
-                    <ReactHighchart className="item_content_chart" key='throughput' config={clientsConfig}/>
-				</div>
-
-				<div className="medium-6 columns">
-					<p className="item_title">
-						<span className="icon_ap icofirst"></span> Access Points <a> 6</a>
-					</p>
-					<p className="item_content_text">
-						<span>&nbsp;</span>
-					</p>
-                    <ReactHighchart className="item_content_chart" key='throughput' config={apsConfig}/>
-				</div>
-			</div>
-        );
-    }
-});
-
 const InternetPanel = React.createClass({
 	getInitialState() {
 	    return {
@@ -632,7 +453,7 @@ const InternetPanel = React.createClass({
     			type: 'datetime'
             },
             yAxis: {
-            	visible: false,
+            	//visible: false,
             	//minorTickInterval: 'auto',
             	allowDecimals: false,
             	title: {
@@ -679,13 +500,7 @@ const InternetPanel = React.createClass({
 					<span className="green_text right"> Connected</span>
 				</p>
 				<p className="item_content_text">
-					<span className="icon_pointer_down green icofirst"></span> <span>{badgeIn} Kbs</span>
-					<span className="divider-v">&nbsp;</span>
-					<span className="icon_pointer_up green icofirst"></span> <span>{badgeOut} Kbs</span>  
-				</p>
-
-				<p className="item_content_text">
-					<span>My Instant <span className="divider-v">|</span> 192.168.10.5 <span className="divider-v">|</span> Ethenet</span>
+					<span>192.168.10.5<span className="divider-v">|</span>Ethernet</span>
 				</p>
 				<ReactHighchart className="item_content_chart" key='throughput' config={throughputConfig}/>
 			</div>
@@ -748,10 +563,9 @@ const NetworksPanel = React.createClass({
 					<span className="icon_wifi icofirst"></span>Networks<a> 5</a>
 				</p>
 				<p className="item_content_text">
-					<span>&nbsp;</span>
-				</p>
-				<p className="item_content_text">
-					<span>&nbsp;</span>
+					<span className="icon_pointer_down green icofirst"></span> <span>255 Kbs</span>
+					<span className="divider-v">&nbsp;</span>
+					<span className="icon_pointer_up green icofirst"></span> <span>255 Kbs</span>  
 				</p>
                 <ReactHighchart className="item_content_chart" key='throughput' config={networksConfig}/>
 			</div>
@@ -819,10 +633,7 @@ const ClientsPanel = React.createClass({
 					<span className="icon_phone icofirst"></span> Clients <a> 25</a>
 				</p>
 				<p className="item_content_text">
-					<span>&nbsp;</span>
-				</p>
-				<p className="item_content_text">
-					<span>&nbsp;</span>
+					<span>Max usage: </span><span>USER-1<span className="divider-v">|</span>155 bps</span>
 				</p>
                 <ReactHighchart className="item_content_chart" key='throughput' config={clientsConfig}/>
 			</div>
@@ -904,10 +715,8 @@ const APsPanel = React.createClass({
 					<span className="icon_ap icofirst"></span> Access Points <a> 6</a>
 				</p>
 				<p className="item_content_text">
-					<span>&nbsp;</span>
-				</p>
-				<p className="item_content_text">
-					<span>&nbsp;</span>
+					<span className="icon_alert icofirst red"></span>
+					<span className="icon_empty red">1</span><span> AP (ac:a3:1e...) is down</span>
 				</p>
                 <ReactHighchart className="item_content_chart" key='throughput' config={apsConfig}/>
 			</div>
@@ -1115,10 +924,14 @@ const Overview = React.createClass({
 	render () {
 		return (
 			<div className="overview-container">
-				<InternetPanel {...this.state.chart} />
-				<NetworksPanel {...this.state.chart} />
-				<ClientsPanel {...this.state.chart} />
-				<APsPanel {...this.state.chart} />
+				<div className="row">
+					<InternetPanel {...this.state.chart} />
+					<NetworksPanel {...this.state.chart} />
+				</div>
+				<div className="row">
+					<ClientsPanel {...this.state.chart} />
+					<APsPanel {...this.state.chart} />
+				</div>
 			</div>
 		);
 	}
