@@ -154,7 +154,7 @@
 }
 
 .mobile_menu_toggle {
-    background-color: $colorNeutralLt;
+    background-color: $colorMenuBackground;
 
     //border-bottom: 1px solid $colorDivider;
 }
@@ -170,7 +170,7 @@
     }
 }
 
-.mobile_menu_toggle .icon_arrow_down:before, .mobile_menu_toggle .icon_arrow_up:before, .mobile_menu_toggle .icon-fallback img {
+.mobile_menu_toggle .icon_arrow_down:before, .mobile_menu_toggle .icon_arrow_up:before, .mobile_menu_toggle .icon_menu:before, .mobile_menu_toggle .icon-fallback img {
     position: absolute;
     right: 0;
     color: $colorLink;

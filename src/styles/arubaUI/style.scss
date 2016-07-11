@@ -164,7 +164,7 @@
             .user {
                 @include display-flex;
                 margin-left: 2.5rem;
-                margin-right: 0rem;
+                margin-right: -1.5rem;
                 height: 4rem;
                 flex: 0 1 auto;
                 margin-top: 0rem;
@@ -177,8 +177,8 @@
                     position: absolute;
                     display: none;
                     margin-right: 0rem;
-                    top: 49px;
-                    right: 26px;
+                    top: 3.125rem;
+                    right: -0.5rem;
                     background-color: $colorMenuBackground;
                     padding: 1rem 1.25rem 1rem 1.25rem;
                     z-index: 3;
@@ -255,7 +255,6 @@
 
         .sidenav-wrapper {
             padding: 0.25rem 0.125rem;
-            border-right: $layoutDivider;
         }
 
         .container {
@@ -686,14 +685,24 @@
         padding-left:1.5rem;
     }
     .wizard-footer {
-        position: fixed;
-        bottom: 0.625rem;
-        right: 0.625rem;
+        // position: fixed;
+        // bottom: 0.625rem;
+        // right: 0.625rem;
+        width: 100%;
+        background-color: #fff;
+        overflow: hidden;
+
+        @include breakpoint(baby-bear) {
+            // bottom: 3.05rem;
+        }
 
         .button {
             float: right;
             margin-left: 0.625rem;
             width: 5rem;
+            @include breakpoint(baby-bear) {
+                line-height: 0.625rem;
+            }
         }
     }
 }
