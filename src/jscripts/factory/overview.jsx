@@ -527,6 +527,30 @@ const NetworksPanel = React.createClass({
   	},
 
     render() {
+    	let throughputIn = this.state.throughputIn;
+    	let throughputOut = this.state.throughputOut;
+    	let clients = this.state.clients;
+    	let timestamp = this.state.timestamp;
+
+    	let badgeIn = throughputIn.length > 0 ? throughputIn[throughputIn.length - 1] : 0;
+    	let badgeOut = throughputOut.length > 0 ? throughputOut[throughputOut.length - 1] : 0;
+    	let badgeClient = clients.length > 0 ? clients[clients.length - 1] : 0;
+
+    	let inData = [];
+    	let outData = [];
+    	let clientData = [];
+
+    	timestamp.forEach((v, i, a) => {
+    		inData.push([v, throughputIn[i]]);
+    		outData.push([v, throughputOut[i]]);
+    		clientData.push([v, clients[i]]);
+    	});
+
+    	let clientCounts = [];
+    	for (let i = 0; i < 10; i++) {
+    		clientCounts[i] = parseInt(Math.random() * 20 + 1);
+    	}
+
     	let networksConfig = {
     		
 	        title: {
@@ -536,7 +560,7 @@ const NetworksPanel = React.createClass({
 	            }
 	        },
 	        xAxis: {
-	            categories: ['SSID-11111111111', 'SSID-2', 'SSID-3', 'SSID-4', 'SSID-5', 'SSID-6', 'SSID-7', 'SSID-8', 'SSID-9', 'SSID-10', 'SSID-5', 'SSID-6', 'SSID-7', 'SSID-8', 'SSID-9', 'SSID-10']
+	            categories: ['SSID-111111', 'SSID-2', 'SSID-3', 'SSID-4', 'SSID-5', 'SSID-6', 'SSID-7', 'SSID-8', 'SSID-9', 'SSID-10']
 	        },
 	        legend: {
 	        	enabled: false
@@ -553,7 +577,15 @@ const NetworksPanel = React.createClass({
 	        	type: 'column',
 	            name: 'Clients',
 	            color: '#02a7ec',
-	            data: [15, 4, 3, 2, 1, 15, 4, 3, 2, 1, 15, 4, 3, 2, 1]
+	            data: clientCounts.sort(function(v1, v2){
+	            	if (v1 > v2) {
+	            		return -1;
+	            	} else if (v1 == v2) {
+	            		return 0;
+	            	} else if (v1 < v2) {
+	            		return 1;
+	            	}
+	            })
 	        }]
     	};
 
@@ -563,9 +595,9 @@ const NetworksPanel = React.createClass({
 					<span className="icon_wifi icofirst"></span>Networks<a> 5</a>
 				</p>
 				<p className="item_content_text">
-					<span className="icon_pointer_down green icofirst"></span> <span>255 Kbs</span>
+					<span className="icon_pointer_down green icofirst"></span> <span>{badgeIn} Kbs</span>
 					<span className="divider-v">&nbsp;</span>
-					<span className="icon_pointer_up green icofirst"></span> <span>255 Kbs</span>  
+					<span className="icon_pointer_up green icofirst"></span> <span>{badgeOut} Kbs</span>  
 				</p>
                 <ReactHighchart className="item_content_chart" key='throughput' config={networksConfig}/>
 			</div>
@@ -592,6 +624,21 @@ const ClientsPanel = React.createClass({
   	},
 
     render() {
+    	let traffic = [];
+    	for (let i = 0; i < 5; i++) {
+    		traffic[i] = parseInt(Math.random() * 500 + 100);
+    	}
+
+    	traffic = traffic.sort(function(v1, v2){
+        	if (v1 > v2) {
+        		return -1;
+        	} else if (v1 == v2) {
+        		return 0;
+        	} else if (v1 < v2) {
+        		return 1;
+        	}
+        });
+
     	let clientsConfig = {
     		title: {
     			text: 'Traffic Top 5',
@@ -607,7 +654,7 @@ const ClientsPanel = React.createClass({
 	        },
             yAxis: {
             	visible: false,
-            	max: 155,
+            	max: traffic[0],
             	minorTickInterval: 'auto',
             	allowDecimals: false,
             	title: {
@@ -623,7 +670,7 @@ const ClientsPanel = React.createClass({
 	            name: 'Traffic',
 	            type: 'bar',
 	            color: '#02a7ec',
-	            data: [155, 94, 73, 42, 11]
+	            data: traffic
 	        }]
     	};
 
@@ -633,7 +680,7 @@ const ClientsPanel = React.createClass({
 					<span className="icon_phone icofirst"></span> Clients <a> 25</a>
 				</p>
 				<p className="item_content_text">
-					<span>Max usage: </span><span>USER-1<span className="divider-v">|</span>155 bps</span>
+					<span>Max usage: </span><span>USER-1<span className="divider-v">|</span>{traffic[0]} bps</span>
 				</p>
                 <ReactHighchart className="item_content_chart" key='throughput' config={clientsConfig}/>
 			</div>
@@ -699,11 +746,13 @@ const APsPanel = React.createClass({
             series: [{
 	            name: 'Down',
 	            type: 'bar',
+	            maxPointWidth: 50,
 	            color: '#FF0000',
 	            data: [1]
 	        }, {
 	            name: 'Up',
 	            type: 'bar',
+	            maxPointWidth: 50,
 	            color: '#00CC00',
 	            data: [5]
 	        }]
@@ -716,7 +765,7 @@ const APsPanel = React.createClass({
 				</p>
 				<p className="item_content_text">
 					<span className="icon_alert icofirst red"></span>
-					<span className="icon_empty red">1</span><span> AP (ac:a3:1e...) is down</span>
+					<span className="icon_empty red">1</span><span> AP is down</span>
 				</p>
                 <ReactHighchart className="item_content_chart" key='throughput' config={apsConfig}/>
 			</div>
