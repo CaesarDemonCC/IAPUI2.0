@@ -82,7 +82,15 @@
     }
     .menu {
         cursor: pointer;
-        margin-top: 0.35rem;
+        flex: 1;
+        height: 3rem;
+        margin-right: 2.5rem;
+        @include breakpoint(smallerThanIpad) {
+            margin-top: 0.5rem;
+            margin-right: 0rem;
+        }
+        text-align: center;
+        color: $colorNeutralDk;
         a {
             width: 100%;
             height: 100%;
@@ -96,6 +104,12 @@
         display: block;
         &:hover {
             color: $colorText;
+        }
+        span {
+            display: block;
+            @include breakpoint(smallerThanIpad) {
+                display: none;
+            }
         }
     }
 }
@@ -129,57 +143,42 @@
 
         .logo {
             height: 3rem;
+            width: 6rem;
         }
 
         .bannermenu {
-            float: right;
             color: #02a7ec;
             height: 4rem;
             line-height: 4rem;
+            flex: 1;
+            @include display-flex;
+            align-items: center;
 
             @include breakpoint(smallerThanIpad) {
                 height: 3rem;
                 line-height: 3rem;
             }
 
-            & > div {
-                float: right;
-                height: 4rem;
-                width: 6rem;
-                margin-right: 2.5rem;
-                text-align: center;
-                color: $colorNeutralDk;
-
-                @include breakpoint(smallerThanIpad) {
-                    display: none;
-                }
-
-                span {
-                    display: block;
-                }
-            }
-
             @include headerMenu;
 
-            & > div:first-child {
-                margin-right: 0;
-                display: block;
-            }
-
             .user {
-                div {
-                    float: left;
-                    margin-top: -0.35rem;
+                @include display-flex;
+                margin-left: 2.5rem;
+                margin-right: 0rem;
+                height: 4rem;
+                flex: 0 1 auto;
+                margin-top: 0rem;
+                @include breakpoint(smallerThanIpad) {
+                    margin-top: 1rem;
                 }
-                div:last-child {
-                    margin-left: -0.5rem;
-                }
+
 
                 .userMenu {
                     position: absolute;
                     display: none;
-                    top: 59px;
-                    right: 46px;
+                    margin-right: 0rem;
+                    top: 49px;
+                    right: 26px;
                     background-color: $colorMenuBackground;
                     padding: 1rem 1.25rem 1rem 1.25rem;
                     z-index: 3;
@@ -188,7 +187,11 @@
                     -moz-border-radius: 1px;
                     -o-border-radius: 1px;
                     border-radius: 1px;
-                    border: 1px solid #ddd
+                    border: 1px solid #ddd;
+
+                    span {
+                        display: block;
+                    }
                 }
             }
 
@@ -221,7 +224,25 @@
                 width: 1px;
                 background-color: $colorNeutralMd;
                 margin-top: 0.5rem;
+                @include breakpoint(smallerThanIpad) {
+                    display: none;
+                }
+            }
 
+            .menu_block {
+                flex: 1 1 25rem;
+            }
+
+            .menus {
+                flex: 1;
+                @include display-flex;
+                @include breakpoint(smallerThanIpad) {
+                    display: none;
+                }
+            }
+
+            .fa-signout:before {
+                content: "\f08B"
             }
         }
     }

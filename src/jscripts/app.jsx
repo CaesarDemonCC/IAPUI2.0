@@ -88,26 +88,11 @@ var App = React.createClass({
     render () {
         var Menus = React.createClass({
             render : function () {
-                var menus = [(<a href='#/' className='menu current fa-home'></a>),
-                            (<a href='#/' className='menu fa-bar-chart'></a>),
-                            (<a href='#/about' className='menu fa-wrench'></a>),
-                            (<a href='#/system' className='menu fa-cog'></a>)];
-                if (this.props.type == 'header') {
-                    menus = [(<div className='menu'>
-                                <a className='fa-cog fa-fw' href='#/system'><span>Settings</span></a>
-                            </div>),
-                            (<div className='menu'>
-                                <a className='fa-wrench fa-fw' href='#/about'><span>Maintenance</span></a>
-                            </div>),
-                            (<div className='menu'>
-                                <a className='fa-bar-chart fa-fw' href='#/'><span>Monitoring</span></a>
-                            </div>),
-                            (<div className='menu current'>
-                                <a className='fa-home fa-fw' href='#/'><span>Home</span></a>
-                            </div>)
-                    ]
-                }
-                return (<div>
+                var menus = [(<a href='#/' className='menu current fa-home'><span>Home</span></a>),
+                            (<a href='#/' className='menu fa-bar-chart'><span>Monitoring</span></a>),
+                            (<a href='#/about' className='menu fa-wrench'><span>Maintenance</span></a>),
+                            (<a href='#/system' className='menu fa-cog'><span>Settings</span></a>)];
+                return (<div className='menus'>
                         {menus}
                     </div>)
             }
@@ -121,25 +106,15 @@ var App = React.createClass({
                     <div className='header'>
                         <div className='logo small-3 columns' />
                         <div className='bannermenu small-9 columns'>
+                            <div className='menu_block'></div>
+                            <Menus />
+                            <div className='bannel_divider'></div>
                             <div className='user menu' onClick = {() => {$('.user .userMenu').toggle('display');}}>
                                 <div className='icon_avatar'></div>
                                 <div className='icon_arrow_down'></div>
                                 <div className='userMenu menu'>
-                                    <a className='fa-cog fa-fw' href='#/logout'><span>Logout</span></a>
+                                    <a className='fa-signout' href='#/logout'><span>Logout</span></a>
                                 </div>
-                            </div>
-                            <div className='bannel_divider'></div>
-                            <div className='menu'>
-                                <a className='fa-cog fa-fw' href='#/system'><span>Settings</span></a>
-                            </div>
-                            <div className='menu'>
-                                <a className='fa-wrench fa-fw' href='#/about'><span>Maintenance</span></a>
-                            </div>
-                            <div className='menu'>
-                                <a className='fa-bar-chart fa-fw' href='#/'><span>Monitoring</span></a>
-                            </div>
-                            <div className='menu current'>
-                                <a className='fa-home fa-fw' href='#/'><span>Home</span></a>
                             </div>
                         </div>
                     </div>
