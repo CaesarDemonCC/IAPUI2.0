@@ -164,7 +164,7 @@
             .user {
                 @include display-flex;
                 margin-left: 2.5rem;
-                margin-right: 0rem;
+                margin-right: -1.5rem;
                 height: 4rem;
                 flex: 0 1 auto;
                 margin-top: 0rem;
@@ -177,8 +177,8 @@
                     position: absolute;
                     display: none;
                     margin-right: 0rem;
-                    top: 49px;
-                    right: 26px;
+                    top: 3.125rem;
+                    right: -0.5rem;
                     background-color: $colorMenuBackground;
                     padding: 1rem 1.25rem 1rem 1.25rem;
                     z-index: 3;
@@ -255,7 +255,6 @@
 
         .sidenav-wrapper {
             padding: 0.25rem 0.125rem;
-            border-right: $layoutDivider;
         }
 
         .container {
@@ -826,81 +825,92 @@ table.data {
 }
 
 .overview-container {
-    @include display-flex;
-    @include flex-flow(row wrap);
+    box-sizing: border-box;
     
-    @include device(mobile) {
-        height: auto;
-    }
-    height: 99%;
-    padding: 0 0.5rem;
+    @include display-flex;
+    @include flex-flow(column);
 
-    .item_panel {
-        @include flex(auto);
-        width: 40%;
-        height: 44%;
+    height: 100%;
+    overflow: hidden;
+    //padding: 0.5rem 0;
+    .row {
+        @include flex(1);
+        @include display-flex;
 
-        border: 1px solid #eee;
-        border-radius: 0.625rem;
-        background-color: #fcfcfc;
-        margin: 1rem 0.5rem 0 0.5rem;
-        padding: 1rem;
-        
         @include breakpoint(baby-bear) {
-            width: 95%;
+            @include flex-flow(column);
         }
 
-        .divider-v {
-            padding: 0 0.5rem;
-        }
+        .item_panel {
+            width: 50%;
+            //height: 50%;
+            box-sizing: border-box;
 
-        .green[class*='icon_']  {
-            color: #00CC00;
-        }
-
-        .orange[class*='icon_']  {
-            color: #F5831E;
-        }
-
-        .red[class*='icon_']  {
-            color: #FF0000;
-        }
-
-        .item_title {
-            color: #646569;
-            font-weight: bold;
-            font-size: 1rem;
-            padding-bottom: 0.5rem;
-
-            .green_text {
-                color: #00CC00;
-                font-size: 0.875rem;
+            @include breakpoint(baby-bear) {
+                @include flex(1);
+                width: 100%;
+                border-bottom: 1px solid #eee;
             }
-        }
 
-        .item_title.right {
-            text-align: right;
-        }
+            padding: 1rem;
+            
+            .divider-v {
+                padding: 0 0.5rem;
+            }
 
-        .item_title.middle {
-            text-align: center;
-        }
+            .green[class*='icon_']  {
+                color: #00CC00;
+            }
 
-        .item_content_text {
-            font-size: 0.875rem;
-            padding-left: 0.5rem;
-        }
+            .orange[class*='icon_']  {
+                color: #F5831E;
+            }
 
-        .item_content_text.green {
-            color: #00CC00;
-        }
+            .red[class*='icon_']  {
+                color: #FF0000;
+            }
 
-        .item_content_chart {
-            height: 60%;
-            width: 90%;
-            @include device(mobile) {
-                display: none;
+            .item_title {
+                color: #646569;
+                font-weight: bold;
+                font-size: 1rem;
+                padding-bottom: 0.5rem;
+
+                .green_text {
+                    color: #00CC00;
+                    font-size: 0.875rem;
+                }
+            }
+
+            .item_title.right {
+                text-align: right;
+            }
+
+            .item_title.middle {
+                text-align: center;
+            }
+
+            .item_content_text {
+                color: #888;
+                font-size: 0.875rem;
+                padding-left: 0.5rem;
+                [class*='icon_']:before {
+                    font-size: 1.5rem;
+                }
+            }
+
+            .item_content_text.green {
+                color: #00CC00;
+            }
+
+            .item_content_chart {
+                height: 60%;
+                width: 100%;
+                @include device(mobile) {
+                    display: none;
+                }
             }
         }
     }
+    
 }
