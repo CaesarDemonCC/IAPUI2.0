@@ -90,7 +90,7 @@ var SideNav = ReactRouter.withRouter(React.createClass({
     },
     render: function () {
         var self = this;
-        if (!this.props.show) {
+        if (!this.props.show || !this.props.data) {
             return null;
         }
         var children = this.state.treeData.map(function (item, index) {

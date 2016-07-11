@@ -12,58 +12,115 @@ import {Firmware} from './factory/firmware'
 
 import EventSystem from './utils/eventSystem'
 
-var navConfig = [{
-    'name': 'Monitoring',
-    //'path': '/',
-    'children': [{
-        'name': 'Overview',
-        'path': '/'
-    }/*, {
-        'name': 'Networks',
-        'path': '/networks'
-    }, {
-        'name': 'Access Points',
-        'path': '/aps'
-    }, {
-        'name': 'Clients',
-        'path': '/clients'
-    }*/]
-}, {
-    'name': 'Configuration',
-    'children': [{
-        'name': 'System',
-        'path': '/system'
-    },{
-        'name': 'Networks',
-        'path': '/network-config'
-    }, {
-        'name': 'Users',
-        'path': '/users'
-    }/*, {
-        'name': 'RF',
-        'path': '/rf'
-    }*/]
-}, {
-    'name': 'Maintenance',
-    'children': [{
-        'name': 'About',
-        'path': '/about'
-    }, {
-        'name': 'Firmware',
-        'path': '/firmware'
-    }/*, {
+// var navConfig = [{
+//     'name': 'Monitoring',
+//     //'path': '/',
+//     'children': [{
+//         'name': 'Overview',
+//         'path': '/'
+//     }/*, {
+//         'name': 'Networks',
+//         'path': '/networks'
+//     }, {
+//         'name': 'Access Points',
+//         'path': '/aps'
+//     }, {
+//         'name': 'Clients',
+//         'path': '/clients'
+//     }*/]
+// }, {
+//     'name': 'Configuration',
+//     'children': [{
+//         'name': 'System',
+//         'path': '/system'
+//     },{
+//         'name': 'Networks',
+//         'path': '/network-config'
+//     }, {
+//         'name': 'Users',
+//         'path': '/users'
+//     }/*, {
+//         'name': 'RF',
+//         'path': '/rf'
+//     }*/]
+// }, {
+//     'name': 'Maintenance',
+//     'children': [{
+//         'name': 'About',
+//         'path': '/about'
+//     }, {
+//         'name': 'Firmware',
+//         'path': '/firmware'
+//     }/*, {
+//         'name': 'Configuration',
+//         'path': '/config'
+//     }*/, {
+//         'name': 'Reboot',
+//         'path': '/reboot'
+//     }]
+// }];
+
+
+const navConfigMap = {
+    'monitoring': {
+        'name': 'Monitoring',
+        'children': [{
+            'name': 'Networks',
+            'path': '/networks'
+        },{
+            'name': 'Acess Points',
+            'path': '/aps'
+        }]
+    },
+    'settings' : {  
         'name': 'Configuration',
-        'path': '/config'
-    }*/, {
-        'name': 'Reboot',
-        'path': '/reboot'
-    }]
-}];
+        'children': [{
+            'name': 'System',
+            'path': '/system'
+        },{
+            'name': 'Networks',
+            'path': '/network-config'
+        }, {
+            'name': 'Users',
+            'path': '/users'
+        }]
+    },
+    'maintenance': {
+        'name': 'Maintenance',
+        'children': [{
+            'name': 'About',
+            'path': '/about'
+        }, {
+            'name': 'Firmware',
+            'path': '/firmware'
+        }, {
+            'name': 'Reboot',
+            'path': '/reboot'
+        }]
+    }
+}
 
 
 var App = React.createClass({
     getInitialState() {
         var self = this;
+
+        function getNavConfig (path) {
+            var config = null;
+
+            for (var i in navConfigMap) {
+                var children = navConfigMap[i].children;
+                if (children) {
+                    for (var j = 0; j < children.length; j++) {
+                        if (children[j].path == path) {
+                            return [navConfigMap[i]];
+                        }
+                    }
+                }
+            }
+
+            return config;
+        }
 
         EventSystem.subscribe('UserLoggedIn', function (loggedIn) {
             self.setState({
@@ -72,14 +129,17 @@ var App = React.createClass({
         })
 
         EventSystem.subscribe('RouteUpdated', function (path) {
+            var navConfig = getNavConfig(path);
             self.setState({
-                currentLocation: path
+                currentLocation: path,
+                navConfig : navConfig
             });
         })
 
         return {
             isLoggedIn: isLoggedIn(),
-            currentLocation: '/'
+            currentLocation: '/',
+            navConfig: null
         };
     },
     showUserMenu () {
@@ -135,9 +195,7 @@ var App = React.createClass({
             <div className='app'>
                 <Header show={this.state.isLoggedIn? true: false} />
                 <div className='wrapper'>
-                    {/*<div classNav='nav'>
-                        <SideNav data={navConfig} show={this.state.isLoggedIn? true: false} currentLocation={this.props.location.pathname} />
-                    </div>*/}
+                    <SideNav data={this.state.navConfig} show={this.state.isLoggedIn? true: false} currentLocation={this.props.location.pathname} />
                     <div id='container' className='container'>
                         {this.props.children}
                     </div>
