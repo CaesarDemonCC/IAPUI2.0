@@ -53,8 +53,8 @@ var About = React.createClass({
 		var aboutElement = (<div />);
 		var titleElement = (<h2 className='title_heading form_heading'>About</h2>)
 		if(this.state.about) {
-			aboutElement = this.state.about.map((item) => {
-				return (<SpanLable {...item}/>)
+			aboutElement = this.state.about.map((item, index) => {
+				return (<SpanLable {...item} key={index}/>)
 			});
 		}
 		return (

@@ -88,10 +88,25 @@ var App = React.createClass({
     render () {
         var Menus = React.createClass({
             render : function () {
-                var menus = [(<a href='#/' className='menu current fa-home'><span>Home</span></a>),
-                            (<a href='#/' className='menu fa-bar-chart'><span>Monitoring</span></a>),
-                            (<a href='#/about' className='menu fa-wrench'><span>Maintenance</span></a>),
-                            (<a href='#/system' className='menu fa-cog'><span>Settings</span></a>)];
+                // var menus = [(<a href='#/' className='menu current fa-home'><span>Home</span></a>),
+                //             (<a href='#/' className='menu fa-bar-chart'><span>Monitoring</span></a>),
+                //             (<a href='#/about' className='menu fa-wrench'><span>Maintenance</span></a>),
+                //             (<a href='#/system' className='menu fa-cog'><span>Settings</span></a>)];
+                var menus = [
+                    {href:'#/',icon:'home',text:'Home'},
+                    {href:'#/',icon:'bar-chart',text:'Monitoring'},
+                    {href:'#/about',icon:'wrench',text:'Maintenance'},
+                    {href:'#/system',icon:'cog',text:'Settings'}
+                ]
+                menus = menus.map((item, index)=>{
+                    var iconClass = `fa-${item.icon} `;
+                    var currentLocationClass = '';
+                    if (this.props.currentLocation == item.href.replace('#', '')) {
+                        currentLocationClass = 'current';
+                    }
+                    var className = 'menu ' + iconClass + currentLocationClass;
+                    return (<a key={index} href={item.href} className={className}><span>{item.text}</span></a>);
+                });
                 return (<div className='menus'>
                         {menus}
                     </div>)
@@ -107,7 +122,7 @@ var App = React.createClass({
                         <div className='logo small-3 columns' />
                         <div className='bannermenu small-9 columns'>
                             <div className='menu_block'></div>
-                            <Menus />
+                            <Menus currentLocation={this.props.currentLocation}/>
                             <div className='bannel_divider'></div>
                             <div className='user menu' onClick = {() => {$('.user .userMenu').toggle('display');}}>
                                 <div className='icon_avatar'></div>
@@ -126,14 +141,14 @@ var App = React.createClass({
         var Footer = React.createClass({
             render: function () {
                 return (<div className='footer'>
-                    <Menus />
+                    <Menus currentLocation={this.props.currentLocation}/>
                 </div>);
             }
         })
 
         return (
             <div className='app'>
-                <Header show={this.state.isLoggedIn? true: false} />
+                <Header show={this.state.isLoggedIn? true: false} currentLocation={this.state.currentLocation}/>
                 <div className='wrapper'>
                     {/*<div classNav='nav'>
                         <SideNav data={navConfig} show={this.state.isLoggedIn? true: false} currentLocation={this.props.location.pathname} />
@@ -142,7 +157,7 @@ var App = React.createClass({
                         {this.props.children}
                     </div>
                 </div>
-                <Footer />
+                <Footer currentLocation={this.state.currentLocation}/>
             </div>
         );
     }
