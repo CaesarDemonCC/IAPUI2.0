@@ -66,9 +66,8 @@ var Firmware = React.createClass({
 
         return (<div className='panel no_border'>
             <h2 className='title_heading form_heading'>Firmware</h2>
-            <p className="medium-2 columns">URL</p><input ref="url" className="medium-10 columns" type="text" class="input"/>
-            <br/>
-            <button className='medium button' onClick={this.showUpgradeConfirm}>Upgrade Now</button>
+            <p className="medium-2 columns">URL</p><input ref="url" className="medium-9 columns" type="text" class="input"/>
+            <button className='medium button' style={{'margin-top':'1rem'}} onClick={this.showUpgradeConfirm}>Upgrade Now</button>
             {comfirmDialog}
         </div>)
     }
