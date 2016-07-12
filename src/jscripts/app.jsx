@@ -86,6 +86,7 @@ var App = React.createClass({
 
     },
     render () {
+        var self = this;
         var Menus = React.createClass({
             render : function () {
                 // var menus = [(<a href='#/' className='menu current fa-home'><span>Home</span></a>),
@@ -94,14 +95,31 @@ var App = React.createClass({
                 //             (<a href='#/system' className='menu fa-cog'><span>Settings</span></a>)];
                 var menus = [
                     {href:'#/',icon:'home',text:'Home'},
-                    {href:'#/',icon:'bar-chart',text:'Monitoring'},
-                    {href:'#/about',icon:'wrench',text:'Maintenance'},
-                    {href:'#/system',icon:'cog',text:'Settings'}
+                    {href:'#/networks',icon:'bar-chart',text:'Monitoring',type:'monitoring'},
+                    {href:'#/about',icon:'wrench',text:'Maintenance',type:'maintenance'},
+                    {href:'#/system',icon:'cog',text:'Settings',type:'settings'}
                 ]
+
+                var isCurrentMenu = (item) => {
+                    var result = false;
+                    var navConfig = navConfigMap[item.type];
+                    if (navConfig) {
+                        var menus = navConfig.children;
+                        for (var i = 0; i < menus.length; i++) {
+                            if (menus[i].path === self.state.currentLocation) {
+                                result = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    return result;
+                }
+
                 menus = menus.map((item, index)=>{
                     var iconClass = `fa-${item.icon} `;
                     var currentLocationClass = '';
-                    if (this.props.currentLocation == item.href.replace('#', '')) {
+                    if (self.state.currentLocation == item.href.replace(/^#/g, '') || isCurrentMenu(item)) {
                         currentLocationClass = 'current';
                     }
                     var className = 'menu ' + iconClass + currentLocationClass;
