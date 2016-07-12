@@ -15,7 +15,7 @@ var LoginDialog = ReactRouter.withRouter(React.createClass({
                     <div className='welcome'>Welcome</div>
                     <input className='medium-12 columns input' placeholder='Username' type='text' ref='username'/>
                     <input className='medium-12 columns input'  placeholder='Password' onKeyDown={this.onKeyDown} type='password'  ref='passwd'/>
-                    <button className='button medium columns medium-12' onClick={this.onSubmit}>OK</button>
+                    <button className='button medium columns medium-12' onClick={this.onSubmit}>Log In</button>
                     </div>
                 </div>)
 	    }];
