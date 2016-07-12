@@ -84,7 +84,6 @@
         cursor: pointer;
         flex: 1;
         height: 3rem;
-        margin-right: 2.5rem;
         @include breakpoint(smallerThanIpad) {
             margin-top: 0.5rem;
             margin-right: 0rem;
@@ -171,14 +170,8 @@
                 margin-top: 0rem;
                 @include breakpoint(baby-bear) {
                     margin-top: 1rem;
-                    margin-right: 1rem;
                 }
 
-                .user_left {
-                    @include breakpoint(baby-bear) {
-                        margin-right: 2rem;
-                    }
-                }
                 .userMenu {
                     position: absolute;
                     display: none;
@@ -264,15 +257,16 @@
             }
 
             .menu_block {
-                flex: 1 1 10rem;
+                flex: 1;
             }
 
             .menus {
-                flex: 1;
+                flex: 1 1 10%;
                 @include display-flex;
                 @include breakpoint(smallerThanIpad) {
                     display: none;
                 }
+                justify-content: space-between;
             }
 
             .fa-signout:before {

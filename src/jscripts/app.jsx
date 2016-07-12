@@ -201,7 +201,7 @@ var App = React.createClass({
                             <Menus currentLocation={this.props.currentLocation}/>
                             <div className='bannel_divider'></div>
                             <div className='user menu' onClick = {() => {$('.user .userMenu').toggle('display');}}>
-                                <div className='icon_avatar user_left'></div>
+                                <div className='icon_avatar'></div>
                                 <div className='icon_arrow_down'></div>
                                 <div className='userMenu'>
                                     <div>
