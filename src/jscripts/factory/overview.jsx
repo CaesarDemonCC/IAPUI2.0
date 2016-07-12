@@ -546,9 +546,14 @@ const NetworksPanel = React.createClass({
     		clientData.push([v, clients[i]]);
     	});
 
+    	let totalSSID = 10;
+
     	let clientCounts = [];
-    	for (let i = 0; i < 10; i++) {
-    		clientCounts[i] = parseInt(Math.random() * 20 + 1);
+    	let ssids = [];
+
+    	for (let i = 0; i < totalSSID; i++) {
+    		clientCounts[i] = parseInt(Math.random() * (15 - i) + 1);
+    		ssids[i] = 'SSID-' + (i + 1);
     	}
 
     	let networksConfig = {
@@ -560,7 +565,7 @@ const NetworksPanel = React.createClass({
 	            }
 	        },
 	        xAxis: {
-	            categories: ['SSID-111111', 'SSID-2', 'SSID-3', 'SSID-4', 'SSID-5', 'SSID-6', 'SSID-7', 'SSID-8', 'SSID-9', 'SSID-10']
+	            categories: ssids
 	        },
 	        legend: {
 	        	enabled: false
@@ -592,7 +597,7 @@ const NetworksPanel = React.createClass({
         return (
 			<div className="panel no_border item_panel">
 				<p className="item_title">
-					<span className="icon_wifi icofirst"></span>Networks<a> 5</a>
+					<span className="icon_wifi icofirst"></span>Networks<a> {totalSSID}</a>
 				</p>
 				<p className="item_content_text">
 					<span className="icon_pointer_down green icofirst"></span> <span>{badgeIn} Kbs</span>
@@ -624,10 +629,17 @@ const ClientsPanel = React.createClass({
   	},
 
     render() {
+    	let topN = 5;
+    	let totalClients = 25;
     	let traffic = [];
-    	for (let i = 0; i < 5; i++) {
+    	let users = [];
+    	for (let i = 0; i < topN; i++) {
     		traffic[i] = parseInt(Math.random() * 500 + 100);
+    		users[i] = 'USER-' + (9 - i) + (Math.random() * 9 | 0);
     	}
+
+console.log(traffic);
+console.log(users);
 
     	traffic = traffic.sort(function(v1, v2){
         	if (v1 > v2) {
@@ -647,7 +659,7 @@ const ClientsPanel = React.createClass({
 	            }
     		},
     		xAxis: {
-	            categories: ['USER-1', 'USER-2', 'USER-3', 'USER-4', 'USER-5']
+	            categories: users
 	        },
 	        legend: {
 	        	enabled: false
@@ -677,10 +689,10 @@ const ClientsPanel = React.createClass({
         return (
 			<div className="panel no_border item_panel">
 				<p className="item_title">
-					<span className="icon_phone icofirst"></span> Clients <a> 25</a>
+					<span className="icon_phone icofirst"></span> Clients <a> {totalClients}</a>
 				</p>
 				<p className="item_content_text">
-					<span>Max usage: </span><span>USER-1<span className="divider-v">|</span>{traffic[0]} bps</span>
+					<span>Max usage: </span><span>{users[0]}<span className="divider-v">|</span>{traffic[0]} bps</span>
 				</p>
                 <ReactHighchart className="item_content_chart" key='throughput' config={clientsConfig}/>
 			</div>

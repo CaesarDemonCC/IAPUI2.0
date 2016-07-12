@@ -24,6 +24,12 @@ var ReactHighchart = React.createClass({
                     
                 });
             }
+
+            var categories = this.chart.xAxis[0].categories;
+            var newCategories = nextProps.config.xAxis.categories;
+            if (categories && newCategories) {
+                this.chart.xAxis[0].setCategories(newCategories);
+            }
             
         }
     },
