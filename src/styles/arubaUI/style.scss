@@ -935,3 +935,74 @@ table.data {
         }
     }
 }
+
+.overview-networks-container {
+    box-sizing: border-box;
+    overflow: hidden;
+
+    .item_panel {
+        box-sizing: border-box;
+        @include breakpoint(baby-bear) {
+            width: 100%;
+            border-bottom: 1px solid #eee;
+        }
+
+        padding: 1rem;
+        
+        .green[class*='icon_']  {
+            color: #00CC00;
+        }
+
+        .item_title {
+            color: #646569;
+            font-weight: bold;
+            font-size: 1rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .item_content_text {
+            color: #888;
+            font-size: 0.875rem;
+            padding-left: 0.5rem;
+            [class*='icon_']:before {
+                font-size: 1.5rem;
+            }
+            td {
+                padding: 0.5rem 0.625rem;
+                border-bottom:none;
+            }
+            .icofirst[class*='icon_'] {
+                padding-left: 1.5rem;
+            }
+        }
+
+        .item_content_text.green {
+            color: #00CC00;
+        }
+
+        .item_content_chart {
+            @include device(mobile) {
+                display: none;
+            }
+        }
+
+        th {
+            text-align: center;
+        }
+
+        td {
+            color: #888;
+            padding: 0.5rem 0.625rem;
+            text-align: center;
+        }
+        .table_wrapper {
+            overflow: hidden;
+        }
+        .panel {
+            border:none;
+        }
+        .white {
+            border:none;
+        }
+    }
+}

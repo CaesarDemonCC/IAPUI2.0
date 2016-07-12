@@ -594,10 +594,14 @@ const NetworksPanel = React.createClass({
 	        }]
     	};
 
+    	let toNetworks = {
+        	pathname:"networks"
+    	};
+
         return (
 			<div className="panel no_border item_panel">
 				<p className="item_title">
-					<span className="icon_wifi icofirst"></span>Networks<a> {totalSSID}</a>
+					<span className="icon_wifi icofirst"></span>Networks <ReactRouter.Link  to={toNetworks}> {totalSSID}</ReactRouter.Link>
 				</p>
 				<p className="item_content_text">
 					<span className="icon_pointer_down green icofirst"></span> <span>{badgeIn} Kbs</span>
@@ -637,9 +641,6 @@ const ClientsPanel = React.createClass({
     		traffic[i] = parseInt(Math.random() * 500 + 100);
     		users[i] = 'USER-' + (9 - i) + (Math.random() * 9 | 0);
     	}
-
-console.log(traffic);
-console.log(users);
 
     	traffic = traffic.sort(function(v1, v2){
         	if (v1 > v2) {

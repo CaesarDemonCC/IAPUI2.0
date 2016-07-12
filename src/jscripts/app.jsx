@@ -9,6 +9,7 @@ import {Users} from './factory/users'
 import {Overview} from './factory/overview'
 import {NetworksEdit} from './factory/networksedit'
 import {Firmware} from './factory/firmware'
+import {NetworksOverview} from './factory/networksOverview'
 
 import EventSystem from './utils/eventSystem'
 
@@ -289,6 +290,9 @@ var routes = {
     }, {
         path: 'firmware',
         component: Firmware
+    }, {
+        path: 'networks',
+        component: NetworksOverview
     }/*, {
         path: 'clients',
         component: Clients
