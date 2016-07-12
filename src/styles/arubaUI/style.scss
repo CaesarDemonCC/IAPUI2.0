@@ -168,16 +168,21 @@
                 height: 4rem;
                 flex: 0 1 auto;
                 margin-top: 0rem;
-                @include breakpoint(smallerThanIpad) {
+                @include breakpoint(baby-bear) {
                     margin-top: 1rem;
+                    margin-right: 1rem;
                 }
 
-
+                .user_left {
+                    @include breakpoint(baby-bear) {
+                        margin-right: 2rem;
+                    }
+                }
                 .userMenu {
                     position: absolute;
                     display: none;
                     margin-right: 0rem;
-                    top: 3.125rem;
+                    top: 3.625rem;
                     right: -0.5rem;
                     background-color: $colorMenuBackground;
                     padding: 1rem 1.25rem 1rem 1.25rem;
@@ -187,11 +192,39 @@
                     -moz-border-radius: 1px;
                     -o-border-radius: 1px;
                     border-radius: 1px;
-                    border: 1px solid #ddd;
+                    border: 1px solid rgba(0,0,0,0.15);;
+
+                    @include breakpoint(baby-bear) {
+                        top: 3.625rem;
+                        right: -0.5rem;
+                    }
 
                     span {
-                        display: block;
+                        display: inline-block;
+                        top: -0.325rem;
+                        position: relative;
                     }
+
+                    .divider {
+                        height: 1px;
+                        margin: 8px 1px;
+                        background-color: #e5e5e5;
+                    }
+
+                    .user_role {
+                        color: #767676
+                    }
+                }
+                .userMenu:before {
+                    top: -16px;
+                    right: 9px;
+                    left: auto;
+                    border: 8px solid transparent;
+                    border-bottom-color: rgba(0,0,0,0.15);
+                    position: absolute;
+                    display: inline-block;
+                    background-color: $colorMenuBackground;
+                    content: "";
                 }
             }
 
@@ -685,24 +718,14 @@
         padding-left:1.5rem;
     }
     .wizard-footer {
-        // position: fixed;
-        // bottom: 0.625rem;
-        // right: 0.625rem;
-        width: 100%;
-        background-color: #fff;
-        overflow: hidden;
-
-        @include breakpoint(baby-bear) {
-            // bottom: 3.05rem;
-        }
+        position: fixed;
+        bottom: 0.625rem;
+        right: 0.625rem;
 
         .button {
             float: right;
             margin-left: 0.625rem;
             width: 5rem;
-            @include breakpoint(baby-bear) {
-                line-height: 0.625rem;
-            }
         }
     }
 }
@@ -825,92 +848,81 @@ table.data {
 }
 
 .overview-container {
-    box-sizing: border-box;
-    
     @include display-flex;
-    @include flex-flow(column);
+    @include flex-flow(row wrap);
+    
+    @include device(mobile) {
+        height: auto;
+    }
+    height: 99%;
+    padding: 0 0.5rem;
 
-    height: 100%;
-    overflow: hidden;
-    //padding: 0.5rem 0;
-    .row {
-        @include flex(1);
-        @include display-flex;
+    .item_panel {
+        @include flex(auto);
+        width: 40%;
+        height: 44%;
 
+        border: 1px solid #eee;
+        border-radius: 0.625rem;
+        background-color: #fcfcfc;
+        margin: 1rem 0.5rem 0 0.5rem;
+        padding: 1rem;
+        
         @include breakpoint(baby-bear) {
-            @include flex-flow(column);
+            width: 95%;
         }
 
-        .item_panel {
-            width: 50%;
-            //height: 50%;
-            box-sizing: border-box;
+        .divider-v {
+            padding: 0 0.5rem;
+        }
 
-            @include breakpoint(baby-bear) {
-                @include flex(1);
-                width: 100%;
-                border-bottom: 1px solid #eee;
-            }
+        .green[class*='icon_']  {
+            color: #00CC00;
+        }
 
-            padding: 1rem;
-            
-            .divider-v {
-                padding: 0 0.5rem;
-            }
+        .orange[class*='icon_']  {
+            color: #F5831E;
+        }
 
-            .green[class*='icon_']  {
+        .red[class*='icon_']  {
+            color: #FF0000;
+        }
+
+        .item_title {
+            color: #646569;
+            font-weight: bold;
+            font-size: 1rem;
+            padding-bottom: 0.5rem;
+
+            .green_text {
                 color: #00CC00;
-            }
-
-            .orange[class*='icon_']  {
-                color: #F5831E;
-            }
-
-            .red[class*='icon_']  {
-                color: #FF0000;
-            }
-
-            .item_title {
-                color: #646569;
-                font-weight: bold;
-                font-size: 1rem;
-                padding-bottom: 0.5rem;
-
-                .green_text {
-                    color: #00CC00;
-                    font-size: 0.875rem;
-                }
-            }
-
-            .item_title.right {
-                text-align: right;
-            }
-
-            .item_title.middle {
-                text-align: center;
-            }
-
-            .item_content_text {
-                color: #888;
                 font-size: 0.875rem;
-                padding-left: 0.5rem;
-                [class*='icon_']:before {
-                    font-size: 1.5rem;
-                }
             }
+        }
 
-            .item_content_text.green {
-                color: #00CC00;
-            }
+        .item_title.right {
+            text-align: right;
+        }
 
-            .item_content_chart {
-                height: 70%;
-                width: 100%;
-                @include device(mobile) {
-                    display: none;
-                }
+        .item_title.middle {
+            text-align: center;
+        }
+
+        .item_content_text {
+            font-size: 0.875rem;
+            padding-left: 0.5rem;
+        }
+
+        .item_content_text.green {
+            color: #00CC00;
+        }
+
+        .item_content_chart {
+            height: 60%;
+            width: 90%;
+            @include device(mobile) {
+                display: none;
             }
         }
     }
-    
 }
