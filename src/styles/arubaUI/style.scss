@@ -293,6 +293,7 @@
             @include flex-flow(column);
             //border-left: $layoutDivider;
             overflow-y: auto;
+            position: relative;
 
             .settings {
                 @include flex(1);
@@ -651,6 +652,9 @@
 
 .wizard {
     height: 100%;
+    width: 100%;
+    position: absolute; // Fix of the issue that height 100% does not take effect for child node of flex layout in Safari 
+
     @include display-flex;
     @include flex-flow(column);
 
