@@ -10,6 +10,7 @@ import {Overview} from './factory/overview'
 import {NetworksEdit} from './factory/networksedit'
 import {Firmware} from './factory/firmware'
 import {NetworksOverview} from './factory/networksOverview'
+import {NetworkInitWizard} from './factory/networkInitWizard'
 
 import EventSystem from './utils/eventSystem'
 
@@ -293,6 +294,9 @@ var routes = {
     }, {
         path: 'networks',
         component: NetworksOverview
+    }, {
+        path: 'network-init',
+        component: NetworkInitWizard
     }/*, {
         path: 'clients',
         component: Clients
