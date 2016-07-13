@@ -933,12 +933,14 @@ table.data {
                 }
             }
         }
+        .aps {
+            border-bottom:none;
+        }
     }
 }
 
 .overview-networks-container {
     box-sizing: border-box;
-    overflow: hidden;
 
     .item_panel {
         box-sizing: border-box;
@@ -1004,5 +1006,9 @@ table.data {
         .white {
             border:none;
         }
+    }
+
+    .item_panel:last-child {
+        border-bottom: none;
     }
 }

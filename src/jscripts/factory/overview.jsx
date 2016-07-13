@@ -772,7 +772,7 @@ const APsPanel = React.createClass({
     	};
 
         return (
-			<div className="panel no_border item_panel">
+			<div className="panel no_border item_panel aps">
 				<p className="item_title">
 					<span className="icon_ap icofirst"></span> Access Points <a> 6</a>
 				</p>

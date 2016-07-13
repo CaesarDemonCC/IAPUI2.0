@@ -461,13 +461,9 @@ const Overview = React.createClass({
 	render () {
 		return (
 			<div className="overview-networks-container">
-				<div className="row">
-					<NetworksPanel {...this.state.chart} />
-					<SpeedAndSignalPanel {...this.state.chart} />
-				</div>
-				<div className="row">
-					<SummaryTable {...this.state.networks} />
-				</div>
+				<NetworksPanel {...this.state.chart} />
+				<SpeedAndSignalPanel {...this.state.chart} />
+				<SummaryTable {...this.state.networks} />
 			</div>
 		);
 	}
