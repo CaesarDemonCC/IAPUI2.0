@@ -122,7 +122,7 @@ const SummaryChart = React.createClass({
     	let clientData = [];
 
     	timestamp.forEach((v, i, a) => {
-    		inData.push([v, throughputIn[i]]);
+    		inData.push([v, throughputIn[i]] * 10);
     		outData.push([v, throughputOut[i]]);
     		clientData.push([v, clients[i]]);
     	});
@@ -433,11 +433,74 @@ const InternetPanel = React.createClass({
     	let clientData = [];
 
     	timestamp.forEach((v, i, a) => {
-    		inData.push([v, throughputIn[i]]);
-    		outData.push([v, throughputOut[i]]);
+    		inData.push([v, throughputIn[i] * Math.random() * 10]);
+    		outData.push([v, throughputOut[i] * Math.random() * 10]);
     		clientData.push([v, clients[i]]);
     	});
 
+    	var getData = function (d, reflect) {
+		    var cd = [];
+		    if (d) {
+		        for (var v in d) {
+		            cd[v] = [];
+		            cd[v][0] = d[v][0];
+		            var point = d[v][1];
+					if (point >= 0) {
+		                point = Math.log(point + 1) / Math.log(10);
+		            }
+
+		            cd[v][1] = reflect ? -1 * point : point;
+		        }
+		    }
+		    return cd;
+		};
+    	var getTransformYLabels = function (value) {
+		    var processed = false;
+		    var result = value;
+		    var tickLInt = parseInt(result, 10);
+		    var suf = '';
+		    if (!isNaN(tickLInt)) {
+		        result = Math.round(tickLInt);
+		        if (tickLInt < 1000000 && tickLInt >= 1000) {
+		            result = tickLInt / 1000;
+		            suf = 'K';
+		            processed = true;
+		        }
+		        if (tickLInt < 1000000000 && tickLInt >= 1000000) {
+		            result = tickLInt / 1000000;
+		            suf = 'M';
+		            processed = true;
+		        }
+		        if (tickLInt >= 1000000000) {
+		            result = tickLInt / 1000000000;
+		            suf = 'G';
+		            processed = true;
+		        }
+		        result = (Math.round(result * 100) / 100) + suf;
+		    }
+		    return result;
+		};
+    	var getTransformTooltip = function (value) {
+		    var result = value;
+		    var tickLInt = parseInt(result, 10);
+		    var suf = '';
+		    if (!isNaN(tickLInt)) {
+		        if (tickLInt < 1000000 && tickLInt >= 1000) {
+		            result = tickLInt / 1000;
+		            suf = 'K';
+		        }
+		        if (tickLInt < 1000000000 && tickLInt >= 1000000) {
+		            result = tickLInt / 1000000;
+		            suf = 'M';
+		        }
+		        if (tickLInt >= 1000000000) {
+		            result = tickLInt / 1000000000;
+		            suf = 'G';
+		        }
+		        result = (Math.round(result * 100) / 100) + suf;
+		    }
+		    return result;
+		};
 
     	let throughputConfig = {
     		
@@ -455,14 +518,28 @@ const InternetPanel = React.createClass({
             yAxis: {
             	//visible: false,
             	//minorTickInterval: 'auto',
-            	allowDecimals: false,
+            	//allowDecimals: false,
             	title: {
             		text: null
+            	},
+            	labels: {
+            		'style' : {
+			            'fontSize' : '0.875rem'
+			        },
+            		formatter: function() {
+            			return getTransformYLabels(Math.pow(10, Math.abs(this.value)));
+            		}
             	}
             },
             tooltip: {
-	            shared: true,
-	            valueSuffix: ' bps'
+	            //shared: true,
+	            //valueSuffix: ' bps'
+	            formatter: function () {
+	            	var res = Math.round(Math.pow(10, Math.abs(this['y'])) - 1);
+		            res = getTransformTooltip(res);
+		            return '<b>' + this['series'].name +
+		             '</b><br>' + res + '<br>' + Highcharts['dateFormat']('%H:%M:%S', this['x']);
+			    }
 	        },
 	        plotOptions: {
         		area: {
@@ -484,14 +561,15 @@ const InternetPanel = React.createClass({
             	name: 'In',
             	type: 'area',
             	color: '#02a7ec',
-                data: inData
+                data: getData(inData, true)
             }, {
             	name: 'Out',
             	type: 'area',
             	color: '#F5831E',
-                data: outData
+                data: getData(outData)
             }]
     	};
+
 
     	return (
     		<div className="panel no_border item_panel">
