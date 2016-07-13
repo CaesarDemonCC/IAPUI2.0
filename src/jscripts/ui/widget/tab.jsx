@@ -106,11 +106,11 @@ var Tab = React.createClass({
 
         })
         return (
-            <div className='tabs responsive wizard'>
+            <div className='tabs responsive'>
                 <ul className="tabcontrols">
                     {pages}
                 </ul>
-                <div className='wizard-footer'>
+                <div className='tabs-footer'>
                     <button className='button medium-1' onClick={this.onSubmit}>OK</button>
                     <button className='button white-button medium-1' onClick={this.onCancel}>Cancel</button>
                 </div>

@@ -130,9 +130,9 @@ var RadioGroup = React.createClass({
             return <Radio key={index} {...option} name = {this.props.name} onChange={this.onChange}/>;
         }.bind(this))
         return (
-            <div className='row'>
+            <div className='radiogroup row'>
                 <input type='text' className='input' style={{display:'none'}} ref='radioHiddenInput' onChange={this.setData} />
-                <TextLabel label={this.props.label}/>
+                <TextLabel className='medium-6' label={this.props.label}/>
                 {radios}
             </div>
         )

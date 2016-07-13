@@ -313,6 +313,16 @@
                         @include flex(1);
                     }
                 }
+
+                .tabs-footer {
+                    height: 2.5rem;
+                    .button {
+                        float: right;
+                        margin-left: 0.625rem;
+                        padding: 0.625rem;
+                        width: 5rem;
+                    }
+                }
             }
 
             /*> div {
@@ -1054,4 +1064,8 @@ table.data {
     .item_panel:last-child {
         border-bottom: none;
     }
+}
+
+.radiogroup {
+
 }
