@@ -103,7 +103,7 @@ var System = ReactRouter.withRouter(React.createClass({
                 />
             </div>)
         }
-        return (<div className="panel no_border">
+        return (<div className="panel no_border form_panel">
             <h2 className='title_heading form_heading'>System</h2>
             <Tab {...this.getTabsConfig()} tabsData={this.state.tabsData} ref='systemTab'/>
             {comfirmDialog}

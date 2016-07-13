@@ -266,7 +266,7 @@
                 @include breakpoint(smallerThanIpad) {
                     display: none;
                 }
-                justify-content: space-between;
+                @include justify-content(space-between);
             }
 
             .fa-signout:before {
@@ -293,6 +293,33 @@
             @include flex-flow(column);
             //border-left: $layoutDivider;
             overflow-y: auto;
+
+            .form_panel {
+                @include flex(1);
+                @include display-flex;
+                @include flex-flow(column);
+
+                margin-top: 0;
+                padding: 0.625rem 1rem 0.25rem 1rem;
+
+                .tabs.responsive {
+                    @include flex(1);
+                    @include display-flex;
+                    @include flex-flow(column);
+                    @include justify-content(space-between);
+
+                    .tabcontrols {
+                        @include flex(1);
+                    }
+
+                    .wizard-footer {
+                        height: 2.5rem;
+                        .button {
+                            padding: 0.625rem;
+                        }
+                    }
+                }
+            }
 
             /*> div {
                 > .panel {
@@ -362,6 +389,7 @@
     background-color: #FFF;
     margin-top: 0.25rem;
     position: relative;
+    height: 100%;
 
     .columns {
         margin-bottom: 0.25rem;
@@ -374,7 +402,7 @@
 
     .form_heading {
         background: transparent;
-        padding: 0 0 1rem 0;
+        padding: 0 0 0.625rem 0;
     }
     .title_heading {
         white-space: nowrap;
@@ -716,9 +744,6 @@
         padding-left:1.5rem;
     }
     .wizard-footer {
-        position: fixed;
-        bottom: 0.625rem;
-        right: 0.625rem;
 
         .button {
             float: right;
@@ -855,6 +880,12 @@ table.data {
     @include flex(1);
     overflow: hidden;
     //padding: 0.5rem 0;
+
+    a:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
     .row {
         @include flex(1);
         @include display-flex;
