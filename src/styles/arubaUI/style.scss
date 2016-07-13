@@ -294,7 +294,7 @@
             //border-left: $layoutDivider;
             overflow-y: auto;
 
-            .form_panel {
+            .settings {
                 @include flex(1);
                 @include display-flex;
                 @include flex-flow(column);
@@ -389,7 +389,6 @@
     background-color: #FFF;
     margin-top: 0.25rem;
     position: relative;
-    height: 100%;
 
     .columns {
         margin-bottom: 0.25rem;

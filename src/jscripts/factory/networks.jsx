@@ -75,7 +75,7 @@ var Networks = React.createClass({
 	        newHandler: this.newHandler
 		};
     	return (
-            <div className="panel no_border">
+            <div className="panel no_border settings">
                 <h2 className='title_heading form_heading'>Networks</h2>
                 <Table {...props} dataSource = {this.state.dataSource}/>
             </div>

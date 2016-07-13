@@ -103,7 +103,7 @@ var Users = React.createClass({
 					/>
 				</div>);
 		}
-		return (<div className="panel no_border">
+		return (<div className="panel no_border settings">
 				<h2 className='title_heading form_heading'>Users</h2>
 				<Table {...this.props} dataSource={this.state.dataSource} />
 				{editUserDialog}
