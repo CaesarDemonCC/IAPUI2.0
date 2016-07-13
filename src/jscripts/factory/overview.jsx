@@ -760,13 +760,13 @@ const APsPanel = React.createClass({
 	            name: 'Down',
 	            type: 'bar',
 	            maxPointWidth: 50,
-	            color: '#FF0000',
+	            color: '#F5831E',
 	            data: [1]
 	        }, {
 	            name: 'Up',
 	            type: 'bar',
 	            maxPointWidth: 50,
-	            color: '#00CC00',
+	            color: '#02a7ec',
 	            data: [5]
 	        }]
     	};
