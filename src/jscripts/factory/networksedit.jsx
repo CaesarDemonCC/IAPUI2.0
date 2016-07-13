@@ -140,7 +140,7 @@ var NetworksEdit = ReactRouter.withRouter(React.createClass({
                 />
             </div>)
         }
-		return (<div>
+		return (<div style={{'height':'100%'}}>
 				<Wizard ref='networkWizard' wizardsData={this.state.wizardsData}
 				{...this.getWizardsConfig()}
 				/>

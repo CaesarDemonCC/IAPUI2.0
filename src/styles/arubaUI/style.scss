@@ -311,13 +311,6 @@
                     .tabcontrols {
                         @include flex(1);
                     }
-
-                    .wizard-footer {
-                        height: 2.5rem;
-                        .button {
-                            padding: 0.625rem;
-                        }
-                    }
                 }
             }
 
@@ -657,6 +650,10 @@
 
 
 .wizard {
+    height: 100%;
+    @include display-flex;
+    @include flex-flow(column);
+
     .wizard-header {
         height: 2.5rem;
 
@@ -695,58 +692,70 @@
                 border: $wizardControlWidth/2 solid transparent;
                 border-left-color: #fff;
             }
-        }
 
-        // li:nth-child(1):before {
-        //     border-color: transparent;
-        // }
+            @include device(mobile) {
+                display: none;
+            }
 
-        .active {
-            background-color: $colorLink;
-            color: #fff;
+            &.active {
+                background-color: $colorLink;
+                color: #fff;
+
+                .badge {
+                    background-color: #fff;
+                    color: $colorLink;
+                }
+
+                &:before {
+                    border-color: $colorLink;
+                    border-left-color: transparent;
+                }
+
+                &:after {
+                    border-left-color: $colorLink;
+                }
+            }
+
+            &.current {
+                @include device(mobile) {
+                    display: block;
+                    width: 100%;
+                }
+                &:before {
+                    border-color: transparent;
+                    border-left-color: $colorLink;
+                }
+
+                &:after {
+                    border-left-color: $colorLink;
+                }
+            }
 
             .badge {
-                background-color: #fff;
-                color: $colorLink;
+                background-color: $colorNeutralMd;
+                color: #fff;
+                line-height: 1rem;
+                border: none;
+                top: -0.125rem;
             }
 
-            &:before {
-                border-color: $colorLink;
-                border-left-color: transparent;
-            }
-
-            &:after {
-                border-left-color: $colorLink;
-            }
         }
 
-        .badge {
-            background-color: $colorNeutralMd;
-            color: #fff;
-            line-height: 1rem;
-            border: none;
-            top: -0.125rem;
-        }
-
-        li.current {
-            &:before {
-                border-color: transparent;
-                border-left-color: $colorLink;
-            }
-
-            &:after {
-                border-left-color: $colorLink;
-            }
-        }
     }
     .wizard-content {
-        padding-left:1.5rem;
+        padding:0.625rem;
+        @include flex(1);
+        @include display-flex;
+        @include flex-flow(column);
+        @include justify-content(space-between);
     }
     .wizard-footer {
+        height: 2.5rem;
 
         .button {
             float: right;
             margin-left: 0.625rem;
+            padding: 0.625rem;
             width: 5rem;
         }
     }

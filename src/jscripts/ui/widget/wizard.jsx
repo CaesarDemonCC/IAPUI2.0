@@ -163,8 +163,8 @@ var Wizard = React.createClass({
                 <WizardControls {...wcProps} />
                 <div className='wizard-content'>
                     {content}
+                    <WizardButtons {...buttonProps} />
                 </div>
-                <WizardButtons {...buttonProps} />
             </div>
         )
     }
