@@ -27,6 +27,20 @@ var Tab = React.createClass({
         }
     },
 
+    tcOnclick: function (index) {
+        // If click on the expanded tab
+        if (this.state.currentTab === index) {
+            var newIndex = index + 1;
+            // If it is the last tab, goto the first one
+            if (newIndex == this.props.tabsConfig.length) {
+                newIndex = 0;
+            }
+            this.goToTab(newIndex);
+        } else {
+            this.goToTab(index);
+        }
+    },
+
     goToTab: function (index) {
         var currentTabData = this.refs.panelContent.getData();
         this.props.tabsData[this.state.currentTab] = currentTabData;
@@ -99,7 +113,7 @@ var Tab = React.createClass({
             }
             pages.push(
                 <div key={index}>
-                    <li key={'tc-' + index} className={isCurrentTab ? 'current icon_arrow_up ' : 'icon_arrow_down'} onClick={self.goToTab.bind(self, index)}><a>{tabsConfig[index].title}</a></li>
+                    <li key={'tc-' + index} className={isCurrentTab ? 'current icon_arrow_up ' : 'icon_arrow_down'} onClick={self.tcOnclick.bind(self, index)}><a>{tabsConfig[index].title}</a></li>
                     {PC}
                 </div>
             )
