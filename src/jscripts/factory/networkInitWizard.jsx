@@ -1,4 +1,5 @@
 import {Wizard} from '../ui/widget/wizard'
+import {Ajax} from '../utils/ajax'
 
 const Step1 = {
     getTabConfig () {
@@ -75,7 +76,22 @@ const Step1 = {
     },
     getCMD (changeData, originData) {
         let cmd = '';
-        
+        if (changeData) {
+            if (changeData['uplink-type'] == 'pppoe') {
+                // pppoe
+                cmd += 'pppoe-uplink-profile\n';
+                cmd += 'pppoe-username ' + changeData['pppoe-name'] + '\n';
+                cmd += 'pppoe-passwd ' + changeData['pppoe-password'] + '\n';
+                cmd += 'exit\n';
+            } else if (changeData['uplink-type'] == 'wifi') {
+                 cmd += 'wlan sta-profile\n';
+                 cmd += 'essid ' + changeData['wifi-name'] + '\n';
+                 cmd += 'cipher-suite wpa2-ccmp-psk\n';
+                 cmd += 'wpa-passphrase ' + changeData['wifi-passphrase'] + '\n';
+                 cmd += 'uplink-band dot11a\n';
+                 cmd += 'exit\n';
+            }
+        }
 
         return cmd;
     }
@@ -106,7 +122,12 @@ const Step2 = {
     },
     getCMD (changeData, originData) {
         let cmd = '';
-        
+        let defaultCmd = 'type employee\nopmode wpa2-psk-aes\nrf-band all\n';
+        cmd += 'wlan ssid-profile ' + changeData['name']  + '\n' + 
+                "wpa-passphrase " + changeData['passphrase'] + '\n' + 
+                defaultCmd + 
+                'set-role-unrestricted\n' + 
+                'exit\n';
 
         return cmd;
     }
@@ -114,7 +135,7 @@ const Step2 = {
 
 const NetworkInitWizard = ReactRouter.withRouter(React.createClass({
 	wizards : [Step1, Step2],
-
+    originData: {},
     getInitialState() {
         return {
             wizardsData: []
@@ -149,8 +170,32 @@ const NetworkInitWizard = ReactRouter.withRouter(React.createClass({
             panelContent.props.handler.call(panelContent);
         }
     },
+    getCMD () {
+        var networkWizard = this.refs['network-init-wizard'];
+        var cmd = '';
+        if (networkWizard) {
+            networkWizard.goToStep(networkWizard.state.currentStep);
+            this.wizards.forEach( (item, index)=> {
+                if (typeof item.getCMD === 'function') {
+                    cmd += item.getCMD(networkWizard.props.wizardsData[index],this.originData[index]);
+                }
+            });
+        }
+        
+        return cmd;
+    },
     onSubmit (e) {
-        this.props.router.replace('/');
+        var cmd = this.getCMD();
+
+        if(cmd){
+            Ajax.post({
+                'opcode':'config',
+                'cmd': cmd
+            },(result)=>{
+                this.props.router.replace('/');
+            });
+        }
+        
     },
 	render () {
 		return (
