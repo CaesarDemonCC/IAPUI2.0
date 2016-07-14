@@ -1,10 +1,14 @@
-var webpack = require('webpack');
+const webpack = require('webpack');
+const path = require('path');
+const jsBuildPath = path.resolve(__dirname, 'dist/jscripts/');
+
 module.exports = {
     entry: [
       //'webpack/hot/only-dev-server',
       "./src/jscripts/app.jsx"
     ],
     output: {
+        path: jsBuildPath,
         filename: "app.js"
     },
     module: {
