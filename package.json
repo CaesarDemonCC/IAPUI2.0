@@ -5,7 +5,8 @@
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack": "webpack-dev-server --config webpack-dev-server.config.js --progress --inline --colors"
+    "webpack": "webpack-dev-server --config webpack-dev-server.config.js --progress --inline --colors",
+    "build": "webpack --config webpack.config.js --progress --colors"
   },
   "repository": {
     "type": "git",

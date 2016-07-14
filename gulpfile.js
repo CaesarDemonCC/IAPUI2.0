@@ -81,7 +81,8 @@ gulp.task('jscripts', function () {
             .pipe(gulp.dest('./dist/jscripts'))
 })
 
-gulp.task('webpackServer', shell.task('npm run webpack'))
+gulp.task('webpackServer', shell.task('npm run webpack'));
+gulp.task('webpackBuild', shell.task('npm run build'));
 
 gulp.task('watch', function () {
     gulp.watch('src/styles/arubaUI/style.scss', ['styles']);
@@ -101,5 +102,5 @@ gulp.task('dev', ['clean'], function () {
 })
 
 gulp.task('default', ['clean'], function () {
-    gulp.start(['html', 'commonStyles', 'styles', 'fonts', 'images', 'jsLibs', 'jscripts', 'watch']);
+    gulp.start(['html', 'commonStyles', 'styles', 'fonts', 'images', 'jsLibs', 'webpackBuild', 'watch']);
 })
