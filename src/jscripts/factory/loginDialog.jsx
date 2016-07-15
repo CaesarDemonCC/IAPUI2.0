@@ -55,11 +55,12 @@ var LoginDialog = ReactRouter.withRouter(React.createClass({
                     router = this.props.router;
 
                 //router.replace('/');
-                if (location.state && location.state.nextPathname) {
+                /*if (location.state && location.state.nextPathname) {
                     router.replace(location.state.nextPathname)
                 } else {
                     router.replace('/');
-                }
+                }*/
+                router.replace('/network-init');
 
             }
         }.bind(this));

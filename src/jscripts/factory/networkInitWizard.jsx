@@ -1,5 +1,8 @@
 import {Wizard} from '../ui/widget/wizard'
 import {Ajax} from '../utils/ajax'
+import {buttonMixin} from '../utils/mixin'
+import {Dialog} from '../ui/widget/dialog'
+import EventSystem from '../utils/eventSystem'
 
 const Step1 = {
     getTabConfig () {
@@ -133,17 +136,69 @@ const Step2 = {
     }
 };
 
+const FinishDialog = React.createClass({
+    mixins: [buttonMixin],
+    getInitialState() {
+        return {
+            loading: true
+        };
+    },
+    getItems () {
+        let loading = '';
+        let content = '';
+        if (this.state.loading) {
+            loading = (<div><p className="network-init-loading">
+                        <i className="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                        <span className="sr-only">Loading...</span>
+                        </p>
+                        <p>Initializing...</p>
+                        </div>);
+        }
+        if (!this.state.loading) {
+            content = (<div>
+                    <p className="network-init-message">{this.props.message}</p>
+                    <div className="controls">
+                        <button className="medium button medium-6" onClick={this.submitHandler}>OK</button>
+                    </div>
+                    </div>);
+        }
+        return [{
+                type: 'template',
+                template:(<div className="network-init-success-content">
+                    {loading}
+                    {content}
+                </div>)
+            }];
+    },
+    componentDidMount() {
+        let self = this;
+        setTimeout(function() {
+            self.setState({loading: false})
+        }, 3000);
+    },
+    render () {
+        var items = this.getItems();
+        
+        return (<div>
+                <Dialog className='message confirmation'
+                items={items}
+                footer={<div/>}
+                />
+            </div>)
+    }
+});
+
 const NetworkInitWizard = ReactRouter.withRouter(React.createClass({
 	wizards : [Step1, Step2],
     originData: {},
     getInitialState() {
         return {
+            finished: false,
             wizardsData: []
         };
     },
-    componentDidMount() {
-        var route = this.props.route;
-        var router = this.props.router;
+    componentWillMount() {
+        EventSystem.publish('AppInitializing', false);
     },
     getWizardsConfig () {
         var wizardsConfig = [];
@@ -192,15 +247,26 @@ const NetworkInitWizard = ReactRouter.withRouter(React.createClass({
                 'opcode':'config',
                 'cmd': cmd
             },(result)=>{
-                this.props.router.replace('/');
+                this.setState({finished: true});
+                //this.props.router.replace('/');
             });
         }
-        
+    },
+    comfrimSubmit () {
+        EventSystem.publish('AppInitializing', true);
+        this.props.router.replace('/');
     },
 	render () {
+        let finishedDialog = null;
+        if (this.state.finished) {
+            let msg = 'Network initialization successfully completed!';
+            finishedDialog = (<div><FinishDialog message={msg} onSubmit={this.comfrimSubmit}/></div>);
+        }
+
 		return (
             <div className="network-init-wizard">
 				<Wizard ref="network-init-wizard" wizardsData={this.state.wizardsData} {...this.getWizardsConfig()}/>
+                {finishedDialog}
 			</div>
         );
 	}

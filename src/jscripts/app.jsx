@@ -136,10 +136,17 @@ var App = React.createClass({
             });
         })
 
+        EventSystem.subscribe('AppInitializing', function (isFinished) {
+            self.setState({
+                showHeaderMenu: isFinished
+            });
+        })
+
         return {
             isLoggedIn: isLoggedIn(),
             currentLocation: '/',
-            navConfig : null
+            navConfig : null,
+            showHeaderMenu: true
         };
     },
     showUserMenu () {
@@ -185,7 +192,12 @@ var App = React.createClass({
                     var className = 'menu ' + iconClass + currentLocationClass;
                     return (<a key={index} href={item.href} className={className}><span>{item.text}</span></a>);
                 });
-                return (<div className='menus'>
+
+                var style = {
+                    display: self.state.showHeaderMenu ? '' : 'none'
+                }
+
+                return (<div className='menus' style={style}>
                         {menus}
                     </div>)
             }
@@ -223,7 +235,10 @@ var App = React.createClass({
         //TODO: Use one method to generate the same dom for footer and header menu
         var Footer = React.createClass({
             render: function () {
-                return (<div className='footer'>
+                var style = {
+                    display: self.state.showHeaderMenu ? '' : 'none'
+                }
+                return (<div className='footer' style={style}>
                     <Menus currentLocation={this.props.currentLocation}/>
                 </div>);
             }
