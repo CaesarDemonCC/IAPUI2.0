@@ -101,6 +101,13 @@ const navConfigMap = {
     }
 }
 
+var headerMenuConfigMap = [
+    {href:'#/',icon:'home',text:'Home'},
+    {href:'#/networks',icon:'bar-chart',text:'Monitoring',type:'monitoring'},
+    {href:'#/about',icon:'wrench',text:'Maintenance',type:'maintenance'},
+    {href:'#/system',icon:'cog',text:'Settings',type:'settings'}
+]
+
 var App = React.createClass({
     getInitialState() {
         var self = this;
@@ -142,6 +149,10 @@ var App = React.createClass({
             });
         })
 
+        EventSystem.subscribe('TouchSlip', function (isForward) {
+            self.go(isForward);
+        })
+
         return {
             isLoggedIn: isLoggedIn(),
             currentLocation: '/',
@@ -152,41 +163,63 @@ var App = React.createClass({
     showUserMenu () {
 
     },
+    go: function (isForward) {
+        if (!this.state.isLoggedIn || !this.state.showHeaderMenu) {
+            return;
+        }
+        var currentIndex = 0;
+        var self = this;
+        headerMenuConfigMap.forEach(function (item, index) {
+            if (self.state.currentLocation == item.href.replace(/^#/g, '') || self.isCurrentMenu(item)) {
+                currentIndex = index;
+            }
+        })
+        var index = isForward? currentIndex + 1 : currentIndex - 1;
+        index = Math.min(Math.max(0, index), headerMenuConfigMap.length - 1);
+        console.log(index);
+
+        location.href = headerMenuConfigMap[index].href;
+    },
+    isCurrentMenu: function (item) {
+        var result = false;
+        var navConfig = navConfigMap[item.type];
+        if (navConfig) {
+            var menus = navConfig.children;
+            for (var i = 0; i < menus.length; i++) {
+                if (menus[i].path === this.state.currentLocation) {
+                    result = true;
+                    break;
+                }
+            }
+        }
+
+        return result;
+    },
     render () {
         var self = this;
+        // var isCurrentMenu = (item) => {
+        //     var result = false;
+        //     var navConfig = navConfigMap[item.type];
+        //     if (navConfig) {
+        //         var menus = navConfig.children;
+        //         for (var i = 0; i < menus.length; i++) {
+        //             if (menus[i].path === self.state.currentLocation) {
+        //                 result = true;
+        //                 break;
+        //             }
+        //         }
+        //     }
+
+        //     return result;
+        // }
         var Menus = React.createClass({
             render : function () {
-                // var menus = [(<a href='#/' className='menu current fa-home'><span>Home</span></a>),
-                //             (<a href='#/' className='menu fa-bar-chart'><span>Monitoring</span></a>),
-                //             (<a href='#/about' className='menu fa-wrench'><span>Maintenance</span></a>),
-                //             (<a href='#/system' className='menu fa-cog'><span>Settings</span></a>)];
-                var menus = [
-                    {href:'#/',icon:'home',text:'Home'},
-                    {href:'#/networks',icon:'bar-chart',text:'Monitoring',type:'monitoring'},
-                    {href:'#/about',icon:'wrench',text:'Maintenance',type:'maintenance'},
-                    {href:'#/system',icon:'cog',text:'Settings',type:'settings'}
-                ]
-
-                var isCurrentMenu = (item) => {
-                    var result = false;
-                    var navConfig = navConfigMap[item.type];
-                    if (navConfig) {
-                        var menus = navConfig.children;
-                        for (var i = 0; i < menus.length; i++) {
-                            if (menus[i].path === self.state.currentLocation) {
-                                result = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    return result;
-                }
+                var menus = headerMenuConfigMap;
 
                 menus = menus.map((item, index)=>{
                     var iconClass = `fa-${item.icon} `;
                     var currentLocationClass = '';
-                    if (self.state.currentLocation == item.href.replace(/^#/g, '') || isCurrentMenu(item)) {
+                    if (self.state.currentLocation == item.href.replace(/^#/g, '') || self.isCurrentMenu(item)) {
                         currentLocationClass = 'current';
                     }
                     var className = 'menu ' + iconClass + currentLocationClass;
@@ -340,3 +373,40 @@ var onUpdate = function () {
 
 var Router = ReactRouter.Router;
 ReactDOM.render(<Router routes={routes} onUpdate={onUpdate} />, document.body);
+
+
+
+(function () {
+    var startPoint = {x:0, y:0},
+        endPoint = {x:0, y:0}
+
+    //$(document.body).html('<div id="test" style="width:300px;height:300px;border:1px solid red;"></div>')
+
+    $(document.body).bind('touchstart', function (e) {
+        startPoint.x = e.originalEvent.touches[0].pageX;
+        startPoint.y = e.originalEvent.touches[0].pageY;
+    })
+
+    $(document.body).bind('touchmove', function (e) {
+        endPoint.x = e.originalEvent.touches[0].pageX;
+        endPoint.y = e.originalEvent.touches[0].pageY;
+    })
+
+    $(document.body).bind('touchend', function (e) {
+        var deltaX = endPoint.x - startPoint.x,
+            deltaY = endPoint.y - startPoint.y;
+
+        console.log(deltaX + " : " + deltaY);
+
+        var angle = Math.round(Math.atan(deltaY/deltaX) * 180 / Math.PI);
+        //$('#test').html('Angle is ' + angle);
+
+        if (Math.abs(angle) <= 30) {
+            if(deltaX < 0) {//Forward
+                EventSystem.publish('TouchSlip', true);
+            } else {
+                EventSystem.publish('TouchSlip', false);
+            }
+        }
+    })
+})()
