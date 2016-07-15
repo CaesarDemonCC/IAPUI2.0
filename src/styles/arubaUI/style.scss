@@ -284,6 +284,12 @@
         .sidenav-wrapper {
             padding: 0.25rem 0.125rem;
             border-right: $layoutDivider;
+
+            @include breakpoint(mama-bear) {
+                padding:0;
+                border-right: none;
+                border-bottom: $layoutDivider;
+            }
         }
 
         .container {
