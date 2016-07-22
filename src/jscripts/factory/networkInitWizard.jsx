@@ -155,11 +155,12 @@ const FinishDialog = React.createClass({
                         </div>);
         }
         if (!this.state.loading) {
+            /*<div className="controls">
+                        <button className="medium button medium-6" onClick={this.submitHandler}>OK</button>
+                    </div>*/
             content = (<div>
                     <p className="network-init-message">{this.props.message}</p>
-                    <div className="controls">
-                        <button className="medium button medium-6" onClick={this.submitHandler}>OK</button>
-                    </div>
+                    
                     </div>);
         }
         return [{
@@ -170,16 +171,27 @@ const FinishDialog = React.createClass({
                 </div>)
             }];
     },
+
+    hideLoading () {
+        this.setState({loading: false});
+        setTimeout(this.autoRedirect, 2000);
+    },
+    autoRedirect () {
+        // auto redirect to home page
+        if (this.isMounted()) {
+            this.submitHandler();
+        }
+    },
     componentDidMount() {
         let self = this;
-        setTimeout(function() {
-            self.setState({loading: false})
-        }, 3000);
+        if (this.state.loading) {
+            setTimeout(this.hideLoading, 3000);
+        } 
     },
     render () {
         var items = this.getItems();
         
-        return (<div>
+        return (<div className="network-init-finished-dialog">
                 <Dialog className='message confirmation'
                 items={items}
                 footer={<div/>}
