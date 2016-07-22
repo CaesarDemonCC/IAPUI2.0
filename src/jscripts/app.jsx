@@ -176,7 +176,6 @@ var App = React.createClass({
         })
         var index = isForward? currentIndex + 1 : currentIndex - 1;
         index = Math.min(Math.max(0, index), headerMenuConfigMap.length - 1);
-        console.log(index);
 
         location.href = headerMenuConfigMap[index].href;
     },
@@ -377,8 +376,8 @@ ReactDOM.render(<Router routes={routes} onUpdate={onUpdate} />, document.body);
 
 
 (function () {
-    var startPoint = {x:0, y:0},
-        endPoint = {x:0, y:0}
+    var startPoint = {x:null, y:null},
+        endPoint = {x:null, y:null}
 
     //$(document.body).html('<div id="test" style="width:300px;height:300px;border:1px solid red;"></div>')
 
@@ -393,13 +392,20 @@ ReactDOM.render(<Router routes={routes} onUpdate={onUpdate} />, document.body);
     })
 
     $(document.body).bind('touchend', function (e) {
+        // Filter 'Tap' action
+        //Tap event only trigger 'touchstart' and 'touchend' events, doesn't trigger 'touchmove'. So endPoint.x/endPoint.y will be null in this case.
+        if (endPoint.x === null) {
+            return;
+        }
+
         var deltaX = endPoint.x - startPoint.x,
             deltaY = endPoint.y - startPoint.y;
 
-        console.log(deltaX + " : " + deltaY);
-
         var angle = Math.round(Math.atan(deltaY/deltaX) * 180 / Math.PI);
         //$('#test').html('Angle is ' + angle);
+
+        console.log(deltaX + " : " + deltaY);
+        console.log("angle : " + angle);
 
         // If the angle is +/- 20, then consider it is a horizontal swipe
         // Make sure the swipe distance more than 40px to avoid this event be triggered by mistake
@@ -410,5 +416,9 @@ ReactDOM.render(<Router routes={routes} onUpdate={onUpdate} />, document.body);
                 EventSystem.publish('FingerSwipe', false);
             }
         }
+
+        //Reset in the end
+        startPoint = {x:null, y:null};
+        endPoint = {x:null, y:null};
     })
 })()
