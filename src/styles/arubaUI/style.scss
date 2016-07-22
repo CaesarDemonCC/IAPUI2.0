@@ -180,7 +180,7 @@
                     right: -0.5rem;
                     background-color: $colorMenuBackground;
                     padding: 1rem 1.25rem 1rem 1.25rem;
-                    z-index: 3;
+                    z-index: 1003;
                     box-shadow: 1px 1px 1px rgba(0,0,0,.15);
                     -webkit-border-radius: 1px;
                     -moz-border-radius: 1px;
@@ -1079,40 +1079,36 @@ table.data {
 .network-init-wizard {
     height: 100%;
 }
-.network-init-finished-dialog {
-    .overlay.light {
-        background-color: #fff;
+
+.network-init-success-content {
+    box-sizing: border-box;
+    
+    @include display-flex;
+    @include flex-flow(column);
+
+    justify-content: center;
+    align-items: center;
+
+    p {
+        font-size: 1.5rem;
     }
-    .network-init-success-content {
-        box-sizing: border-box;
-        
-        @include display-flex;
-        @include flex-flow(column);
-
-        justify-content: center;
-        align-items: center;
-
-        p {
-            font-size: 1.5rem;
+   
+    
+    .network-init-loading, .network-init-message{
+        padding-top: 50%;
+    }   
+    
+    .fa-fw {
+        width: 16rem;
+        color: #02a7ec;
+        @include breakpoint(baby-bear) {
+            font-size: 10rem;
         }
-       
-        
-        .network-init-loading, .network-init-message{
-            padding-top: 50%;
-        }   
-        
-        .fa-fw {
-            width: 16rem;
-            color: #02a7ec;
-            @include breakpoint(baby-bear) {
-                font-size: 10rem;
-            }
-        }
-        .fa-fw:before {
-            font-size: 16rem;
-            @include breakpoint(baby-bear) {
-                font-size: 10rem;
-            }
+    }
+    .fa-fw:before {
+        font-size: 16rem;
+        @include breakpoint(baby-bear) {
+            font-size: 10rem;
         }
     }
 }
