@@ -73,7 +73,7 @@ const navConfigMap = {
             'path': '/aps'
         }]
     },
-    'settings' : {  
+    'settings' : {
         'name': 'Configuration',
         'children': [{
             'name': 'System',
@@ -149,7 +149,7 @@ var App = React.createClass({
             });
         })
 
-        EventSystem.subscribe('TouchSlip', function (isForward) {
+        EventSystem.subscribe('FingerSwipe', function (isForward) {
             self.go(isForward);
         })
 
@@ -360,7 +360,7 @@ function addOnEnterIntoChildRoutes (routes, listener) {
     if (childRoutes && childRoutes.length) {
         childRoutes.forEach(function (item) {
             if (!item.onEnter) {
-                item.onEnter = listener;    
+                item.onEnter = listener;
             }
         });
     }
@@ -401,11 +401,13 @@ ReactDOM.render(<Router routes={routes} onUpdate={onUpdate} />, document.body);
         var angle = Math.round(Math.atan(deltaY/deltaX) * 180 / Math.PI);
         //$('#test').html('Angle is ' + angle);
 
-        if (Math.abs(angle) <= 30) {
+        // If the angle is +/- 20, then consider it is a horizontal swipe
+        // Make sure the swipe distance more than 40px to avoid this event be triggered by mistake
+        if (Math.abs(angle) <= 20 && Math.abs(deltaX) >= 40) {
             if(deltaX < 0) {//Forward
-                EventSystem.publish('TouchSlip', true);
+                EventSystem.publish('FingerSwipe', true);
             } else {
-                EventSystem.publish('TouchSlip', false);
+                EventSystem.publish('FingerSwipe', false);
             }
         }
     })
