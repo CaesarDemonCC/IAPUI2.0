@@ -13,11 +13,11 @@ var Firmware = React.createClass({
             var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         }).toUpperCase();
-        
+
         return uid;
     },
     upgradeByUrl () {
-        const url = ReactDOM.findDOMNode(this.refs.url).value; 
+        const url = ReactDOM.findDOMNode(this.refs.url).value;
         const id = this.getUID();
 
         Ajax.post({
@@ -25,7 +25,7 @@ var Firmware = React.createClass({
             'oper_id': id,
             'image_url': this.state.imageVersion + "@" + url,
             'auto_reboot': true
-        }, function(data){ 
+        }, function(data){
             // TBD
             this.onCancel();
         }.bind(this));
@@ -34,7 +34,7 @@ var Firmware = React.createClass({
         Ajax.get({
             'opcode':'show',
             'cmd': 'show image version'
-        }, function(data){ 
+        }, function(data){
             if (data.APImagesClasses && $.isArray(data.APImagesClasses)) {
                 // TBD
                 this.state.imageVersion = data.APImagesClasses[0]['class'];
@@ -67,7 +67,7 @@ var Firmware = React.createClass({
         return (<div className='panel no_border'>
             <h2 className='title_heading form_heading'>Firmware</h2>
             <p className="medium-2 columns">URL</p><input ref="url" className="medium-8 columns input" type="text"/>
-            <div className="medium-12"><button className='medium button' onClick={this.showUpgradeConfirm}>Upgrade Now</button></div>
+            <div className="medium-12 columns" style={{padding:0, 'margin-top': '0.625rem'}}><button className='medium button' onClick={this.showUpgradeConfirm}>Upgrade Now</button></div>
             {comfirmDialog}
         </div>)
     }
