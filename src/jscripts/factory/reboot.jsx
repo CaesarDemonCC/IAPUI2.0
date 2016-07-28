@@ -5,7 +5,7 @@ import {Ajax} from '../utils/ajax'
 import {Upload} from '../utils/upload'
 
 var Reboot = ReactRouter.withRouter(React.createClass({
-	  getInitialState() {
+	getInitialState() {
         return {
             showReboot : false
         };
@@ -50,7 +50,7 @@ var Reboot = ReactRouter.withRouter(React.createClass({
         }
     },
     reboot () {
-  		  var cmdList = [
+  		var cmdList = [
             'reload all'
         ];
         if ($("#apselect").val() !== 'all') {
@@ -75,18 +75,18 @@ var Reboot = ReactRouter.withRouter(React.createClass({
         });
     },
   	onCancel () {
-    		this.setState({
-    		    showReboot : false
-    		})
+		this.setState({
+		    showReboot : false
+		})
   	},
   	showRebootConfirm () {
-    		this.setState({
-    		    showReboot : true
-    		});
+		this.setState({
+		    showReboot : true
+		});
   	},
   	render () {
-    		var titleElement = (<h2 className='title_heading form_heading'>Reboot</h2>)
-    		var comfirmDialog;
+		var titleElement = (<h2 className='title_heading form_heading'>Reboot</h2>)
+		var comfirmDialog;
         if (this.state.showReboot) {
             comfirmDialog = (<div>
                 <ComfirmDialog message='Service will be interrupted during the Reboot process. Do you want to continue?'
@@ -102,19 +102,19 @@ var Reboot = ReactRouter.withRouter(React.createClass({
         }
 
         var items = {
-                id: 'apselect',
-                ref: 'aps',
-                label: 'Select the access point you wish to reboot:',
-                type:'select',
-                options: this.state.aps == undefined ? [] : this.state.aps
-            };
-    		return (<div className='panel no_border'>
-    				{titleElement}
-            <SelectRow {...items}/>
-    				<button className='medium button medium-2 columns' onClick={this.showRebootConfirm}>Reboot</button>
-    				{comfirmDialog}
-            {loadingDialog}
-    			</div>)
+            id: 'apselect',
+            ref: 'aps',
+            label: 'Select the access point you wish to reboot:',
+            type:'select',
+            options: this.state.aps == undefined ? [] : this.state.aps
+        };
+		return (<div className='panel no_border'>
+				{titleElement}
+                <SelectRow {...items}/>
+				<button className='medium button medium-2 columns' onClick={this.showRebootConfirm}>Reboot</button>
+				{comfirmDialog}
+                {loadingDialog}
+		</div>)
     }
 }));
 // const props = {
